@@ -15,6 +15,11 @@ body {
 h1 {
     margin: 2rem;
 }
+
+/* --- TASKS START --- */
+.task-list {
+    border: 1px solid lightcoral;
+}
 .task-container {
     margin: 1rem 2rem;
     display: flex;
@@ -27,3 +32,18 @@ h1 {
     font-size: 1.5rem;
     color: grey;
 }
+.complete-task {
+    font-style: italic;
+    color: grey;
+    background: skyblue;
+}
+/* --- TASKS END --- */
+
+/* --- FOOTER START --- */
+footer {
+    display: flex;
+}
+.footer-tab {
+    border: 1px solid black;
+}
+/* --- FOOTER END --- */

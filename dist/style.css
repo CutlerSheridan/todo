@@ -50,10 +50,12 @@ h1 {
 /* --- FOOTER START --- */
 footer {
     width: 100%;
+    height: 5rem;
     display: flex;
 }
 .footer-tab {
     width: calc(100%/3);
     border: 1px solid black;
+    text-align: center;
 }
 /* --- FOOTER END --- */

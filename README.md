@@ -18,6 +18,9 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.2.0*
+- restructure files and integrate npm + JS modules
+- fix webpack-dev-server so the overlay doesn't display warnings every refresh
 - *0.1.0*
 - add "completed" tab
 - give different priorities different colors

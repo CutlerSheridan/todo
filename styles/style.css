@@ -25,12 +25,20 @@ h1 {
     display: flex;
     flex-direction: column;
     font-size: 2rem;
+}
+.priority-2 {
     background: pink;
+}
+.priority-1 {
+    background: yellow;
+}
+.priority-0 {
+    background: olivedrab;
 }
 .due-date {
     margin-left: 2.5rem;
     font-size: 1.5rem;
-    color: grey;
+    color: darkorange;
 }
 .complete-task {
     font-style: italic;
@@ -41,9 +49,11 @@ h1 {
 
 /* --- FOOTER START --- */
 footer {
+    width: 100%;
     display: flex;
 }
 .footer-tab {
+    width: calc(100%/3);
     border: 1px solid black;
 }
 /* --- FOOTER END --- */

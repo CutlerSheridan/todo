@@ -7,13 +7,22 @@ If you need a free place to keep track of your to-do list, look no further.
 #### TO-DO LATER
 ##### Features
 ##### Behavior
+- for sorting incomplete tasks, chain -> dueDate ->  creationDateTime
+- for sorting complete tasks, chain -> completionDateTime
 - should tasks get auto-added to taskArray?
 - auto-assign task.completionDateTime if it's marked complete
 ##### Style
+- probably don't show due date for completed tasks
+- put task name and due date in a column flex so left boundary aligns with all text lines and due date
 ##### Other
 ##### Maybe
 
 #### DONE
+- *0.1.0*
+- add "completed" tab
+- give different priorities different colors
+- by default, sort incomplete tasks project -> isComplete -> priority
+- sort complete tasks project -> isComplete
 - *0.0.2*
 - write code to generate General page
 - create function to toggle appearance of completed tasks

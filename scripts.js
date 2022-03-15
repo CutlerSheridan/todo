@@ -1,6 +1,6 @@
 const model = (() => {
     const Task = (name) => {
-        let priority = "m";
+        let priority = 1;
         let dueDate = null;
         let isPastDue = false;
         let project = projectArray[0];
@@ -8,7 +8,7 @@ const model = (() => {
         let checklist = null
         let isComplete = false;
         let completionDateTime = null;
-        // let timeCreated = currentTime;
+        // let creationDateTime = currentTime;
         return {
             name,
             priority,
@@ -53,6 +53,20 @@ const controller = (() => {
     //     const project = _createProject(name);
     //     _addProjectToArray(project);
     // }
+    const sortIncompleteTasks = (project = model.projectArray[0]) => {
+        const sortedArray = model.taskArray
+                                        .filter(task => task.project === project)
+                                        .filter(task => !task.isComplete)
+                                        .sort((x, y) => x.priority > y.priority ? -1 : 1);
+        return sortedArray;
+    }
+    const sortCompleteTasks = (project = model.projectArray[0]) => {
+        const sortedArray = model.taskArray
+                                        .filter(task => task.project === project)
+                                        .filter(task => task.isComplete)
+                                        .sort((x, y) => x.completionDateTime > y.completionDateTime ? -1 : 1);
+        return sortedArray;
+    }
     const toggleTaskCompletion = (task) => {
         task.isComplete = !task.isComplete;
         if (task.isComplete) {
@@ -64,6 +78,8 @@ const controller = (() => {
     return {
         addNewTask,
         toggleTaskCompletion,
+        sortIncompleteTasks,
+        sortCompleteTasks,
     }
 })();
 
@@ -85,13 +101,8 @@ const view = (() => {
         taskListDiv.append(incompleteTasks, completeTasks);
         _contentDiv.append(taskListDiv);
 
-        model.taskArray.forEach(task => {
-            if (task.isComplete) {
-                completeTasks.append(_createTaskElement(task));
-            } else {
-                incompleteTasks.append(_createTaskElement(task));
-            }
-        })
+        controller.sortIncompleteTasks().forEach(task => incompleteTasks.append(_createTaskElement(task)));
+        controller.sortCompleteTasks().forEach(task => completeTasks.append(_createTaskElement(task)));
     }
     const _createTaskElement = (task) => {
         const taskContainer = document.createElement("div");
@@ -118,6 +129,8 @@ const view = (() => {
             checkbox.checked = true;
             taskContainer.classList.add("complete-task");
         }
+
+        taskContainer.classList.add(`priority-${task.priority}`);
         return taskContainer;
     }
     const _toggleCompleteClass = (e) => {
@@ -133,13 +146,32 @@ const view = (() => {
 })();
 
 const setup = (() => {
-    model.taskArray.push(
-        {name: "First test", dueDate: "7/14"},
-        {name: "This is the second test"},
-        {name: "This is a third test", dueDate: "5/15"},
-        {name: "This is a fourth test", dueDate: "6/16", isComplete: true},
-    )
-    const content = document.querySelector(".content");
+    const generalProj = model.Project("General");
+    model.projectArray.push(generalProj);
+    console.log(model.projectArray);
+
+    const otherProj = model.Project("Other");
+    model.projectArray.push(otherProj);
+
+    controller.addNewTask("First Test");
+    model.taskArray[0].dueDate = "7/14";
+    model.taskArray[0].priority = 0;
+    controller.addNewTask("This is the second test");
+    model.taskArray[1].priority = 2;
+    controller.addNewTask("This is the third test");
+    model.taskArray[2].dueDate = "6/16";
+    model.taskArray[2].isComplete = true;
+    model.taskArray[2].priority = 2;
+    controller.addNewTask("This is gonna be the fourth test right about here");
+    model.taskArray[3].dueDate = "5/15";
+
+    model.taskArray.forEach(task => task.project = model.projectArray[0]);
+    
+    controller.addNewTask("This should not be in General");
+    model.taskArray[4].project = model.projectArray[1];
+
+    controller.addNewTask("Another test");
 
     view.createGeneralPage();
+    console.log(model.taskArray);
 })();

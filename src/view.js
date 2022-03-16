@@ -1,5 +1,6 @@
 import * as controller from "./controller";
 import * as model from "./model";
+import { format, isPast } from "date-fns";
 
 const _contentDiv = document.querySelector(".content");
 const createGeneralPage = () => {
@@ -39,7 +40,7 @@ const _createTaskElement = (task) => {
     if (task.dueDate) {
         const dueDateElement = document.createElement("p");
         dueDateElement.classList.add("due-date");
-        dueDateElement.textContent = task.dueDate;
+        dueDateElement.textContent = format(task.dueDate, "M/d");
         taskContainer.append(dueDateElement);
     }
     if (task.isComplete) {

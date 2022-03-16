@@ -3,12 +3,13 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
+- make sure completed tasks are sorting properly
+- make past due items show in red
+- make items in completed section not show dueDate
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
-- for sorting incomplete tasks, chain -> dueDate ->  creationDateTime
-- for sorting complete tasks, chain -> completionDateTime
 - should tasks get auto-added to taskArray?
 - auto-assign task.completionDateTime if it's marked complete
 ##### Style
@@ -18,6 +19,12 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.2.1*
+- import date-fns from webpack
+- auto-add creationDateTime to tasks
+- auto-add completionDateTime to tasks upon toggle
+- for sorting incomplete tasks, chain -> dueDate ->  creationDateTime
+- for sorting complete tasks, chain -> completionDateTime
 - *0.2.0*
 - restructure files and integrate npm + JS modules
 - fix webpack-dev-server so the overlay doesn't display warnings every refresh

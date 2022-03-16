@@ -1,4 +1,5 @@
 import * as model from "./model";
+import { compareAsc, compareDesc } from "date-fns";
 
 const _createTask = (name) => {
     return model.Task(name);
@@ -24,20 +25,43 @@ const sortIncompleteTasks = (project = model.projectArray[0]) => {
     const sortedArray = model.taskArray
         .filter(task => task.project === project)
         .filter(task => !task.isComplete)
-        .sort((x, y) => x.priority > y.priority ? -1 : 1);
+        .sort((x, y) => {
+            if (x.priority > y.priority) {
+                return -1;
+            } else if (x.priority < y.priority) {
+                return 1;
+            } else {
+                if (!x.dueDate && y.dueDate) {
+                    return 1;
+                } else if (x.dueDate && !y.dueDate) {
+                    return -1;
+                } else {
+                    const comparison = compareAsc(x.dueDate, y.dueDate);
+                    if (comparison !== 0) {
+                        return comparison;
+                    } else {
+                        return compareDesc(x.creationDateTime, y.creationDateTime);
+                    }
+                }
+            }
+        });
     return sortedArray;
 }
 const sortCompleteTasks = (project = model.projectArray[0]) => {
     const sortedArray = model.taskArray
         .filter(task => task.project === project)
         .filter(task => task.isComplete)
-        .sort((x, y) => x.completionDateTime > y.completionDateTime ? -1 : 1);
+        .sort((x, y) => compareDesc(x.completionDateTime, y.completionDateTime));
+    sortedArray.forEach(task => {
+        console.log(task.name);
+        console.log(task.completionDateTime);
+    })
     return sortedArray;
 }
 const toggleTaskCompletion = (task) => {
     task.isComplete = !task.isComplete;
     if (task.isComplete) {
-        // task.completionDateTime = currentTime;
+        task.completionDateTime = new Date();
     } else {
         task.completionDateTime = null;
     }

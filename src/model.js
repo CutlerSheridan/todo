@@ -7,7 +7,7 @@ const Task = (name) => {
     let checklist = null
     let isComplete = false;
     let completionDateTime = null;
-    // let creationDateTime = currentTime;
+    let creationDateTime = new Date();
     return {
         name,
         priority,
@@ -18,7 +18,7 @@ const Task = (name) => {
         checklist,
         isComplete,
         completionDateTime,
-        // timeCreated,
+        creationDateTime,
     }
 }
 const Project = (title) => {

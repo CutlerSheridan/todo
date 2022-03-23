@@ -21,7 +21,7 @@ const addNewTask = (name) => {
 //     const project = _createProject(name);
 //     _addProjectToArray(project);
 // }
-const sortIncompleteTasks = (project = model.projectArray[0]) => {
+const sortIncompleteTasks = (project) => {
     const sortedArray = model.taskArray
         .filter(task => task.project === project)
         .filter(task => !task.isComplete)
@@ -47,11 +47,13 @@ const sortIncompleteTasks = (project = model.projectArray[0]) => {
         });
     return sortedArray;
 }
-const sortCompleteTasks = (project = model.projectArray[0]) => {
-    const sortedArray = model.taskArray
-        .filter(task => task.project === project)
-        .filter(task => task.isComplete)
-        .sort((x, y) => compareDesc(x.completionDateTime, y.completionDateTime));
+const sortCompleteTasks = (project) => {
+    let sortedArray = model.taskArray.filter(task => task.isComplete);
+    if (project !== "logbook") {
+        sortedArray = sortedArray.filter(task => task.project === project);
+    }
+    
+    sortedArray.sort((x, y) => compareDesc(x.completionDateTime, y.completionDateTime));
     sortedArray.forEach(task => {
         console.log(task.name);
         console.log(task.completionDateTime);

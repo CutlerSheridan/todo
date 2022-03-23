@@ -38,5 +38,9 @@ const setup = (() => {
     model.taskArray[8].dueDate = new Date(2022, 1, 20);
 
     view.createGeneralPage();
+    const generalTab = document.querySelector("#tab-general");
+    generalTab.addEventListener("click", view.createGeneralPage);
+    const logbookTab = document.querySelector("#tab-logbook");
+    logbookTab.addEventListener("click", view.createLogbookPage);
     console.log(model.taskArray);
 })();

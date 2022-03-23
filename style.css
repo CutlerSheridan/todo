@@ -15,6 +15,19 @@ body {
 h1 {
     margin: 2rem;
 }
+.refresh {
+    margin: 2rem;
+    width: 10rem;
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    /* text-align: center; */
+    background: red;
+    color: white;
+    cursor: pointer;
+}
 
 /* --- TASKS START --- */
 .task-list {
@@ -38,12 +51,18 @@ h1 {
 .due-date {
     margin-left: 2.5rem;
     font-size: 1.5rem;
-    color: darkorange;
+    color: greenyellow;
+}
+.past-due {
+    color: red;
 }
 .complete-task {
     font-style: italic;
     color: grey;
     background: skyblue;
+}
+.complete-task > .due-date {
+    color: grey;
 }
 /* --- TASKS END --- */
 

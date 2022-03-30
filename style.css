@@ -13,7 +13,6 @@
 body {
     width: 100%;
     height: 100%;
-    /* overflow-y: scroll; */
 }
 .content {
     padding-bottom: 7rem;
@@ -26,9 +25,9 @@ header {
     top: 0rem;
     border-bottom: 1px solid black;
     background: white;
+    z-index: 1000;
 }
 h1 {
-    /* padding: 2rem; */
     text-transform: capitalize;
 }
 .refresh {
@@ -39,7 +38,6 @@ h1 {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
-    /* text-align: center; */
     background: red;
     color: white;
     cursor: pointer;
@@ -65,20 +63,35 @@ h1 {
 .priority-0 {
     background: olivedrab;
 }
+input[type="checkbox"] {
+    display: none;
+}
 .task-label {
     align-self: flex-start;
+    position: relative;
     margin-top: .5rem;
-    /* height: 2rem; */
-    /* width: 2rem; */
-    display: flex;
-    align-items: flex-start;
-    /* background: green; */
+    height: 2rem;
+    width: 2rem;
+    min-width: 2rem;
+    background: black;
+}
+input[type="checkbox"] + .task-label::after {
+    content: "";
+    position: absolute;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    left: 2px;
+    top: 2px;
+    background: white;
+    border: 2px solid white;
+}
+input[type="checkbox"]:checked + .task-label::after {
+    background: black;
 }
 .task-info-container {
     margin-left: 1rem;
 }
 .due-date {
-    /* margin-left: 2.5rem; */
     font-size: 1.5rem;
     color: greenyellow;
 }
@@ -89,6 +102,12 @@ h1 {
     font-style: italic;
     color: grey;
     background: skyblue;
+}
+.complete-task-list input[type="checkbox"]:checked + .task-label {
+    background: grey;
+}
+.complete-task-list input[type="checkbox"]:checked + .task-label::after {
+    background: grey;
 }
 .complete-task > .due-date {
     color: grey;

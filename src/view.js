@@ -5,39 +5,39 @@ import { compareAsc, format, isPast } from "date-fns";
 const _contentDiv = document.querySelector(".content");
 
 const createGeneralPage = () => {
-    _clearContent();
-    // create header
-    const heading = document.createElement("h1");
-    heading.textContent = "General";
-    _contentDiv.append(heading);
-    const refreshTasks = document.createElement("div");
-    refreshTasks.textContent = "Refresh";
-    refreshTasks.classList.add("refresh");
-    _contentDiv.append(refreshTasks);
-    refreshTasks.addEventListener("click", () => {
-        _clearContent();
-        createGeneralPage();
-    });
+    _clearContent(_contentDiv);
+    _createHeader(model.projectArray[0]);
     _updateTaskList(model.projectArray[0]);
 }
 const createLogbookPage = () => {
-    _clearContent();
-    const heading = document.createElement("h1");
-    heading.textContent = "Logbook";
-    _contentDiv.append(heading);
-    const refreshTasks = document.createElement("div");
-    refreshTasks.textContent = "Refresh";
-    refreshTasks.classList.add("refresh");
-    _contentDiv.append(refreshTasks);
-    refreshTasks.addEventListener("click", () => {
-        _clearContent();
-        createLogbookPage();
-    });
+    _clearContent(_contentDiv);
+    _createHeader("logbook");
     _updateTaskList("logbook");
 }
 
+const _createHeader = (project) => {
+    const headerContainer = document.createElement("header");
+    const heading = document.createElement("h1");
+    heading.textContent = project === "logbook" ? project : project.title;
+    headerContainer.append(heading);
+    const refreshTasks = document.createElement("div");
+    refreshTasks.textContent = "Refresh";
+    refreshTasks.classList.add("refresh");
+    headerContainer.append(refreshTasks);
+    refreshTasks.addEventListener("click", () => {
+        _updateTaskList(project);
+    });
+    _contentDiv.append(headerContainer);
+}
 const _updateTaskList = (project) => {
-    const taskListDiv = document.createElement("section");
+    let taskListDiv = document.querySelector(".task-list-container");
+    if (taskListDiv) {
+        _clearContent(taskListDiv);
+    } else {
+        taskListDiv = document.createElement("section");
+        taskListDiv.classList.add("task-list-container");
+    }
+
     if (project !== "logbook") {
         const incompleteTasks = document.createElement("section");
         incompleteTasks.classList.add("task-list");
@@ -92,9 +92,9 @@ const _toggleCompleteClass = (e) => {
     taskContainer.classList.toggle("complete-task");
     controller.toggleTaskCompletion(model.taskArray[taskIndex]);
 }
-const _clearContent = () => {
-    const contentContainer = document.createRange(_contentDiv);
-    contentContainer.selectNodeContents(_contentDiv);
+const _clearContent = (node) => {
+    const contentContainer = document.createRange(node);
+    contentContainer.selectNodeContents(node);
     contentContainer.deleteContents();
 }
 

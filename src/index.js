@@ -3,7 +3,7 @@ import * as view from "./view";
 import * as controller from "./controller";
 
 const setup = (() => {
-    const generalProj = model.Project("General");
+    const generalProj = model.Project("general");
     model.projectArray.push(generalProj);
     console.log(model.projectArray);
 
@@ -36,6 +36,23 @@ const setup = (() => {
 
     controller.addNewTask("Another past due");
     model.taskArray[8].dueDate = new Date(2022, 1, 20);
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+    controller.addNewTask("Scroll test task");
+
+
+
 
     view.createGeneralPage();
     const generalTab = document.querySelector("#tab-general");

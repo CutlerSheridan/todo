@@ -52,12 +52,7 @@ const sortCompleteTasks = (project) => {
     if (project !== "logbook") {
         sortedArray = sortedArray.filter(task => task.project === project);
     }
-    
     sortedArray.sort((x, y) => compareDesc(x.completionDateTime, y.completionDateTime));
-    sortedArray.forEach(task => {
-        console.log(task.name);
-        console.log(task.completionDateTime);
-    })
     return sortedArray;
 }
 const toggleTaskCompletion = (task) => {

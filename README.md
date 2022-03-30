@@ -6,17 +6,29 @@ If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO LATER
 ##### Features
+- add projects page
+- add ability to go to a project's page from projects page
+- add ability to click a task name and turn it into a form to change the name of the task
+- add New Task button
+- add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
 - should tasks get auto-added to taskArray?
-- auto-assign task.completionDateTime if it's marked complete
 ##### Style
 - put task name and due date in a column flex so left boundary aligns with all text lines and due date
+- decide on style
 ##### Other
 ##### Maybe
 
 #### DONE
+- *0.3.1*
+- fix footer to bottom of screen
+- pad .content bottom so it's not covered by footer tabs
+- adjust _updateTaskList() to clear task list container and repopulate it, thus cleaning up page creation function
+- make _clearContent() more broadly useful
+- write reusable function to create headers
+- make header sticky
 - *0.3.0*
 - make sure completed tasks are sorting properly
 - make past due items show in red

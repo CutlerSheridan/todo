@@ -12,11 +12,24 @@ body {
     width: 100%;
     height: 100%;
 }
+.content {
+    padding-bottom: 7rem;
+}
+
+/* --- HEADER START --- */
+header {
+    position: sticky;
+    padding: 2rem;
+    top: 0rem;
+    border: 1px solid black;
+    background: white;
+}
 h1 {
-    margin: 2rem;
+    /* padding: 2rem; */
+    text-transform: capitalize;
 }
 .refresh {
-    margin: 2rem;
+    margin-top: 1.5rem;
     width: 10rem;
     height: 4rem;
     display: flex;
@@ -28,6 +41,7 @@ h1 {
     color: white;
     cursor: pointer;
 }
+/* --- HEADER END --- */
 
 /* --- TASKS START --- */
 .task-list {
@@ -68,13 +82,21 @@ h1 {
 
 /* --- FOOTER START --- */
 footer {
+    position: fixed;
+    bottom: 0rem;
     width: 100%;
-    height: 5rem;
+    height: 7rem;
     display: flex;
+    font-size: 2.5rem;
 }
 .footer-tab {
     width: calc(100%/3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid black;
     text-align: center;
+    background: white;
+    cursor: pointer;
 }
 /* --- FOOTER END --- */

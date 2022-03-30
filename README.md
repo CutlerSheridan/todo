@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-
 #### TO-DO LATER
 ##### Features
 - add projects page
@@ -16,12 +15,15 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Behavior
 - should tasks get auto-added to taskArray?
 ##### Style
-- put task name and due date in a column flex so left boundary aligns with all text lines and due date
 - decide on style
 ##### Other
 ##### Maybe
 
 #### DONE
+- *0.3.2*
+- adjusted :root{} css so mouse scrollbar doesn't affect page layout
+- put task name and due date in a column flex so left boundary aligns with all text lines and due date
+- adjust checkbox/label layout so it's halfway through the top line no matter how tall the line
 - *0.3.1*
 - fix footer to bottom of screen
 - pad .content bottom so it's not covered by footer tabs

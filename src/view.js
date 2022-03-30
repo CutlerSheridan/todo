@@ -52,22 +52,34 @@ const _updateTaskList = (project) => {
     _contentDiv.append(taskListDiv);
 }
 const _createTaskElement = (task) => {
+    const taskIndex = model.taskArray.indexOf(task);
+
     const taskContainer = document.createElement("div");
     taskContainer.classList.add("task-container");
-    taskContainer.dataset.task = model.taskArray.indexOf(task);
-    const taskLabel = document.createElement("label");
-    taskLabel.classList.add("task-label");
-    taskLabel.dataset.task = model.taskArray.indexOf(task);
+    taskContainer.dataset.task = taskIndex;
+    
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.dataset.task = model.taskArray.indexOf(task);
+    checkbox.dataset.task = taskIndex;
     checkbox.addEventListener("change", _toggleCompleteClass);
 
+    const taskLabel = document.createElement("label");
+    taskLabel.classList.add("task-label");
+    taskLabel.dataset.task = taskIndex;
+
     taskLabel.append(checkbox);
-    taskLabel.append(task.name);
+    // taskLabel.append(task.name);
     taskContainer.append(taskLabel);
+
+    const taskInfoContainer = document.createElement("div");
+    taskInfoContainer.classList.add("task-info-container");
+    const taskName = document.createElement("div");
+    taskName.textContent = task.name;
+    taskName.dataset.task = taskIndex;
+    taskInfoContainer.append(taskName);
+    taskContainer.append(taskInfoContainer);
     if (task.dueDate && !task.isComplete) {
-        taskContainer.append(_createDueDateElement(task));
+        taskInfoContainer.append(_createDueDateElement(task));
     }
     if (task.isComplete) {
         checkbox.checked = true;

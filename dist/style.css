@@ -1,4 +1,6 @@
 :root {
+    margin-right: calc(100vw - 100%);
+    margin-left: 0;
     font-size: 62.5%;
     font-family: Helvetica;
 }
@@ -11,6 +13,7 @@
 body {
     width: 100%;
     height: 100%;
+    /* overflow-y: scroll; */
 }
 .content {
     padding-bottom: 7rem;
@@ -21,7 +24,7 @@ header {
     position: sticky;
     padding: 2rem;
     top: 0rem;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
     background: white;
 }
 h1 {
@@ -50,7 +53,7 @@ h1 {
 .task-container {
     margin: 1rem 2rem;
     display: flex;
-    flex-direction: column;
+    align-items: center;
     font-size: 2rem;
 }
 .priority-2 {
@@ -62,8 +65,20 @@ h1 {
 .priority-0 {
     background: olivedrab;
 }
+.task-label {
+    align-self: flex-start;
+    margin-top: .5rem;
+    /* height: 2rem; */
+    /* width: 2rem; */
+    display: flex;
+    align-items: flex-start;
+    /* background: green; */
+}
+.task-info-container {
+    margin-left: 1rem;
+}
 .due-date {
-    margin-left: 2.5rem;
+    /* margin-left: 2.5rem; */
     font-size: 1.5rem;
     color: greenyellow;
 }

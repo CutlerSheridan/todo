@@ -3,11 +3,12 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
+- add ability to click a task name and turn it into a form to change the name of the task
+
 #### TO-DO LATER
 ##### Features
 - add projects page
 - add ability to go to a project's page from projects page
-- add ability to click a task name and turn it into a form to change the name of the task
 - add New Task button
 - add button that goes to task details page
 - save everything in localStorage
@@ -20,6 +21,10 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.3.3*
+- make checkbox label element to replace browser checkbox
+- add ::after box that fills when checked
+- retain checkbox color if marking complete but switch if task in in Complete section already
 - *0.3.2*
 - adjusted :root{} css so mouse scrollbar doesn't affect page layout
 - put task name and due date in a column flex so left boundary aligns with all text lines and due date

@@ -45,7 +45,7 @@ const _updateTaskList = (project) => {
         controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
     }
     const completeTasks = document.createElement("section");
-    completeTasks.classList.add("task-list");
+    completeTasks.classList.add("task-list", "complete-task-list");
     taskListDiv.append(completeTasks);
     controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
     
@@ -61,15 +61,21 @@ const _createTaskElement = (task) => {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.dataset.task = taskIndex;
-    checkbox.addEventListener("change", _toggleCompleteClass);
+    checkbox.id = `task-${taskIndex}`;
+    if (task.isComplete) {
+        checkbox.checked = true;
+        taskContainer.classList.add("complete-task");
+    }
 
     const taskLabel = document.createElement("label");
     taskLabel.classList.add("task-label");
     taskLabel.dataset.task = taskIndex;
+    taskLabel.htmlFor = `task-${taskIndex}`;
+    taskLabel.addEventListener("click", _toggleCompleteClass);
 
-    taskLabel.append(checkbox);
+    // taskLabel.append(checkbox);
     // taskLabel.append(task.name);
-    taskContainer.append(taskLabel);
+    taskContainer.append(checkbox, taskLabel);
 
     const taskInfoContainer = document.createElement("div");
     taskInfoContainer.classList.add("task-info-container");
@@ -80,10 +86,6 @@ const _createTaskElement = (task) => {
     taskContainer.append(taskInfoContainer);
     if (task.dueDate && !task.isComplete) {
         taskInfoContainer.append(_createDueDateElement(task));
-    }
-    if (task.isComplete) {
-        checkbox.checked = true;
-        taskContainer.classList.add("complete-task");
     }
 
     taskContainer.classList.add(`priority-${task.priority}`);

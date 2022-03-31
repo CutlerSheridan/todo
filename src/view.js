@@ -48,7 +48,7 @@ const _updateTaskList = (project) => {
     completeTasks.classList.add("task-list", "complete-task-list");
     taskListDiv.append(completeTasks);
     controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
-    
+
     _contentDiv.append(taskListDiv);
 
     _addListenersToTaskNames();
@@ -59,7 +59,7 @@ const _createTaskElement = (task) => {
     const taskContainer = document.createElement("div");
     taskContainer.classList.add("task-container");
     taskContainer.dataset.task = taskIndex;
-    
+
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.dataset.task = taskIndex;
@@ -106,6 +106,8 @@ const _addListenersToTaskNames = () => {
     const allTaskNames = document.querySelectorAll(".task-name");
     allTaskNames.forEach(tName => tName.addEventListener("click", _replaceNameWithInput))
 }
+// this is currying to be able to pass arguments to the callback below and still be able to remove it
+const inputFunctionHandlers = [];
 const _replaceNameWithInput = (e) => {
     const allTaskNames = document.querySelectorAll(".task-name");
     allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceNameWithInput));
@@ -116,30 +118,35 @@ const _replaceNameWithInput = (e) => {
     nameInput.type = "text"
     nameInput.classList.add("name-change-input");
     nameInput.value = e.target.textContent;
-    // nameInput.dataset.task = taskIndex;
 
     e.target.remove();
     taskInfoContainer.prepend(nameInput);
     nameInput.focus();
 
     setTimeout(() => {
-        document.addEventListener("click", (e) => {
-        if (e.target !== nameInput) {
-            _replaceInputWithName(taskInfoContainer, nameInput, taskIndex);
-        }
-    }, {once: true})}, 50);
+        console.log("this =");
+        console.log(this);
+        document.addEventListener("click", inputFunctionHandlers[0] = _replaceInputWithName(e, taskInfoContainer, nameInput, taskIndex));
+    }, 10)
 }
-const _replaceInputWithName = (taskInfoContainer, nameInput, taskIndex) => {
-    model.taskArray[taskIndex].name = nameInput.value;
-    const taskNameElement = document.createElement("div");
-    taskNameElement.textContent = nameInput.value;
-    taskNameElement.classList.add("task-name");
-    taskNameElement.dataset.task = taskIndex;
+const _replaceInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
+    return function actualFunction(e) {
+        if (e.target !== nameInput) {
+            console.log(e.target);
+            console.log(nameInput);
+            model.taskArray[taskIndex].name = nameInput.value;
+            const taskNameElement = document.createElement("div");
+            taskNameElement.textContent = nameInput.value;
+            taskNameElement.classList.add("task-name");
+            taskNameElement.dataset.task = taskIndex;
 
-    nameInput.remove();
-    taskInfoContainer.prepend(taskNameElement);
+            nameInput.remove();
+            taskInfoContainer.prepend(taskNameElement);
 
-    _addListenersToTaskNames();
+            document.removeEventListener("click", inputFunctionHandlers[0]);
+            _addListenersToTaskNames();
+        }
+    }
 }
 const _toggleCompleteClass = (e) => {
     const taskIndex = e.target.dataset.task;

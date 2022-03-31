@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make _replaceInputWithName() trigger even if you move the cursor within the input by rewriting function to pass in (e) and work from there, so then it can remove itself only if it's actually used
 - make pressing enter change name from form
 #### TO-DO LATER
 ##### Features
@@ -23,6 +22,9 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.4.2*
+- make _replaceInputWithName() trigger even if you move the cursor within the input by rewriting function to pass in (e) and work from there
+- use currying to allow eventListener to remove itself outside the scope
 - *0.4.1*
 - make tapping anywhere else onscreen change name from form
 - add ability to change multiple names without refreshing

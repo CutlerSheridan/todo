@@ -38,6 +38,7 @@ h1 {
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+    border: none;
     background: red;
     color: white;
     cursor: pointer;
@@ -98,6 +99,13 @@ input[type="checkbox"]:checked + .task-label::after {
 .past-due {
     color: red;
 }
+.name-change-input {
+    font-size: inherit;
+    border: none;
+    border-bottom: 2px solid black;
+    background: transparent;
+}
+
 .complete-task {
     font-style: italic;
     color: grey;

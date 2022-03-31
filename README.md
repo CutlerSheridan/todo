@@ -3,8 +3,8 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add ability to click a task name and turn it into a form to change the name of the task
-
+- make pressing enter change name from form
+- make tapping anywhere else onscreen change name from form
 #### TO-DO LATER
 ##### Features
 - add projects page
@@ -21,6 +21,10 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.4.0*
+- add ability to click a task name and turn it into a form to (once this part is implemented) change the name of the task
+- disable other event listeners once one input is added
+- style the input a little
 - *0.3.3*
 - make checkbox label element to replace browser checkbox
 - add ::after box that fills when checked

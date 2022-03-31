@@ -20,7 +20,7 @@ const _createHeader = (project) => {
     const heading = document.createElement("h1");
     heading.textContent = project === "logbook" ? project : project.title;
     headerContainer.append(heading);
-    const refreshTasks = document.createElement("div");
+    const refreshTasks = document.createElement("button");
     refreshTasks.textContent = "Refresh";
     refreshTasks.classList.add("refresh");
     headerContainer.append(refreshTasks);
@@ -50,6 +50,8 @@ const _updateTaskList = (project) => {
     controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
     
     _contentDiv.append(taskListDiv);
+
+    _addListenersToTaskNames();
 }
 const _createTaskElement = (task) => {
     const taskIndex = model.taskArray.indexOf(task);
@@ -73,14 +75,14 @@ const _createTaskElement = (task) => {
     taskLabel.htmlFor = `task-${taskIndex}`;
     taskLabel.addEventListener("click", _toggleCompleteClass);
 
-    // taskLabel.append(checkbox);
-    // taskLabel.append(task.name);
     taskContainer.append(checkbox, taskLabel);
 
     const taskInfoContainer = document.createElement("div");
     taskInfoContainer.classList.add("task-info-container");
+    taskInfoContainer.dataset.task = taskIndex;
     const taskName = document.createElement("div");
     taskName.textContent = task.name;
+    taskName.classList.add("task-name");
     taskName.dataset.task = taskIndex;
     taskInfoContainer.append(taskName);
     taskContainer.append(taskInfoContainer);
@@ -99,6 +101,26 @@ const _createDueDateElement = (task) => {
         dueDateElement.classList.add("past-due");
     }
     return dueDateElement;
+}
+const _addListenersToTaskNames = () => {
+    const allTaskNames = document.querySelectorAll(".task-name");
+    allTaskNames.forEach(tName => tName.addEventListener("click", _replaceNameWithInput))
+}
+const _replaceNameWithInput = (e) => {
+    const allTaskNames = document.querySelectorAll(".task-name");
+    allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceNameWithInput));
+
+    const taskIndex = e.target.dataset.task;
+    const taskInfoContainer = document.querySelector(`.task-info-container[data-task="${taskIndex}"]`);
+    const nameInput = document.createElement("input");
+    nameInput.type = "text"
+    nameInput.classList.add("name-change-input");
+    nameInput.value = e.target.textContent;
+
+    e.target.remove();
+    taskInfoContainer.prepend(nameInput);
+    nameInput.focus();
+
 }
 const _toggleCompleteClass = (e) => {
     const taskIndex = e.target.dataset.task;

@@ -3,8 +3,8 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
+- make _replaceInputWithName() trigger even if you move the cursor within the input by rewriting function to pass in (e) and work from there, so then it can remove itself only if it's actually used
 - make pressing enter change name from form
-- make tapping anywhere else onscreen change name from form
 #### TO-DO LATER
 ##### Features
 - add projects page
@@ -15,12 +15,18 @@ If you need a free place to keep track of your to-do list, look no further.
 - read localStorage upon loading page
 ##### Behavior
 - should tasks get auto-added to taskArray?
+- fix footer so it isn't too high if you switch to a page while the address bar is minimized
+- make header remain in place even when focusing on name change input
 ##### Style
 - decide on style
 ##### Other
 ##### Maybe
 
 #### DONE
+- *0.4.1*
+- make tapping anywhere else onscreen change name from form
+- add ability to change multiple names without refreshing
+- fix refresh button
 - *0.4.0*
 - add ability to click a task name and turn it into a form to (once this part is implemented) change the name of the task
 - disable other event listeners once one input is added

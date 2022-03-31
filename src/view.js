@@ -116,11 +116,30 @@ const _replaceNameWithInput = (e) => {
     nameInput.type = "text"
     nameInput.classList.add("name-change-input");
     nameInput.value = e.target.textContent;
+    // nameInput.dataset.task = taskIndex;
 
     e.target.remove();
     taskInfoContainer.prepend(nameInput);
     nameInput.focus();
 
+    setTimeout(() => {
+        document.addEventListener("click", (e) => {
+        if (e.target !== nameInput) {
+            _replaceInputWithName(taskInfoContainer, nameInput, taskIndex);
+        }
+    }, {once: true})}, 50);
+}
+const _replaceInputWithName = (taskInfoContainer, nameInput, taskIndex) => {
+    model.taskArray[taskIndex].name = nameInput.value;
+    const taskNameElement = document.createElement("div");
+    taskNameElement.textContent = nameInput.value;
+    taskNameElement.classList.add("task-name");
+    taskNameElement.dataset.task = taskIndex;
+
+    nameInput.remove();
+    taskInfoContainer.prepend(taskNameElement);
+
+    _addListenersToTaskNames();
 }
 const _toggleCompleteClass = (e) => {
     const taskIndex = e.target.dataset.task;

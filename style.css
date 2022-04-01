@@ -54,6 +54,7 @@ h1 {
     display: flex;
     align-items: center;
     font-size: 2rem;
+    transition: all .2s;
 }
 .priority-2 {
     background: pink;
@@ -75,6 +76,7 @@ input[type="checkbox"] {
     width: 2rem;
     min-width: 2rem;
     background: black;
+    cursor: pointer;
 }
 input[type="checkbox"] + .task-label::after {
     content: "";
@@ -85,6 +87,7 @@ input[type="checkbox"] + .task-label::after {
     top: 2px;
     background: white;
     border: 2px solid white;
+    transition: all .2s;
 }
 input[type="checkbox"]:checked + .task-label::after {
     background: black;
@@ -94,12 +97,13 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 .due-date {
     font-size: 1.5rem;
-    color: greenyellow;
+    color: black;
 }
 .past-due {
     color: red;
 }
 .name-change-input {
+    width: fit-content;
     font-size: inherit;
     border: none;
     border-bottom: 2px solid black;

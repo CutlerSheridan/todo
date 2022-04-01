@@ -3,12 +3,12 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make pressing enter change name from form
+- add New Task button
+
 #### TO-DO LATER
 ##### Features
 - add projects page
 - add ability to go to a project's page from projects page
-- add New Task button
 - add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
@@ -22,6 +22,8 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.4.3*
+- make pressing enter change name from form
 - *0.4.2*
 - make _replaceInputWithName() trigger even if you move the cursor within the input by rewriting function to pass in (e) and work from there
 - use currying to allow eventListener to remove itself outside the scope

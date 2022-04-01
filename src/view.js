@@ -127,25 +127,28 @@ const _replaceNameWithInput = (e) => {
         console.log("this =");
         console.log(this);
         document.addEventListener("click", inputFunctionHandlers[0] = _replaceInputWithName(e, taskInfoContainer, nameInput, taskIndex));
+        document.addEventListener("keydown", inputFunctionHandlers[0]);
     }, 10)
 }
 const _replaceInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
     return function actualFunction(e) {
-        if (e.target !== nameInput) {
-            console.log(e.target);
-            console.log(nameInput);
-            model.taskArray[taskIndex].name = nameInput.value;
-            const taskNameElement = document.createElement("div");
-            taskNameElement.textContent = nameInput.value;
-            taskNameElement.classList.add("task-name");
-            taskNameElement.dataset.task = taskIndex;
+            if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
+                console.log(e);
+                console.log(nameInput);
+                model.taskArray[taskIndex].name = nameInput.value;
+                const taskNameElement = document.createElement("div");
+                taskNameElement.textContent = nameInput.value;
+                taskNameElement.classList.add("task-name");
+                taskNameElement.dataset.task = taskIndex;
+    
+                nameInput.remove();
+                taskInfoContainer.prepend(taskNameElement);
+    
+                document.removeEventListener("click", inputFunctionHandlers[0]);
+                document.removeEventListener("keydown", inputFunctionHandlers[0]);
 
-            nameInput.remove();
-            taskInfoContainer.prepend(taskNameElement);
-
-            document.removeEventListener("click", inputFunctionHandlers[0]);
-            _addListenersToTaskNames();
-        }
+                _addListenersToTaskNames();
+            }
     }
 }
 const _toggleCompleteClass = (e) => {

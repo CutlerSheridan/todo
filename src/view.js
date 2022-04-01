@@ -14,11 +14,25 @@ const createLogbookPage = () => {
     _createHeader("logbook");
     _updateTaskList("logbook");
 }
+const createAllProjectsPage = () => {
+    _clearContent(_contentDiv);
+    _createHeader("allProjects");
+    _updateProjectList();
+}
 
 const _createHeader = (project) => {
     const headerContainer = document.createElement("header");
     const heading = document.createElement("h1");
-    heading.textContent = project === "logbook" ? project : project.title;
+    heading.textContent = (() => {
+        switch (project) {
+            case "logbook":
+                return project;
+            case "allProjects":
+                return project;
+            default:
+                return project.title;
+        };
+    })();
     headerContainer.append(heading);
     const refreshTasks = document.createElement("button");
     refreshTasks.textContent = "Refresh";
@@ -107,27 +121,41 @@ const _addListenersToTaskNames = () => {
     allTaskNames.forEach(tName => tName.addEventListener("click", _replaceNameWithInput))
 }
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
-const inputFunctionHandlers = [];
+const _inputFunctionHandlers = [];
 const _replaceNameWithInput = (e) => {
     const allTaskNames = document.querySelectorAll(".task-name");
     allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceNameWithInput));
 
     const taskIndex = e.target.dataset.task;
     const taskInfoContainer = document.querySelector(`.task-info-container[data-task="${taskIndex}"]`);
-    const nameInput = document.createElement("input");
-    nameInput.type = "text"
+    const nameInput = document.createElement("div");
+    nameInput.contentEditable = true;
     nameInput.classList.add("name-change-input");
-    nameInput.value = e.target.textContent;
+    nameInput.textContent = e.target.textContent;
+    // nameInput.style.maxWidth = document.querySelector(".task-container").offsetWidth - 30 + "px";
+    // nameInput.style.width = e.target.offsetWidth + 1 + "px";
+    // const computedFontSize = parseInt(window.getComputedStyle(e.target).fontSize);
+    // nameInput.style.width = computedFontSize * nameInput.value.length + "px"
+    // console.log(`font-size = ${computedFontSize}`);
+    // nameInput.style.height = e.target.offsetHeight + "px";
+
 
     e.target.remove();
     taskInfoContainer.prepend(nameInput);
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.setStart(nameInput.childNodes[0], nameInput.textContent.length);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
     nameInput.focus();
+    // nameInput.setSelectionRange(nameInput.textContent.length, nameInput.textContent.length);
 
     setTimeout(() => {
         console.log("this =");
         console.log(this);
-        document.addEventListener("click", inputFunctionHandlers[0] = _replaceInputWithName(e, taskInfoContainer, nameInput, taskIndex));
-        document.addEventListener("keydown", inputFunctionHandlers[0]);
+        document.addEventListener("click", _inputFunctionHandlers[0] = _replaceInputWithName(e, taskInfoContainer, nameInput, taskIndex));
+        document.addEventListener("keydown", _inputFunctionHandlers[0]);
     }, 10)
 }
 const _replaceInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
@@ -135,17 +163,17 @@ const _replaceInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
             if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
                 console.log(e);
                 console.log(nameInput);
-                model.taskArray[taskIndex].name = nameInput.value;
+                model.taskArray[taskIndex].name = nameInput.textContent;
                 const taskNameElement = document.createElement("div");
-                taskNameElement.textContent = nameInput.value;
+                taskNameElement.textContent = nameInput.textContent;
                 taskNameElement.classList.add("task-name");
                 taskNameElement.dataset.task = taskIndex;
     
                 nameInput.remove();
                 taskInfoContainer.prepend(taskNameElement);
     
-                document.removeEventListener("click", inputFunctionHandlers[0]);
-                document.removeEventListener("keydown", inputFunctionHandlers[0]);
+                document.removeEventListener("click", _inputFunctionHandlers[0]);
+                document.removeEventListener("keydown", _inputFunctionHandlers[0]);
 
                 _addListenersToTaskNames();
             }
@@ -157,6 +185,15 @@ const _toggleCompleteClass = (e) => {
     taskContainer.classList.toggle("complete-task");
     controller.toggleTaskCompletion(model.taskArray[taskIndex]);
 }
+
+// ALL PROJECTS PAGE START
+
+const _updateProjectList = () => {
+
+}
+
+// ALL PROJECTS PAGE END
+
 const _clearContent = (node) => {
     const contentContainer = document.createRange(node);
     contentContainer.selectNodeContents(node);

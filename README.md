@@ -3,12 +3,13 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add New Task button
+- make name/input textarea grow wider and taller as user types
+- add projects page
 
 #### TO-DO LATER
 ##### Features
-- add projects page
 - add ability to go to a project's page from projects page
+- add New Task button
 - add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
@@ -22,6 +23,13 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.4.4*
+- add transition to marking tasks complete
+- start work on createAllProjectsPage()
+- switch text input boxes to textarea elements to allow for line breaking
+- make name input boxes as wide and tall as task names
+- switch textarea elements to contentEditable divs to automatically resize when typing
+- make cursor start at end of task name input
 - *0.4.3*
 - make pressing enter change name from form
 - *0.4.2*

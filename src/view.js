@@ -209,14 +209,26 @@ const _createProjectElement = (project) => {
     projectNameElement.textContent = project.name;
     projectContainer.append(projectNameElement);
     if (project.showProgress) {
-        // projectContainer.append(_createProgressBar(project));
+        projectContainer.append(_createProgressBar(project));
     } else {
         projectContainer.append(_createRemainingTasksNum(project));
     }
     return projectContainer;
 }
 const _createProgressBar = (project) => {
+    const progressBarOuter = document.createElement("div");
+    progressBarOuter.classList.add("progress-bar-outer");
+    const progressBarInner = document.createElement("div");
+    progressBarInner.classList.add("progress-bar-inner");
+    progressBarOuter.append(progressBarInner);
 
+    progressBarOuter.style.width = "100%";
+    const incompleteTasks = controller.sortIncompleteTasks(project).length;
+    const completeTasks = controller.sortCompleteTasks(project).length + incompleteTasks;
+    const percentComplete = incompleteTasks * 100 / completeTasks;
+    progressBarInner.style.width = `${percentComplete}%`;
+
+    return progressBarOuter;
 }
 const _createRemainingTasksNum = (project) => {
     const remainingTasksNum = document.createElement("div");

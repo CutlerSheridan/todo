@@ -3,11 +3,11 @@ import * as view from "./view";
 import * as controller from "./controller";
 
 const setup = (() => {
-    const generalProj = model.Project("general", false);
+    const generalProj = model.Project("general");
     model.projectArray.push(generalProj);
     console.log(model.projectArray);
 
-    const otherProj = model.Project("Other", false);
+    const otherProj = model.Project("other", false);
     model.projectArray.push(otherProj);
 
     const emptyProj = model.Project("empty", false);
@@ -42,15 +42,15 @@ const setup = (() => {
     model.taskArray[8].dueDate = new Date(2022, 1, 20);
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
-    controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
+    // controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");

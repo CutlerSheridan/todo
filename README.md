@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make _createProjectElement() show progress bar
 - make project names editable on Projects page
 
 #### TO-DO LATER
@@ -14,6 +13,10 @@ If you need a free place to keep track of your to-do list, look no further.
 - save everything in localStorage
 - read localStorage upon loading page
 - add lastEdited property to project objects and, by default, sort projects page accordingly
+- add options button for project pages
+- add options button for Projects page
+- add "delete all" button
+- add "add sample tasks" button
 ##### Behavior
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
@@ -25,6 +28,8 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.5.2*
+- make _createProjectElement() show progress bar
 - *0.5.1*
 - make _createProjectElement() show num of incomplete tasks
 - add section for completed projects

@@ -132,6 +132,22 @@ input[type="checkbox"]:checked + .task-label::after {
 .project-container {
     margin: 1rem 2rem;
     font-size: 2rem;
+    text-transform: capitalize;
+}
+.progress-bar-outer {
+    /* margin-top: .5rem; */
+    padding: .2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 3px solid grey;
+    border-radius: 1rem;
+}
+.progress-bar-inner {
+    height: 100%;
+    background: green;
+    border-radius: .5rem;
 }
 .remaining-tasks-num {
     font-size: 1.5rem;

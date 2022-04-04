@@ -55,6 +55,11 @@ const sortCompleteTasks = (project) => {
     sortedArray.sort((x, y) => compareDesc(x.completionDateTime, y.completionDateTime));
     return sortedArray;
 }
+const sortIncompleteProjects = () => {
+    const sortedProjects = model.projectArray
+        .filter(project => sortIncompleteTasks(project).length > 0);
+    return sortedProjects;
+}
 const toggleTaskCompletion = (task) => {
     task.isComplete = !task.isComplete;
     if (task.isComplete) {
@@ -69,4 +74,5 @@ export {
     toggleTaskCompletion,
     sortIncompleteTasks,
     sortCompleteTasks,
+    sortIncompleteProjects,
 }

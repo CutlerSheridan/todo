@@ -21,10 +21,9 @@ const Task = (name) => {
         creationDateTime,
     }
 }
-const Project = (title) => {
-    let showProgress = true;
+const Project = (name, showProgress = true) => {
     // let timeCreated = currentTime;
-    return { title, showProgress }
+    return { name, showProgress }
 }
 let taskArray = [];
 let projectArray = [];

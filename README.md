@@ -3,8 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make name/input textarea grow wider and taller as user types
-- add projects page
+- make _createProjectElement() show progress or incomplete tasks
 
 #### TO-DO LATER
 ##### Features
@@ -13,6 +12,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
+- add lastEdited property to project objects and, by default, sort projects page accordingly
 ##### Behavior
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
@@ -23,6 +23,11 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.5.0*
+- write controller.sortIncompleteProjects()
+- write _updateProjectList()
+- write basics of _createProjectElement()
+- get Projects page working at a baseline
 - *0.4.4*
 - add transition to marking tasks complete
 - start work on createAllProjectsPage()

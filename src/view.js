@@ -28,9 +28,9 @@ const _createHeader = (project) => {
             case "logbook":
                 return project;
             case "allProjects":
-                return project;
+                return "Projects";
             default:
-                return project.title;
+                return project.name;
         };
     })();
     headerContainer.append(heading);
@@ -132,16 +132,10 @@ const _replaceNameWithInput = (e) => {
     nameInput.contentEditable = true;
     nameInput.classList.add("name-change-input");
     nameInput.textContent = e.target.textContent;
-    // nameInput.style.maxWidth = document.querySelector(".task-container").offsetWidth - 30 + "px";
-    // nameInput.style.width = e.target.offsetWidth + 1 + "px";
-    // const computedFontSize = parseInt(window.getComputedStyle(e.target).fontSize);
-    // nameInput.style.width = computedFontSize * nameInput.value.length + "px"
-    // console.log(`font-size = ${computedFontSize}`);
-    // nameInput.style.height = e.target.offsetHeight + "px";
-
 
     e.target.remove();
     taskInfoContainer.prepend(nameInput);
+    // all this range/selection stuff makes the cursor start at the end of the div
     const range = document.createRange();
     const selection = window.getSelection();
     range.setStart(nameInput.childNodes[0], nameInput.textContent.length);
@@ -149,7 +143,6 @@ const _replaceNameWithInput = (e) => {
     selection.removeAllRanges();
     selection.addRange(range);
     nameInput.focus();
-    // nameInput.setSelectionRange(nameInput.textContent.length, nameInput.textContent.length);
 
     setTimeout(() => {
         console.log("this =");
@@ -187,11 +180,31 @@ const _toggleCompleteClass = (e) => {
 }
 
 // ALL PROJECTS PAGE START
-
 const _updateProjectList = () => {
+    let projectListDiv = document.querySelector(".project-list-container");
+    if (projectListDiv) {
+        _clearContent(projectListDiv);
+    } else {
+        projectListDiv = document.createElement("section");
+        projectListDiv.classList.add("project-list-container");
+    }
 
+    const incompleteProjects = document.createElement("section");
+    incompleteProjects.classList.add("project-list");
+    projectListDiv.append(incompleteProjects);
+    controller.sortIncompleteProjects().forEach(project => incompleteProjects.append(_createProjectElement(project)));
+
+    _contentDiv.append(projectListDiv);
 }
+const _createProjectElement = (project) => {
+    const projectContainer = document.createElement("div");
+    projectContainer.classList.add("project-container");
 
+    const projectNameElement = document.createElement("div");
+    projectNameElement.textContent = project.name;
+    projectContainer.append(projectNameElement);
+    return projectContainer;
+}
 // ALL PROJECTS PAGE END
 
 const _clearContent = (node) => {
@@ -202,5 +215,6 @@ const _clearContent = (node) => {
 
 export {
     createGeneralPage,
-    createLogbookPage
+    createLogbookPage,
+    createAllProjectsPage,
 }

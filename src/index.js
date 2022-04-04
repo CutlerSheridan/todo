@@ -3,7 +3,7 @@ import * as view from "./view";
 import * as controller from "./controller";
 
 const setup = (() => {
-    const generalProj = model.Project("general");
+    const generalProj = model.Project("general", false);
     model.projectArray.push(generalProj);
     console.log(model.projectArray);
 
@@ -57,6 +57,8 @@ const setup = (() => {
     view.createGeneralPage();
     const generalTab = document.querySelector("#tab-general");
     generalTab.addEventListener("click", view.createGeneralPage);
+    const projectsTab = document.querySelector("#tab-projects");
+    projectsTab.addEventListener("click", view.createAllProjectsPage);
     const logbookTab = document.querySelector("#tab-logbook");
     logbookTab.addEventListener("click", view.createLogbookPage);
     console.log(model.taskArray);

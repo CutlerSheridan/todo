@@ -49,8 +49,7 @@ h1 {
 .task-list {
     border: 1px solid lightcoral;
 }
-.task-container,
-.project-container {
+.task-container {
     margin: 1rem 2rem;
     display: flex;
     align-items: center;
@@ -125,6 +124,19 @@ input[type="checkbox"]:checked + .task-label::after {
     color: grey;
 }
 /* --- TASKS END --- */
+
+/* --- PROJECTS START --- */
+.project-list {
+    border: 1px solid lightcoral;
+}
+.project-container {
+    margin: 1rem 2rem;
+    font-size: 2rem;
+}
+.remaining-tasks-num {
+    font-size: 1.5rem;
+}
+/* --- PROJECTS END --- */
 
 /* --- FOOTER START --- */
 footer {

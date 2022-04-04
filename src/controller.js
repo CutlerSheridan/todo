@@ -60,6 +60,13 @@ const sortIncompleteProjects = () => {
         .filter(project => sortIncompleteTasks(project).length > 0);
     return sortedProjects;
 }
+const sortCompleteProjects = () => {
+    const sortedProjects = model.projectArray
+        .filter(project => 
+            sortIncompleteTasks(project).length === 0
+            && sortCompleteTasks(project).length > 0);
+    return sortedProjects;
+}
 const toggleTaskCompletion = (task) => {
     task.isComplete = !task.isComplete;
     if (task.isComplete) {
@@ -75,4 +82,5 @@ export {
     sortIncompleteTasks,
     sortCompleteTasks,
     sortIncompleteProjects,
+    sortCompleteProjects,
 }

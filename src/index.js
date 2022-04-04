@@ -7,8 +7,12 @@ const setup = (() => {
     model.projectArray.push(generalProj);
     console.log(model.projectArray);
 
-    const otherProj = model.Project("Other");
+    const otherProj = model.Project("Other", false);
     model.projectArray.push(otherProj);
+
+    const emptyProj = model.Project("empty", false);
+    const completeProj = model.Project("complete", false);
+    model.projectArray.push(emptyProj, completeProj);
 
     controller.addNewTask("First Test");
     model.taskArray[0].dueDate = new Date(2022, 6, 14);
@@ -50,6 +54,11 @@ const setup = (() => {
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
+
+    controller.addNewTask("completed task");
+    const finalIndex = model.taskArray.length - 1;
+    controller.toggleTaskCompletion(model.taskArray[finalIndex]);
+    model.taskArray[finalIndex].project = model.projectArray[3];
 
 
 

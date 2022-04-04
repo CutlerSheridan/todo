@@ -194,6 +194,11 @@ const _updateProjectList = () => {
     projectListDiv.append(incompleteProjects);
     controller.sortIncompleteProjects().forEach(project => incompleteProjects.append(_createProjectElement(project)));
 
+    const completeProjects = document.createElement("section");
+    completeProjects.classList.add("project-list");
+    projectListDiv.append(completeProjects);
+    controller.sortCompleteProjects().forEach(project => completeProjects.append(_createProjectElement(project)));
+
     _contentDiv.append(projectListDiv);
 }
 const _createProjectElement = (project) => {
@@ -203,7 +208,22 @@ const _createProjectElement = (project) => {
     const projectNameElement = document.createElement("div");
     projectNameElement.textContent = project.name;
     projectContainer.append(projectNameElement);
+    if (project.showProgress) {
+        // projectContainer.append(_createProgressBar(project));
+    } else {
+        projectContainer.append(_createRemainingTasksNum(project));
+    }
     return projectContainer;
+}
+const _createProgressBar = (project) => {
+
+}
+const _createRemainingTasksNum = (project) => {
+    const remainingTasksNum = document.createElement("div");
+    remainingTasksNum.classList.add("remaining-tasks-num");
+    const numOfTasks = controller.sortIncompleteTasks(project).length;
+    remainingTasksNum.textContent = `${numOfTasks} task${numOfTasks === 1 ? "" : "s"}`;
+    return remainingTasksNum;
 }
 // ALL PROJECTS PAGE END
 

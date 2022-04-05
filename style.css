@@ -127,8 +127,8 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 /* --- TASKS END --- */
 
-/* --- NEW TASK BUTTON START --- */
-.new-task-btn {
+/* --- NEW ITEM BUTTON START --- */
+.new-item-btn {
     position: fixed;
     height: 6rem;
     width: 6rem;
@@ -142,10 +142,10 @@ input[type="checkbox"]:checked + .task-label::after {
     font-size: 2.7rem;
     cursor: pointer;
 }
-.new-task-btn:active {
+.new-item-btn:active {
     background: darkblue;
 }
-/* --- NEW TASK BUTTON END --- */
+/* --- NEW ITEM BUTTON END --- */
 
 /* --- PROJECTS START --- */
 .project-list {

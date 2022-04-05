@@ -113,10 +113,20 @@ const _createTaskElement = (task) => {
     taskName.classList.add("task-name");
     taskName.dataset.task = taskIndex;
     taskInfoContainer.append(taskName);
-    taskContainer.append(taskInfoContainer);
     if (task.dueDate && !task.isComplete) {
         taskInfoContainer.append(_createDueDateElement(task));
     }
+    taskContainer.append(taskInfoContainer);
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-task-btn");
+    deleteBtn.textContent = "X";
+    deleteBtn.dataset.task = taskIndex;
+    taskContainer.append(deleteBtn);
+    deleteBtn.addEventListener("click", (e) => {
+        _deleteTask(e);
+        _updateTaskList(task.project);
+    });
 
     taskContainer.classList.add(`priority-${task.priority}`);
     return taskContainer;
@@ -129,6 +139,10 @@ const _createDueDateElement = (task) => {
         dueDateElement.classList.add("past-due");
     }
     return dueDateElement;
+}
+const _deleteTask = (e) => {
+    const taskIndex = e.target.dataset.task;
+    controller.deleteTask(taskIndex);
 }
 const _addListenersToTaskNames = () => {
     const allTaskNames = document.querySelectorAll(".task-name");
@@ -228,6 +242,14 @@ const _insertNewItemInput = (e, project) => {
             const projectIndex = model.projectArray.indexOf(newProject);
             incompleteProjects.append(_createProjectElement(newProject));
             const projectNameDiv = document.querySelector(`.project-container[data-project="${projectIndex}"] .project-name`);
+
+             // all this range/selection stuff makes the cursor start at the end of the div
+            const range = document.createRange();
+            const selection = window.getSelection();
+            range.setStart(projectNameDiv.childNodes[0], projectNameDiv.textContent.length);
+            range.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(range);
             projectNameDiv.focus();
 
             setTimeout(() => {
@@ -235,28 +257,6 @@ const _insertNewItemInput = (e, project) => {
                 document.addEventListener("keydown", _inputFunctionHandlers[1]);
             }, 10)
         }
-}
-const _replaceProjectInputWithName = (e, nameInput, projectIndex) => {
-    return function actualFunction(e) {
-            if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
-                model.projectArray[projectIndex].name = nameInput.textContent;
-                const projectNameElement = document.createElement("div");
-                projectNameElement.textContent = nameInput.textContent;
-                projectNameElement.classList.add("project-name");
-                projectNameElement.dataset.project = projectIndex;
-    
-                nameInput.remove();
-                const projectContainer = document.querySelector(`.project-container[data-project="${projectIndex}"]`);
-                projectContainer.prepend(projectNameElement);
-    
-                document.removeEventListener("click", _inputFunctionHandlers[1]);
-                document.removeEventListener("keydown", _inputFunctionHandlers[1]);
-
-                _updateProjectList();
-            } else if (e.type === "keydown" && nameInput.textContent === "New project name?") {
-                nameInput.textContent = "";
-            }
-    }
 }
 // ALL PROJECTS PAGE START
 const _updateProjectList = () => {
@@ -329,6 +329,28 @@ const _addListenersToProjects = () => {
 const _removeListenersFromProjects = () => {
     const allProjects = document.querySelectorAll(".project-container");
     allProjects.forEach(projectElement => projectElement.removeEventListener("click", createProjectPage));
+}
+const _replaceProjectInputWithName = (e, nameInput, projectIndex) => {
+    return function actualFunction(e) {
+            if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
+                model.projectArray[projectIndex].name = nameInput.textContent;
+                const projectNameElement = document.createElement("div");
+                projectNameElement.textContent = nameInput.textContent;
+                projectNameElement.classList.add("project-name");
+                projectNameElement.dataset.project = projectIndex;
+    
+                nameInput.remove();
+                const projectContainer = document.querySelector(`.project-container[data-project="${projectIndex}"]`);
+                projectContainer.prepend(projectNameElement);
+    
+                document.removeEventListener("click", _inputFunctionHandlers[1]);
+                document.removeEventListener("keydown", _inputFunctionHandlers[1]);
+
+                _updateProjectList();
+            } else if (e.type === "keydown" && nameInput.textContent === "New project name?") {
+                nameInput.textContent = "";
+            }
+    }
 }
 // ALL PROJECTS PAGE END
 

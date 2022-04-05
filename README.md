@@ -3,11 +3,11 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add Delete Task button
+- only have two priorities.  default has nothing special about it, only high priority does
+- add button that goes to task details page
 
 #### TO-DO LATER
 ##### Features
-- add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
 - add lastEdited property to project objects and, by default, sort projects page accordingly
@@ -22,7 +22,6 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 - make it so General is not an option on Projects page
 - should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
-- only have two priorities.  default has nothing special about it, only high priority does
 ##### Style
 - decide on style
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
@@ -32,6 +31,10 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.8.0*
+- add Delete Task button
+- make Delete Task button work
+- make cursor start at beginning of project name input
 - *0.7.2*
 - make empty projects still show up in Projects
 - add New Project button

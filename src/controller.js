@@ -12,6 +12,9 @@ const addNewTask = (name, project = model.projectArray[0]) => {
     _addTaskToArray(task);
     return task;
 }
+const deleteTask = (taskIndex) => {
+    model.taskArray.splice(taskIndex, 1);
+}
 const _createProject = (name, showProgress) => {
     return model.Project(name, showProgress);
 }
@@ -91,6 +94,7 @@ const addTasksToProject = (project, ...tasks) => {
 
 export {
     addNewTask,
+    deleteTask,
     addNewProject,
     toggleTaskCompletion,
     sortIncompleteTasks,

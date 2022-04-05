@@ -3,11 +3,10 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make project names editable on Projects page
+- add more projects with more tasks for testing.  maybe write a function to make this faster
 
 #### TO-DO LATER
 ##### Features
-- add ability to go to a project's page from projects page
 - add New Task button
 - add button that goes to task details page
 - save everything in localStorage
@@ -17,10 +16,12 @@ If you need a free place to keep track of your to-do list, look no further.
 - add options button for Projects page
 - add "delete all" button
 - add "add sample tasks" button
+- add "edit project name" option (but not from clicking title on Projects page as that should bring you to specific project page)
 ##### Behavior
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
 - make header remain in place even when focusing on name change input
+- make it so General is not an option on Projects page
 ##### Style
 - decide on style
 - make project names title case
@@ -28,6 +29,10 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 
 #### DONE
+- *0.6.0*
+- refactor createGeneralPage() to createProjectPage() for reusability
+- add ability to go to a project's page from projects page
+- prevent Refresh button creation on Projects page
 - *0.5.2*
 - make _createProjectElement() show progress bar
 - *0.5.1*

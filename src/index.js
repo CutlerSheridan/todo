@@ -63,9 +63,9 @@ const setup = (() => {
 
 
 
-    view.createGeneralPage();
+    view.createProjectPage();
     const generalTab = document.querySelector("#tab-general");
-    generalTab.addEventListener("click", view.createGeneralPage);
+    generalTab.addEventListener("click", view.createProjectPage);
     const projectsTab = document.querySelector("#tab-projects");
     projectsTab.addEventListener("click", view.createAllProjectsPage);
     const logbookTab = document.querySelector("#tab-logbook");

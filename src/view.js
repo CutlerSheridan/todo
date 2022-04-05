@@ -4,10 +4,17 @@ import { compareAsc, format, isPast } from "date-fns";
 
 const _contentDiv = document.querySelector(".content");
 
-const createGeneralPage = () => {
+const createProjectPage = (e) => {
+    let project;
+    if (e) {
+        const clickedElement = e.currentTarget;
+        project = model.projectArray[clickedElement.dataset.project];
+    } else {
+        project = model.projectArray[0];
+    }
     _clearContent(_contentDiv);
-    _createHeader(model.projectArray[0]);
-    _updateTaskList(model.projectArray[0]);
+    _createHeader(project);
+    _updateTaskList(project);
 }
 const createLogbookPage = () => {
     _clearContent(_contentDiv);
@@ -34,14 +41,19 @@ const _createHeader = (project) => {
         };
     })();
     headerContainer.append(heading);
+    if (project !== "allProjects") {
+        _createRefreshTasksButton(project, headerContainer);
+    }
+    _contentDiv.append(headerContainer);
+}
+const _createRefreshTasksButton = (project, containingElement) => {
     const refreshTasks = document.createElement("button");
     refreshTasks.textContent = "Refresh";
     refreshTasks.classList.add("refresh");
-    headerContainer.append(refreshTasks);
+    containingElement.append(refreshTasks);
     refreshTasks.addEventListener("click", () => {
         _updateTaskList(project);
     });
-    _contentDiv.append(headerContainer);
 }
 const _updateTaskList = (project) => {
     let taskListDiv = document.querySelector(".task-list-container");
@@ -200,10 +212,12 @@ const _updateProjectList = () => {
     controller.sortCompleteProjects().forEach(project => completeProjects.append(_createProjectElement(project)));
 
     _contentDiv.append(projectListDiv);
+    _addListenersToProjects();
 }
 const _createProjectElement = (project) => {
     const projectContainer = document.createElement("div");
     projectContainer.classList.add("project-container");
+    projectContainer.dataset.project = model.projectArray.indexOf(project);
 
     const projectNameElement = document.createElement("div");
     projectNameElement.textContent = project.name;
@@ -237,6 +251,10 @@ const _createRemainingTasksNum = (project) => {
     remainingTasksNum.textContent = `${numOfTasks} task${numOfTasks === 1 ? "" : "s"}`;
     return remainingTasksNum;
 }
+const _addListenersToProjects = () => {
+    const allProjects = document.querySelectorAll(".project-container");
+    allProjects.forEach(projectElement => projectElement.addEventListener("click", createProjectPage));
+}
 // ALL PROJECTS PAGE END
 
 const _clearContent = (node) => {
@@ -246,7 +264,7 @@ const _clearContent = (node) => {
 }
 
 export {
-    createGeneralPage,
+    createProjectPage,
     createLogbookPage,
     createAllProjectsPage,
 }

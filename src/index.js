@@ -6,7 +6,7 @@ const setup = (() => {
     controller.addNewProject("general");
     controller.addNewProject("other", false);
     controller.addNewProject("empty", false);
-    controller.addNewProject("complete", false);
+    controller.addNewProject("a complete project", false);
 
     controller.addNewTask("First Test");
     model.taskArray[0].dueDate = new Date(2022, 6, 14);
@@ -55,8 +55,24 @@ const setup = (() => {
     controller.toggleTaskCompletion(model.taskArray[finalIndex]);
     model.taskArray[finalIndex].project = model.projectArray[3];
 
+    controller.addNewProject("another complete project", true);
+    const completedTasksForTesting = [];
+    for (let i = 0; i < 5; i++) {
+        completedTasksForTesting[i] = controller.addNewTask("Another testing task");
+        controller.toggleTaskCompletion(completedTasksForTesting[i]);
+    }
+    controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...completedTasksForTesting);
 
-
+    controller.addNewProject("a project with tasks");
+    const moreTasksForTesting = [];
+    for (let i = 0; i < 20; i++) {
+        moreTasksForTesting[i] = controller.addNewTask("This is a testing task");
+        moreTasksForTesting[i].priority = i % 3;
+        if (i % 4 === 0) {
+            controller.toggleTaskCompletion(moreTasksForTesting[i]);
+        }
+    }
+    controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...moreTasksForTesting);
 
     view.createProjectPage();
     const generalTab = document.querySelector("#tab-general");

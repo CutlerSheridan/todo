@@ -3,11 +3,10 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add more projects with more tasks for testing.  maybe write a function to make this faster
+- add New Task button
 
 #### TO-DO LATER
 ##### Features
-- add New Task button
 - add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
@@ -26,12 +25,17 @@ If you need a free place to keep track of your to-do list, look no further.
 - make empty projects still show up in Projects
 ##### Style
 - decide on style
-- make project names title case
-- maybe progress bar only goes halfway across the screen
 ##### Other
 ##### Maybe
+- write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.6.2*
+- make project names title case
+- maybe progress bar only goes halfway across the screen
+- make projects in complete section hide progress
+- add more projects with more tasks for testing.
+- make progress bars show % complete instead of % incomplete
 - *0.6.1*
 - add createNewProject()
 - add addTasksToProject() for testing

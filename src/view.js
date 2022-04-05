@@ -209,12 +209,12 @@ const _updateProjectList = () => {
     const completeProjects = document.createElement("section");
     completeProjects.classList.add("project-list");
     projectListDiv.append(completeProjects);
-    controller.sortCompleteProjects().forEach(project => completeProjects.append(_createProjectElement(project)));
+    controller.sortCompleteProjects().forEach(project => completeProjects.append(_createProjectElement(project, true)));
 
     _contentDiv.append(projectListDiv);
     _addListenersToProjects();
 }
-const _createProjectElement = (project) => {
+const _createProjectElement = (project, isComplete = false) => {
     const projectContainer = document.createElement("div");
     projectContainer.classList.add("project-container");
     projectContainer.dataset.project = model.projectArray.indexOf(project);
@@ -222,31 +222,33 @@ const _createProjectElement = (project) => {
     const projectNameElement = document.createElement("div");
     projectNameElement.textContent = project.name;
     projectContainer.append(projectNameElement);
-    if (project.showProgress) {
-        projectContainer.append(_createProgressBar(project));
-    } else {
-        projectContainer.append(_createRemainingTasksNum(project));
+    if (!isComplete) {
+        if (project.showProgress) {
+            projectContainer.append(_createProgressBar(project));
+        } else {
+            projectContainer.append(_createRemainingTasksNum(project));
+        }
     }
     return projectContainer;
 }
 const _createProgressBar = (project) => {
     const progressBarOuter = document.createElement("div");
-    progressBarOuter.classList.add("progress-bar-outer");
+    progressBarOuter.classList.add("progress-bar-outer", "project-progress");
     const progressBarInner = document.createElement("div");
     progressBarInner.classList.add("progress-bar-inner");
     progressBarOuter.append(progressBarInner);
 
-    progressBarOuter.style.width = "100%";
-    const incompleteTasks = controller.sortIncompleteTasks(project).length;
-    const completeTasks = controller.sortCompleteTasks(project).length + incompleteTasks;
-    const percentComplete = incompleteTasks * 100 / completeTasks;
+    progressBarOuter.style.width = "50%";
+    const completeTasks = controller.sortCompleteTasks(project).length;
+    const totalTasks = controller.sortIncompleteTasks(project).length + completeTasks;
+    const percentComplete = completeTasks * 100 / totalTasks;
     progressBarInner.style.width = `${percentComplete}%`;
 
     return progressBarOuter;
 }
 const _createRemainingTasksNum = (project) => {
     const remainingTasksNum = document.createElement("div");
-    remainingTasksNum.classList.add("remaining-tasks-num");
+    remainingTasksNum.classList.add("remaining-tasks-num", "project-progress");
     const numOfTasks = controller.sortIncompleteTasks(project).length;
     remainingTasksNum.textContent = `${numOfTasks} task${numOfTasks === 1 ? "" : "s"}`;
     return remainingTasksNum;

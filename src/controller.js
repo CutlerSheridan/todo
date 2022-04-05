@@ -10,17 +10,18 @@ const _addTaskToArray = (task) => {
 const addNewTask = (name) => {
     const task = _createTask(name);
     _addTaskToArray(task);
+    return task;
 }
-// const _createProject = (name) => {
-//     return model.Project(name);
-// }
-// const _addProjectToArray = (project) => {
-//     model.projectArray.push(project);
-// }
-// const addNewProject = (name) => {
-//     const project = _createProject(name);
-//     _addProjectToArray(project);
-// }
+const _createProject = (name, showProgress) => {
+    return model.Project(name, showProgress);
+}
+const _addProjectToArray = (project) => {
+    model.projectArray.push(project);
+}
+const addNewProject = (name, showProgress = true) => {
+    const project = _createProject(name,showProgress);
+    _addProjectToArray(project);
+}
 const sortIncompleteTasks = (project) => {
     const sortedArray = model.taskArray
         .filter(task => task.project === project)
@@ -76,11 +77,19 @@ const toggleTaskCompletion = (task) => {
     }
 }
 
+const addTasksToProject = (project, ...tasks) => {
+    for (let i = 0; i < tasks.length; i++) {
+        tasks[i].project = project;
+    }
+}
+
 export {
     addNewTask,
+    addNewProject,
     toggleTaskCompletion,
     sortIncompleteTasks,
     sortCompleteTasks,
     sortIncompleteProjects,
     sortCompleteProjects,
+    addTasksToProject,
 }

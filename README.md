@@ -22,16 +22,23 @@ If you need a free place to keep track of your to-do list, look no further.
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
 - make header remain in place even when focusing on name change input
 - make it so General is not an option on Projects page
+- should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
+- make empty projects still show up in Projects
 ##### Style
 - decide on style
 - make project names title case
+- maybe progress bar only goes halfway across the screen
 ##### Other
 ##### Maybe
 
 #### DONE
+- *0.6.1*
+- add createNewProject()
+- add addTasksToProject() for testing
+- add a few more tasks to Other for testing
 - *0.6.0*
 - refactor createGeneralPage() to createProjectPage() for reusability
-- add ability to go to a project's page from projects page
+- add ability to go to a project's page from Projects page
 - prevent Refresh button creation on Projects page
 - *0.5.2*
 - make _createProjectElement() show progress bar

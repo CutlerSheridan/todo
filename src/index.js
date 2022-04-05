@@ -3,16 +3,10 @@ import * as view from "./view";
 import * as controller from "./controller";
 
 const setup = (() => {
-    const generalProj = model.Project("general");
-    model.projectArray.push(generalProj);
-    console.log(model.projectArray);
-
-    const otherProj = model.Project("other", false);
-    model.projectArray.push(otherProj);
-
-    const emptyProj = model.Project("empty", false);
-    const completeProj = model.Project("complete", false);
-    model.projectArray.push(emptyProj, completeProj);
+    controller.addNewProject("general");
+    controller.addNewProject("other", false);
+    controller.addNewProject("empty", false);
+    controller.addNewProject("complete", false);
 
     controller.addNewTask("First Test");
     model.taskArray[0].dueDate = new Date(2022, 6, 14);
@@ -42,15 +36,16 @@ const setup = (() => {
     model.taskArray[8].dueDate = new Date(2022, 1, 20);
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
-    // controller.addNewTask("Scroll test task");
+
+    const otherTasksArray = [];
+    for (let i = 0; i < 7; i++) {
+        otherTasksArray[i] = controller.addNewTask("This goes in Other");
+        if (i % 2 === 0) {
+            controller.toggleTaskCompletion(otherTasksArray[i]);
+        }
+    }
+    controller.addTasksToProject(model.projectArray[1], ...otherTasksArray);
+
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");

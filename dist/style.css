@@ -125,17 +125,37 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 /* --- TASKS END --- */
 
+/* --- NEW TASK BUTTON START --- */
+.new-task-btn {
+    position: fixed;
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 5rem;
+    background: blue;
+    color: white;
+    font-size: 2.7rem;
+}
+.new-task-btn:active {
+    background: darkblue;
+}
+/* --- NEW TASK BUTTON END --- */
+
 /* --- PROJECTS START --- */
 .project-list {
     border-top: 1px solid lightcoral;
-}
-.project-progress {
-    margin-top: .5rem;
 }
 .project-container {
     margin: 1rem 2rem;
     font-size: 2rem;
     text-transform: capitalize;
+    cursor: pointer;
+}
+.project-progress {
+    margin-top: .5rem;
 }
 .progress-bar-outer {
     padding: .2rem;

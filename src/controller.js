@@ -1,14 +1,14 @@
 import * as model from "./model";
 import { compareAsc, compareDesc } from "date-fns";
 
-const _createTask = (name) => {
-    return model.Task(name);
+const _createTask = (name, project) => {
+    return model.Task(name, project);
 }
 const _addTaskToArray = (task) => {
     model.taskArray.push(task);
 }
-const addNewTask = (name) => {
-    const task = _createTask(name);
+const addNewTask = (name, project = model.projectArray[0]) => {
+    const task = _createTask(name, project);
     _addTaskToArray(task);
     return task;
 }

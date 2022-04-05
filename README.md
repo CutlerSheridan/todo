@@ -3,7 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add New Task button
+- get New Task button to add empty box?
 
 #### TO-DO LATER
 ##### Features
@@ -25,11 +25,16 @@ If you need a free place to keep track of your to-do list, look no further.
 - make empty projects still show up in Projects
 ##### Style
 - decide on style
+- fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
+- get a + icon for the New Task button so it centers vertically
 ##### Other
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.7.0*
+- write function to create New Task button
+- make New Task button work
 - *0.6.2*
 - make project names title case
 - maybe progress bar only goes halfway across the screen

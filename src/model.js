@@ -1,8 +1,7 @@
-const Task = (name) => {
+const Task = (name, project) => {
     let priority = 1;
     let dueDate = null;
     let isPastDue = false;
-    let project = projectArray[0];
     let notes = null;
     let checklist = null
     let isComplete = false;

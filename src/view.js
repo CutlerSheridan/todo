@@ -15,6 +15,7 @@ const createProjectPage = (e) => {
     _clearContent(_contentDiv);
     _createHeader(project);
     _updateTaskList(project);
+    _createNewTaskButton(project);
 }
 const createLogbookPage = () => {
     _clearContent(_contentDiv);
@@ -66,7 +67,7 @@ const _updateTaskList = (project) => {
 
     if (project !== "logbook") {
         const incompleteTasks = document.createElement("section");
-        incompleteTasks.classList.add("task-list");
+        incompleteTasks.classList.add("task-list", "incomplete-task-list");
         taskListDiv.append(incompleteTasks);
         controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
     }
@@ -137,15 +138,27 @@ const _inputFunctionHandlers = [];
 const _replaceNameWithInput = (e) => {
     const allTaskNames = document.querySelectorAll(".task-name");
     allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceNameWithInput));
+    
+    console.log("reaches _replaceNameWithInput");
+    console.log("e:");
+    console.log(e);
+    console.log("e.target");
+    console.log(e.target);
 
-    const taskIndex = e.target.dataset.task;
+    let nameBox;
+    if (e.target) {
+        nameBox = e.target;
+    } else {
+        nameBox = e;
+    }
+    const taskIndex = nameBox.dataset.task;
     const taskInfoContainer = document.querySelector(`.task-info-container[data-task="${taskIndex}"]`);
     const nameInput = document.createElement("div");
     nameInput.contentEditable = true;
     nameInput.classList.add("name-change-input");
-    nameInput.textContent = e.target.textContent;
+    nameInput.textContent = nameBox.textContent;
 
-    e.target.remove();
+    nameBox.remove();
     taskInfoContainer.prepend(nameInput);
     // all this range/selection stuff makes the cursor start at the end of the div
     const range = document.createRange();
@@ -191,6 +204,33 @@ const _toggleCompleteClass = (e) => {
     controller.toggleTaskCompletion(model.taskArray[taskIndex]);
 }
 
+const _createNewTaskButton = (project) => {
+    const newTaskBtn = document.createElement("button");
+    newTaskBtn.classList.add("new-task-btn");
+    newTaskBtn.textContent = "+";
+    _contentDiv.append(newTaskBtn);
+
+    const footer = document.querySelector("footer");
+    const displacementAmount = 15;
+    newTaskBtn.style.right = displacementAmount + "px";
+    newTaskBtn.style.bottom = footer.offsetHeight + displacementAmount + "px";
+
+    newTaskBtn.addEventListener("click", (e) => {
+        _insertNewTaskInput(e, project);
+    })
+}
+const _insertNewTaskInput = (e, project) => {
+        console.log("reaches _insertNewTaskInput");
+        console.log("e");
+        console.log(e);
+        console.log("project");
+        console.log(project);
+        const incompleteTaskList = document.querySelector(".incomplete-task-list");
+        const newTask = controller.addNewTask("?", project);
+        incompleteTaskList.append(_createTaskElement(newTask));
+        const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
+        _replaceNameWithInput(taskNameDiv);
+}
 // ALL PROJECTS PAGE START
 const _updateProjectList = () => {
     let projectListDiv = document.querySelector(".project-list-container");

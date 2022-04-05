@@ -22,8 +22,7 @@ const setup = (() => {
 
     model.taskArray.forEach(task => task.project = model.projectArray[0]);
     
-    controller.addNewTask("This should not be in General");
-    model.taskArray[4].project = model.projectArray[1];
+    controller.addNewTask("This should not be in General", model.projectArray[1]);
 
     controller.addNewTask("Another test");
     controller.addNewTask("Past due task");
@@ -50,10 +49,9 @@ const setup = (() => {
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
 
-    controller.addNewTask("completed task");
+    controller.addNewTask("completed task", model.projectArray[3]);
     const finalIndex = model.taskArray.length - 1;
     controller.toggleTaskCompletion(model.taskArray[finalIndex]);
-    model.taskArray[finalIndex].project = model.projectArray[3];
 
     controller.addNewProject("another complete project", true);
     const completedTasksForTesting = [];

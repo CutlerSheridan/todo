@@ -47,7 +47,7 @@ h1 {
 
 /* --- TASKS START --- */
 .task-list {
-    border: 1px solid lightcoral;
+    border-top: 1px solid lightcoral;
 }
 .task-container {
     margin: 1rem 2rem;
@@ -127,7 +127,10 @@ input[type="checkbox"]:checked + .task-label::after {
 
 /* --- PROJECTS START --- */
 .project-list {
-    border: 1px solid lightcoral;
+    border-top: 1px solid lightcoral;
+}
+.project-progress {
+    margin-top: .5rem;
 }
 .project-container {
     margin: 1rem 2rem;

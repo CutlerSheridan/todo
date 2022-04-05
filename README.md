@@ -3,10 +3,12 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- get New Task button to add empty box?
+- add New Project button
+- make empty projects still show up in Projects
 
 #### TO-DO LATER
 ##### Features
+- add Delete Task button
 - add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
@@ -22,7 +24,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 - make it so General is not an option on Projects page
 - should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
-- make empty projects still show up in Projects
+- only have two priorities.  default has nothing special about it, only high priority does
 ##### Style
 - decide on style
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
@@ -32,6 +34,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.7.1*
+- add placeholder text for New Task input that disappears when you start typing
+- make new tasks auto-sort upon entering them
 - *0.7.0*
 - write function to create New Task button
 - make New Task button work

@@ -138,12 +138,6 @@ const _inputFunctionHandlers = [];
 const _replaceNameWithInput = (e) => {
     const allTaskNames = document.querySelectorAll(".task-name");
     allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceNameWithInput));
-    
-    console.log("reaches _replaceNameWithInput");
-    console.log("e:");
-    console.log(e);
-    console.log("e.target");
-    console.log(e.target);
 
     let nameBox;
     if (e.target) {
@@ -170,8 +164,6 @@ const _replaceNameWithInput = (e) => {
     nameInput.focus();
 
     setTimeout(() => {
-        console.log("this =");
-        console.log(this);
         document.addEventListener("click", _inputFunctionHandlers[0] = _replaceInputWithName(e, taskInfoContainer, nameInput, taskIndex));
         document.addEventListener("keydown", _inputFunctionHandlers[0]);
     }, 10)
@@ -194,6 +186,9 @@ const _replaceInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
                 document.removeEventListener("keydown", _inputFunctionHandlers[0]);
 
                 _addListenersToTaskNames();
+                _updateTaskList(model.taskArray[taskIndex].project);
+            } else if (e.type === "keydown" && nameInput.textContent === "New task name?") {
+                nameInput.textContent = "";
             }
     }
 }
@@ -220,13 +215,8 @@ const _createNewTaskButton = (project) => {
     })
 }
 const _insertNewTaskInput = (e, project) => {
-        console.log("reaches _insertNewTaskInput");
-        console.log("e");
-        console.log(e);
-        console.log("project");
-        console.log(project);
         const incompleteTaskList = document.querySelector(".incomplete-task-list");
-        const newTask = controller.addNewTask("?", project);
+        const newTask = controller.addNewTask("New task name?", project);
         incompleteTaskList.append(_createTaskElement(newTask));
         const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
         _replaceNameWithInput(taskNameDiv);

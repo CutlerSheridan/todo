@@ -135,7 +135,6 @@ input[type="checkbox"]:checked + .task-label::after {
     text-transform: capitalize;
 }
 .progress-bar-outer {
-    /* margin-top: .5rem; */
     padding: .2rem;
     height: 2rem;
     display: flex;

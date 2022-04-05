@@ -15,17 +15,18 @@ const createProjectPage = (e) => {
     _clearContent(_contentDiv);
     _createHeader(project);
     _updateTaskList(project);
-    _createNewTaskButton(project);
-}
-const createLogbookPage = () => {
-    _clearContent(_contentDiv);
-    _createHeader("logbook");
-    _updateTaskList("logbook");
+    _createNewItemButton(project);
 }
 const createAllProjectsPage = () => {
     _clearContent(_contentDiv);
     _createHeader("allProjects");
     _updateProjectList();
+    _createNewItemButton("allProjects");
+}
+const createLogbookPage = () => {
+    _clearContent(_contentDiv);
+    _createHeader("logbook");
+    _updateTaskList("logbook");
 }
 
 const _createHeader = (project) => {
@@ -131,13 +132,13 @@ const _createDueDateElement = (task) => {
 }
 const _addListenersToTaskNames = () => {
     const allTaskNames = document.querySelectorAll(".task-name");
-    allTaskNames.forEach(tName => tName.addEventListener("click", _replaceNameWithInput))
+    allTaskNames.forEach(tName => tName.addEventListener("click", _replaceTaskNameWithInput))
 }
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
 const _inputFunctionHandlers = [];
-const _replaceNameWithInput = (e) => {
+const _replaceTaskNameWithInput = (e) => {
     const allTaskNames = document.querySelectorAll(".task-name");
-    allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceNameWithInput));
+    allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceTaskNameWithInput));
 
     let nameBox;
     if (e.target) {
@@ -164,15 +165,13 @@ const _replaceNameWithInput = (e) => {
     nameInput.focus();
 
     setTimeout(() => {
-        document.addEventListener("click", _inputFunctionHandlers[0] = _replaceInputWithName(e, taskInfoContainer, nameInput, taskIndex));
+        document.addEventListener("click", _inputFunctionHandlers[0] = _replaceTaskInputWithName(e, taskInfoContainer, nameInput, taskIndex));
         document.addEventListener("keydown", _inputFunctionHandlers[0]);
     }, 10)
 }
-const _replaceInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
+const _replaceTaskInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
     return function actualFunction(e) {
             if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
-                console.log(e);
-                console.log(nameInput);
                 model.taskArray[taskIndex].name = nameInput.textContent;
                 const taskNameElement = document.createElement("div");
                 taskNameElement.textContent = nameInput.textContent;
@@ -199,27 +198,65 @@ const _toggleCompleteClass = (e) => {
     controller.toggleTaskCompletion(model.taskArray[taskIndex]);
 }
 
-const _createNewTaskButton = (project) => {
-    const newTaskBtn = document.createElement("button");
-    newTaskBtn.classList.add("new-task-btn");
-    newTaskBtn.textContent = "+";
-    _contentDiv.append(newTaskBtn);
+const _createNewItemButton = (project) => {
+    const newItemBtn = document.createElement("button");
+    newItemBtn.classList.add("new-item-btn");
+    newItemBtn.textContent = "+";
+    _contentDiv.append(newItemBtn);
 
     const footer = document.querySelector("footer");
     const displacementAmount = 15;
-    newTaskBtn.style.right = displacementAmount + "px";
-    newTaskBtn.style.bottom = footer.offsetHeight + displacementAmount + "px";
+    newItemBtn.style.right = displacementAmount + "px";
+    newItemBtn.style.bottom = footer.offsetHeight + displacementAmount + "px";
 
-    newTaskBtn.addEventListener("click", (e) => {
-        _insertNewTaskInput(e, project);
+    newItemBtn.addEventListener("click", (e) => {
+        _insertNewItemInput(e, project);
     })
 }
-const _insertNewTaskInput = (e, project) => {
-        const incompleteTaskList = document.querySelector(".incomplete-task-list");
-        const newTask = controller.addNewTask("New task name?", project);
-        incompleteTaskList.append(_createTaskElement(newTask));
-        const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
-        _replaceNameWithInput(taskNameDiv);
+const _insertNewItemInput = (e, project) => {
+        if (project !== "allProjects") {
+            const incompleteTaskList = document.querySelector(".incomplete-task-list");
+            const newTask = controller.addNewTask("New task name?", project);
+            incompleteTaskList.append(_createTaskElement(newTask));
+            const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
+            _replaceTaskNameWithInput(taskNameDiv);
+        } else {
+            _removeListenersFromProjects();
+            
+            const incompleteProjects = document.querySelector(".incomplete-project-list");
+            const newProject = controller.addNewProject("New project name?");
+            const projectIndex = model.projectArray.indexOf(newProject);
+            incompleteProjects.append(_createProjectElement(newProject));
+            const projectNameDiv = document.querySelector(`.project-container[data-project="${projectIndex}"] .project-name`);
+            projectNameDiv.focus();
+
+            setTimeout(() => {
+                document.addEventListener("click", _inputFunctionHandlers[1] = _replaceProjectInputWithName(e, projectNameDiv, projectIndex));
+                document.addEventListener("keydown", _inputFunctionHandlers[1]);
+            }, 10)
+        }
+}
+const _replaceProjectInputWithName = (e, nameInput, projectIndex) => {
+    return function actualFunction(e) {
+            if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
+                model.projectArray[projectIndex].name = nameInput.textContent;
+                const projectNameElement = document.createElement("div");
+                projectNameElement.textContent = nameInput.textContent;
+                projectNameElement.classList.add("project-name");
+                projectNameElement.dataset.project = projectIndex;
+    
+                nameInput.remove();
+                const projectContainer = document.querySelector(`.project-container[data-project="${projectIndex}"]`);
+                projectContainer.prepend(projectNameElement);
+    
+                document.removeEventListener("click", _inputFunctionHandlers[1]);
+                document.removeEventListener("keydown", _inputFunctionHandlers[1]);
+
+                _updateProjectList();
+            } else if (e.type === "keydown" && nameInput.textContent === "New project name?") {
+                nameInput.textContent = "";
+            }
+    }
 }
 // ALL PROJECTS PAGE START
 const _updateProjectList = () => {
@@ -232,7 +269,7 @@ const _updateProjectList = () => {
     }
 
     const incompleteProjects = document.createElement("section");
-    incompleteProjects.classList.add("project-list");
+    incompleteProjects.classList.add("project-list", "incomplete-project-list");
     projectListDiv.append(incompleteProjects);
     controller.sortIncompleteProjects().forEach(project => incompleteProjects.append(_createProjectElement(project)));
 
@@ -250,7 +287,9 @@ const _createProjectElement = (project, isComplete = false) => {
     projectContainer.dataset.project = model.projectArray.indexOf(project);
 
     const projectNameElement = document.createElement("div");
+    projectNameElement.classList.add("project-name");
     projectNameElement.textContent = project.name;
+    projectNameElement.contentEditable = true;
     projectContainer.append(projectNameElement);
     if (!isComplete) {
         if (project.showProgress) {
@@ -286,6 +325,10 @@ const _createRemainingTasksNum = (project) => {
 const _addListenersToProjects = () => {
     const allProjects = document.querySelectorAll(".project-container");
     allProjects.forEach(projectElement => projectElement.addEventListener("click", createProjectPage));
+}
+const _removeListenersFromProjects = () => {
+    const allProjects = document.querySelectorAll(".project-container");
+    allProjects.forEach(projectElement => projectElement.removeEventListener("click", createProjectPage));
 }
 // ALL PROJECTS PAGE END
 

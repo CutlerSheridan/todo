@@ -21,6 +21,7 @@ const _addProjectToArray = (project) => {
 const addNewProject = (name, showProgress = true) => {
     const project = _createProject(name,showProgress);
     _addProjectToArray(project);
+    return project;
 }
 const sortIncompleteTasks = (project) => {
     const sortedArray = model.taskArray
@@ -58,7 +59,12 @@ const sortCompleteTasks = (project) => {
 }
 const sortIncompleteProjects = () => {
     const sortedProjects = model.projectArray
-        .filter(project => sortIncompleteTasks(project).length > 0);
+        .filter(project => {
+            const numOfIncompleteTasks = sortIncompleteTasks(project).length;
+            const numOfCompleteTasks = sortCompleteTasks(project).length; 
+            return numOfIncompleteTasks > 0
+                || (numOfCompleteTasks === 0 && numOfIncompleteTasks === 0);
+        });
     return sortedProjects;
 }
 const sortCompleteProjects = () => {

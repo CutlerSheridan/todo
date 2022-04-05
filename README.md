@@ -3,12 +3,10 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add New Project button
-- make empty projects still show up in Projects
+- add Delete Task button
 
 #### TO-DO LATER
 ##### Features
-- add Delete Task button
 - add button that goes to task details page
 - save everything in localStorage
 - read localStorage upon loading page
@@ -34,6 +32,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.7.2*
+- make empty projects still show up in Projects
+- add New Project button
 - *0.7.1*
 - add placeholder text for New Task input that disappears when you start typing
 - make new tasks auto-sort upon entering them

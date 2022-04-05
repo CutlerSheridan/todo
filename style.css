@@ -94,7 +94,8 @@ input[type="checkbox"]:checked + .task-label::after {
     background: black;
 }
 .task-info-container {
-    margin-left: 1rem;
+    margin: 0 1.5rem 0 1rem;
+    width: 100%;
 }
 .due-date {
     font-size: 1.5rem;
@@ -102,6 +103,18 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 .past-due {
     color: red;
+}
+.delete-task-btn {
+    width: 2.25rem;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    border: none;
+    background: red;
+    color: white;
+    cursor: pointer;
+}
+.delete-task-btn:hover {
+    background: darkred;
 }
 .name-change-input {
     font-size: inherit;
@@ -142,7 +155,7 @@ input[type="checkbox"]:checked + .task-label::after {
     font-size: 2.7rem;
     cursor: pointer;
 }
-.new-item-btn:active {
+.new-item-btn:hover {
     background: darkblue;
 }
 /* --- NEW ITEM BUTTON END --- */

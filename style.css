@@ -55,6 +55,7 @@ h1 {
     align-items: center;
     font-size: 2rem;
     transition: all .2s;
+    white-space: pre-wrap;
 }
 .priority-2 {
     background: pink;
@@ -107,6 +108,7 @@ input[type="checkbox"]:checked + .task-label::after {
     border: none;
     border-bottom: 2px solid black;
     background: transparent;
+    white-space: pre-wrap;
 }
 
 .complete-task {
@@ -138,6 +140,7 @@ input[type="checkbox"]:checked + .task-label::after {
     background: blue;
     color: white;
     font-size: 2.7rem;
+    cursor: pointer;
 }
 .new-task-btn:active {
     background: darkblue;

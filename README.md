@@ -3,19 +3,18 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- only have two priorities.  default has nothing special about it, only high priority does
 - add button that goes to task details page
 
 #### TO-DO LATER
 ##### Features
-- save everything in localStorage
-- read localStorage upon loading page
 - add lastEdited property to project objects and, by default, sort projects page accordingly
 - add options button for project pages
 - add options button for Projects page
 - add "delete all" button
 - add "add sample tasks" button
 - add "edit project name" option (but not from clicking title on Projects page as that should bring you to specific project page)
+- save everything in localStorage
+- read localStorage upon loading page
 ##### Behavior
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
@@ -28,10 +27,14 @@ If you need a free place to keep track of your to-do list, look no further.
 - get a + icon for the New Task button so it centers vertically
 - New Item button should not cover delete buttons
 ##### Other
+- would sortIncompleteTasks etc. work without compareAsc()/compareDesc()?
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.8.2*
+- change to only have two priorities.  default has nothing special about it, only high priority looks different
+- simplify sortIncompleteTasks()
 - *0.8.1*
 - make checkboxes grey on hover
 - prevent project names from becoming text boxes upon mousedown before triggering createProjectPage()

@@ -10,13 +10,13 @@ const setup = (() => {
 
     controller.addNewTask("First Test");
     model.taskArray[0].dueDate = new Date(2022, 6, 14);
-    model.taskArray[0].priority = 0;
+    model.taskArray[0].isHighPriority = true;
     controller.addNewTask("This is the second test");
-    model.taskArray[1].priority = 2;
+    model.taskArray[1].isHighPriority = true;
     controller.addNewTask("This is the third test");
     model.taskArray[2].dueDate = new Date(2022, 5, 16);
     controller.toggleTaskCompletion(model.taskArray[2]);
-    model.taskArray[2].priority = 2;
+    model.taskArray[2].isHighPriority = true;
     controller.addNewTask("This is gonna be the fourth test right about here");
     model.taskArray[3].dueDate = new Date(2022, 4, 15);
 
@@ -61,14 +61,19 @@ const setup = (() => {
     }
     controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...completedTasksForTesting);
 
+    const _getRandomInt = (max) => {
+        return Math.floor(Math.random() * max);
+    }
     controller.addNewProject("a project with tasks");
     const moreTasksForTesting = [];
     for (let i = 0; i < 20; i++) {
         moreTasksForTesting[i] = controller.addNewTask("This is a testing task");
-        moreTasksForTesting[i].priority = i % 3;
+        if (i > 14)
+        moreTasksForTesting[i].isHighPriority = true;
         if (i % 4 === 0) {
             controller.toggleTaskCompletion(moreTasksForTesting[i]);
         }
+        moreTasksForTesting[i].dueDate = new Date(2022, (_getRandomInt(11) + 1), (_getRandomInt(27) + 1));
     }
     controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...moreTasksForTesting);
 

@@ -31,10 +31,8 @@ const sortIncompleteTasks = (project) => {
         .filter(task => task.project === project)
         .filter(task => !task.isComplete)
         .sort((x, y) => {
-            if (x.priority > y.priority) {
-                return -1;
-            } else if (x.priority < y.priority) {
-                return 1;
+            if (x.isHighPriority !== y.isHighPriority) {
+                return y.isHighPriority - x.isHighPriority;
             } else {
                 if (!x.dueDate && y.dueDate) {
                     return 1;

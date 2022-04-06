@@ -128,7 +128,9 @@ const _createTaskElement = (task) => {
         _updateTaskList(task.project);
     });
 
-    taskContainer.classList.add(`priority-${task.priority}`);
+    if (task.isHighPriority) {
+        taskContainer.classList.add(`priority-high`);
+    }
     return taskContainer;
 }
 const _createDueDateElement = (task) => {

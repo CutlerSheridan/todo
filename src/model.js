@@ -1,5 +1,5 @@
 const Task = (name, project) => {
-    let priority = 1;
+    let isHighPriority = false;
     let dueDate = null;
     let isPastDue = false;
     let notes = null;
@@ -9,7 +9,7 @@ const Task = (name, project) => {
     let creationDateTime = new Date();
     return {
         name,
-        priority,
+        isHighPriority,
         dueDate,
         isPastDue,
         project,

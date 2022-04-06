@@ -57,7 +57,10 @@ h1 {
     transition: all .2s;
     white-space: pre-wrap;
 }
-.priority-2 {
+.priority-high {
+    background: pink;
+}
+/* .priority-2 {
     background: pink;
 }
 .priority-1 {
@@ -65,7 +68,7 @@ h1 {
 }
 .priority-0 {
     background: olivedrab;
-}
+} */
 input[type="checkbox"] {
     display: none;
 }

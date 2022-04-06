@@ -90,6 +90,9 @@ input[type="checkbox"] + .task-label::after {
     border: 2px solid white;
     transition: all .2s;
 }
+input[type="checkbox"] + .task-label:hover::after {
+    background: grey;
+}
 input[type="checkbox"]:checked + .task-label::after {
     background: black;
 }

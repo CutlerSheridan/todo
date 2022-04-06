@@ -26,11 +26,15 @@ If you need a free place to keep track of your to-do list, look no further.
 - decide on style
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 - get a + icon for the New Task button so it centers vertically
+- New Item button should not cover delete buttons
 ##### Other
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.8.1*
+- make checkboxes grey on hover
+- prevent project names from becoming text boxes upon mousedown before triggering createProjectPage()
 - *0.8.0*
 - add Delete Task button
 - make Delete Task button work

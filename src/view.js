@@ -290,6 +290,9 @@ const _createProjectElement = (project, isComplete = false) => {
     projectNameElement.classList.add("project-name");
     projectNameElement.textContent = project.name;
     projectNameElement.contentEditable = true;
+    projectNameElement.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+    });
     projectContainer.append(projectNameElement);
     if (!isComplete) {
         if (project.showProgress) {

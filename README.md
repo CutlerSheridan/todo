@@ -3,7 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add button that goes to task details page
+- write function to create Task Form
 
 #### TO-DO LATER
 ##### Features
@@ -16,6 +16,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
+- implement "focusout" eventListener when editing name in a box
+- fix delete buttons maintaining hover behavior on iOS after clicking one
+- add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
 - make header remain in place even when focusing on name change input
@@ -27,11 +30,15 @@ If you need a free place to keep track of your to-do list, look no further.
 - get a + icon for the New Task button so it centers vertically
 - New Item button should not cover delete buttons
 ##### Other
+- isolate checkbox creation and task name/due date creation into their own functions
 - would sortIncompleteTasks etc. work without compareAsc()/compareDesc()?
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.0*
+- isolate _createDeleteTaskBtn() into its own function
+- add button that goes to task details page
 - *0.8.2*
 - change to only have two priorities.  default has nothing special about it, only high priority looks different
 - simplify sortIncompleteTasks()

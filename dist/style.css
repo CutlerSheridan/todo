@@ -110,14 +110,21 @@ input[type="checkbox"]:checked + .task-label::after {
 .past-due {
     color: red;
 }
+.task-form-btn,
 .delete-task-btn {
     width: 2.25rem;
     min-width: 2.25rem;
     height: 2.25rem;
     border: none;
-    background: red;
+    background: black;
     color: white;
     cursor: pointer;
+}
+.task-form-btn:hover {
+    background: grey;
+}
+.delete-task-btn {
+    background: red;
 }
 .delete-task-btn:hover {
     background: darkred;

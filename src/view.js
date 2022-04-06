@@ -1,5 +1,6 @@
 import * as controller from "./controller";
 import * as model from "./model";
+import * as viewTaskForm from "./viewTaskForm";
 import { compareAsc, format, isPast } from "date-fns";
 
 const _contentDiv = document.querySelector(".content");
@@ -117,16 +118,8 @@ const _createTaskElement = (task) => {
         taskInfoContainer.append(_createDueDateElement(task));
     }
     taskContainer.append(taskInfoContainer);
-
-    const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("delete-task-btn");
-    deleteBtn.textContent = "X";
-    deleteBtn.dataset.task = taskIndex;
-    taskContainer.append(deleteBtn);
-    deleteBtn.addEventListener("click", (e) => {
-        _deleteTask(e);
-        _updateTaskList(task.project);
-    });
+    taskContainer.append(_createTaskFormButton(task));
+    // taskContainer.append(_createDeleteTaskBtn(task));
 
     if (task.isHighPriority) {
         taskContainer.classList.add(`priority-high`);
@@ -141,6 +134,30 @@ const _createDueDateElement = (task) => {
         dueDateElement.classList.add("past-due");
     }
     return dueDateElement;
+}
+const _createTaskFormButton = (task) => {
+    const taskFormBtn = document.createElement("button");
+    taskFormBtn.classList.add("task-form-btn");
+    taskFormBtn.textContent = ">";
+    taskFormBtn.dataset.task = model.taskArray.indexOf(task);
+
+    taskFormBtn.addEventListener("click", (e) => {
+        _clearContent(_contentDiv);
+        viewTaskForm.createTaskForm(e);
+    })
+    return taskFormBtn;
+}
+const _createDeleteTaskBtn = (task) => {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-task-btn");
+    deleteBtn.textContent = "X";
+    deleteBtn.dataset.task = model.taskArray.indexOf(task);
+
+    deleteBtn.addEventListener("click", (e) => {
+        _deleteTask(e);
+        _updateTaskList(task.project);
+    });
+    return deleteBtn;
 }
 const _deleteTask = (e) => {
     const taskIndex = e.target.dataset.task;

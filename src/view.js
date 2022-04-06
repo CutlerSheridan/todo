@@ -89,22 +89,10 @@ const _createTaskElement = (task) => {
     taskContainer.classList.add("task-container");
     taskContainer.dataset.task = taskIndex;
 
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.dataset.task = taskIndex;
-    checkbox.id = `task-${taskIndex}`;
+    taskContainer.append(createCheckbox(task));
     if (task.isComplete) {
-        checkbox.checked = true;
         taskContainer.classList.add("complete-task");
     }
-
-    const taskLabel = document.createElement("label");
-    taskLabel.classList.add("task-label");
-    taskLabel.dataset.task = taskIndex;
-    taskLabel.htmlFor = `task-${taskIndex}`;
-    taskLabel.addEventListener("click", _toggleCompleteClass);
-
-    taskContainer.append(checkbox, taskLabel);
 
     const taskInfoContainer = document.createElement("div");
     taskInfoContainer.classList.add("task-info-container");
@@ -125,6 +113,27 @@ const _createTaskElement = (task) => {
         taskContainer.classList.add(`priority-high`);
     }
     return taskContainer;
+}
+const createCheckbox = (task) => {
+    const checkboxContainer = document.createElement("div");
+    checkboxContainer.classList.add("checkbox-container");
+    const taskIndex = model.taskArray.indexOf(task);
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.dataset.task = taskIndex;
+    checkbox.id = `task-${taskIndex}`;
+    checkbox.checked = task.isComplete;
+
+    const taskLabel = document.createElement("label");
+    taskLabel.classList.add("task-label");
+    taskLabel.dataset.task = taskIndex;
+    taskLabel.htmlFor = `task-${taskIndex}`;
+    taskLabel.addEventListener("click", _toggleCompleteClass);
+
+    checkboxContainer.append(checkbox, taskLabel);
+    
+    return checkboxContainer;
 }
 const _createDueDateElement = (task) => {
     const dueDateElement = document.createElement("p");
@@ -147,7 +156,7 @@ const _createTaskFormButton = (task) => {
     })
     return taskFormBtn;
 }
-const _createDeleteTaskBtn = (task) => {
+const _createDeleteTaskBtn = (task, taskIndex) => {
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-task-btn");
     deleteBtn.textContent = "X";
@@ -227,7 +236,9 @@ const _replaceTaskInputWithName = (e, taskInfoContainer, nameInput, taskIndex) =
 const _toggleCompleteClass = (e) => {
     const taskIndex = e.target.dataset.task;
     const taskContainer = document.querySelector(`.task-container[data-task="${taskIndex}"]`);
-    taskContainer.classList.toggle("complete-task");
+    if (taskContainer) {
+        taskContainer.classList.toggle("complete-task");
+    }
     controller.toggleTaskCompletion(model.taskArray[taskIndex]);
 }
 
@@ -386,4 +397,5 @@ export {
     createProjectPage,
     createLogbookPage,
     createAllProjectsPage,
+    createCheckbox,
 }

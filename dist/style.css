@@ -69,13 +69,16 @@ h1 {
 .priority-0 {
     background: olivedrab;
 } */
+.checkbox-container {
+    align-self: flex-start;
+    margin-top: .5rem;
+    display: flex;
+}
 input[type="checkbox"] {
     display: none;
 }
 .task-label {
-    align-self: flex-start;
     position: relative;
-    margin-top: .5rem;
     height: 2rem;
     width: 2rem;
     min-width: 2rem;

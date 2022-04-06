@@ -18,12 +18,14 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Behavior
 - implement "focusout" eventListener when editing name in a box
 - fix delete buttons maintaining hover behavior on iOS after clicking one
+- fix checkboxes maintaining hover after tap
 - add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
 - make header remain in place even when focusing on name change input
 - make it so General is not an option on Projects page
 - should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
+- make it so New Task button doesn't cover buttons on tasks
 ##### Style
 - decide on style
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
@@ -36,6 +38,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.1*
+- isolate createCheckbox()
 - *0.9.0*
 - isolate _createDeleteTaskBtn() into its own function
 - add button that goes to task details page

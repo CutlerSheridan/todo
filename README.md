@@ -30,14 +30,18 @@ If you need a free place to keep track of your to-do list, look no further.
 - decide on style
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 - get a + icon for the New Task button so it centers vertically
+- get > and < icons for buttons
 - New Item button should not cover delete buttons
 ##### Other
-- isolate checkbox creation and task name/due date creation into their own functions
+- isolate task name/due date creation into its own functions
 - would sortIncompleteTasks etc. work without compareAsc()/compareDesc()?
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.2*
+- write _createBackBtn() for Task Form
+- write reusable _createEditBox() function
 - *0.9.1*
 - isolate createCheckbox()
 - *0.9.0*

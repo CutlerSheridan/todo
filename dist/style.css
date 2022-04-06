@@ -19,7 +19,7 @@ body {
 }
 
 /* --- HEADER START --- */
-header {
+header:not(.tf-header) {
     position: sticky;
     padding: 2rem;
     top: 0rem;
@@ -175,6 +175,32 @@ input[type="checkbox"]:checked + .task-label::after {
     background: darkblue;
 }
 /* --- NEW ITEM BUTTON END --- */
+
+/* --- TASK FORM START --- */
+.tf-header {
+    display: flex;
+    align-items: center;
+    /* background: orange; */
+}
+.back-btn {
+    height: 5rem;
+    width: 4rem;
+    min-width: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    background: transparent;
+}
+.tf-header .checkbox-container {
+    align-self: auto;
+    margin: 0 1.5rem;
+}
+.tf-task-name {
+    font-size: 2.5rem;
+    text-decoration: underline;
+}
+/* --- TASK FORM END --- */
 
 /* --- PROJECTS START --- */
 .project-list {

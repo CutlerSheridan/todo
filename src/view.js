@@ -215,6 +215,9 @@ const _replaceTaskNameWithInput = (e) => {
 const _replaceTaskInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
     return function actualFunction(e) {
             if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
+                if (nameInput.textContent === "") {
+                    nameInput.textContent = "New task name?";
+                }
                 model.taskArray[taskIndex].name = nameInput.textContent;
                 const taskNameElement = document.createElement("div");
                 taskNameElement.textContent = nameInput.textContent;

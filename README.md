@@ -42,6 +42,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.10*
+- add notes to task form
+- make edit boxes auto-populate text if null is entered
 - *0.9.9*
 - enable due date picker to pick due dates
 - *0.9.8*

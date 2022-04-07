@@ -23,6 +23,11 @@ const createTaskForm = (e) => {
         "Due date?",
         _createDueDateOptions,
         task
+    ));
+    _contentDiv.append(_createChoiceContainer(
+        "Notes:",
+        _createNotesBox,
+        task
     ))
 }
 
@@ -51,7 +56,11 @@ const _createEditBox = (task, property) => {
     const propEditBox = document.createElement("div");
     propEditBox.contentEditable = true;
     propEditBox.classList.add(`tf-task-${property}`);
-    propEditBox.textContent = task[property];
+    if (task[property]) {
+        propEditBox.textContent = task[property];
+    } else {
+        propEditBox.textContent = `Enter task ${property} here`;
+    }
     propEditBox.dataset.task = model.taskArray.indexOf(task);
     propEditBox.addEventListener("focusin", (e) => {
         _handleEditBoxFocus(e, task, property);
@@ -69,13 +78,17 @@ const _submitTextValue = (e, domElement, task, property) => {
     return function realSubmitTextValueFunction(e) {
         if ((e.type === "click" && e.target !== domElement) || (e.type === "keydown" && e.key === "Enter")) {
             // if (e.type !== "blur") {
-            //     domElement.blur();
+                domElement.blur();
             // }
             controller.changeProperty(task, property, domElement.textContent);
-            domElement.textContent = "success!";
             document.removeEventListener("click", _inputHandler[0]);
             domElement.removeEventListener("keydown", _inputHandler[0]);
             // document.removeEventListener("blur", _inputHandler[0]);
+            if (domElement.textContent === "") {
+                domElement.textContent = `Enter task ${property} here`;
+            }
+        } else if (e.type === "keydown" && domElement.textContent === `Enter task ${property} here`) {
+            domElement.textContent = "";
         }
     }
 }
@@ -163,6 +176,9 @@ const _createDueDatePicker = (task) => {
     picker.addEventListener("change", _changeDueDate);
 
     return picker;
+}
+const _createNotesBox = (task) => {
+    return _createEditBox(task, "notes");
 }
 
 export {

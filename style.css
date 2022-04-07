@@ -215,7 +215,7 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 select {
     padding: 0 .4rem;
-    width: 60%;
+    min-width: 60%;
 }
 /* --- TASK FORM END --- */
 

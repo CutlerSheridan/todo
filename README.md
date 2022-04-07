@@ -39,6 +39,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.4*
+- add changeProperty() to controller
 - *0.9.3*
 - make _createEditBox() handle inputs
 - *0.9.2*

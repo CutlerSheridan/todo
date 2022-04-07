@@ -26,6 +26,9 @@ const addNewProject = (name, showProgress = true) => {
     _addProjectToArray(project);
     return project;
 }
+const changeProperty = (object, property, newValue) => {
+    object[property] = newValue;
+}
 const sortIncompleteTasks = (project) => {
     const sortedArray = model.taskArray
         .filter(task => task.project === project)
@@ -94,6 +97,7 @@ export {
     addNewTask,
     deleteTask,
     addNewProject,
+    changeProperty,
     toggleTaskCompletion,
     sortIncompleteTasks,
     sortCompleteTasks,

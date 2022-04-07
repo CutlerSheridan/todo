@@ -1,5 +1,6 @@
 import * as model from "./model";
 import * as view from "./view";
+import * as controller from "./controller";
 
 const _contentDiv = document.querySelector(".content");
 
@@ -54,7 +55,7 @@ const _submitTextValue = (e, domElement, task, property) => {
             // if (e.type !== "blur") {
             //     domElement.blur();
             // }
-            task[property] = domElement.textContent;
+            controller.changeProperty(task, property, domElement.textContent);
             domElement.textContent = "success!";
             document.removeEventListener("click", _inputHandler[0]);
             domElement.removeEventListener("keydown", _inputHandler[0]);

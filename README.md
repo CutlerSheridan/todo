@@ -3,7 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- write function to create Task Form
+- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm)
 
 #### TO-DO LATER
 ##### Features
@@ -16,7 +16,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
-- implement "focusout" eventListener when editing name in a box
+- fix issue where typing in a task name on a project page then clicking a Task Form arrow will bring up a fucked up combo page
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
 - add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
@@ -39,6 +39,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.3*
+- make _createEditBox() handle inputs
 - *0.9.2*
 - write _createBackBtn() for Task Form
 - write reusable _createEditBox() function

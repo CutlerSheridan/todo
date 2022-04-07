@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm)
 
 #### TO-DO LATER
 ##### Features
@@ -16,9 +15,11 @@ If you need a free place to keep track of your to-do list, look no further.
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
+- make New Task box have translucent placeholder text
 - fix issue where typing in a task name on a project page then clicking a Task Form arrow will bring up a fucked up combo page
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
+- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard
 - add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
@@ -32,6 +33,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - get a + icon for the New Task button so it centers vertically
 - get > and < icons for buttons
 - New Item button should not cover delete buttons
+- adjust for desktop
 ##### Other
 - isolate task name/due date creation into its own functions
 - would sortIncompleteTasks etc. work without compareAsc()/compareDesc()?
@@ -39,6 +41,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.5*
+- add project dropdown to Task Form
+- connect dropdown choice to task's project
 - *0.9.4*
 - add changeProperty() to controller
 - *0.9.3*

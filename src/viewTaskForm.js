@@ -8,6 +8,7 @@ const createTaskForm = (e) => {
     const task = model.taskArray[e.target.dataset.task];
 
     _contentDiv.append(_createHeader(task));
+    _contentDiv.append(_createProjectSelectorContainer(task));
 }
 
 const _createHeader = (task) => {
@@ -62,9 +63,33 @@ const _submitTextValue = (e, domElement, task, property) => {
             // document.removeEventListener("blur", _inputHandler[0]);
         }
     }
-
 }
-
+const _createProjectSelectorContainer = (task) => {
+    const _selectorContainer = document.createElement("div");
+    _selectorContainer.classList.add("project-selector-container");
+    const _selectorLabel = document.createElement("div");
+    _selectorLabel.classList.add("choice-label");
+    _selectorLabel.textContent = "Project:";
+    const _projectDropdown =_createProjectDropdown(task);
+    _selectorContainer.append(_selectorLabel, _projectDropdown);
+    return _selectorContainer;
+}
+const _createProjectDropdown = (task) => {
+    const projectDropdown = document.createElement("select");
+    projectDropdown.dataset.task = model.taskArray.indexOf(task);
+    model.projectArray.forEach(project => {
+        const projectOption = document.createElement("option");
+        projectOption.value = project.name;
+        projectOption.textContent = project.name;
+        projectDropdown.append(projectOption);
+    })
+    projectDropdown.addEventListener("change", (e) => {
+        const proj = model.projectArray.find(project => project.name === e.target.value);
+        const task = model.taskArray[e.target.dataset.task];
+        controller.changeProperty(task, "project", proj);
+    })
+    return projectDropdown;
+}
 export {
     createTaskForm,
 }

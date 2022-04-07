@@ -8,10 +8,16 @@ const createTaskForm = (e) => {
     const task = model.taskArray[e.target.dataset.task];
 
     _contentDiv.append(_createHeader(task));
-    _contentDiv.append(_createProjectSelectorContainer(
+    _contentDiv.append(_createChoiceContainer(
         "Project",
         _createProjectDropdown,
-        task));
+        task
+    ));
+    _contentDiv.append(_createChoiceContainer(
+        "High Priority?",
+        _createPriorityToggle,
+        task
+    ));
 }
 
 const _createHeader = (task) => {
@@ -67,13 +73,13 @@ const _submitTextValue = (e, domElement, task, property) => {
         }
     }
 }
-const _createProjectSelectorContainer = (text, func, task) => {
-    const _selectorContainer = document.createElement("div");
-    _selectorContainer.classList.add("choice-container", "project-selector-container");
-    _selectorContainer.append(
+const _createChoiceContainer = (text, func, task) => {
+    const choiceContainer = document.createElement("div");
+    choiceContainer.classList.add("choice-container");
+    choiceContainer.append(
         _createChoiceLabel(text),
         func(task));
-    return _selectorContainer;
+    return choiceContainer;
 }
 const _createChoiceLabel = (text) => {
     const choiceLabel = document.createElement("div");
@@ -90,15 +96,35 @@ const _createProjectDropdown = (task) => {
         projectOption.textContent = project.name;
         projectDropdown.append(projectOption);
     })
+    const proj = task.project;
+    projectDropdown.value = proj.name;
     projectDropdown.addEventListener("change", (e) => {
-        const proj = model.projectArray.find(project => project.name === e.target.value);
+        const newProj = model.projectArray.find(project => project.name === e.target.value);
         const task = model.taskArray[e.target.dataset.task];
-        controller.changeProperty(task, "project", proj);
+        controller.changeProperty(task, "project", newProj);
     })
     return projectDropdown;
 }
-const _createPriorityContainer = (task) => {
-    const x = 1;
+const _createPriorityToggle = (task) => {
+    // const priorityCheckbox = document.createElement("input");
+    // priorityCheckbox.classList.add("priority-checkbox");
+    // priorityCheckbox.type = "checkbox";
+    // priorityCheckbox.checked = task.isHighPriority;
+    // priorityCheckbox.dataset.task = model.taskArray.indexOf(task);
+    // priorityCheckbox.addEventListener("change", (e) => {
+    //     const task = model.taskArray[e.target.dataset.task];
+    //     controller.changeProperty(task, "isHighPriority", !task.isHighPriority);
+    // })
+    const _togglePriority = (e) => {
+        const task = model.taskArray[e.target.dataset.task];
+        controller.changeProperty(task, "isHighPriority", !task.isHighPriority);
+        console.log(task.isComplete);
+    }
+    const checkboxContainer = view.createCheckbox(task, task.isHighPriority, _togglePriority);
+    return checkboxContainer;
+}
+const _createDueDatePicker = (task) => {
+
 }
 
 export {

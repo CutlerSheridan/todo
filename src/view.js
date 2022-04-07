@@ -114,7 +114,7 @@ const _createTaskElement = (task) => {
     }
     return taskContainer;
 }
-const createCheckbox = (task) => {
+const createCheckbox = (task, isChecked = task.isComplete, func = _toggleCompleteClass) => {
     const checkboxContainer = document.createElement("div");
     checkboxContainer.classList.add("checkbox-container");
     const taskIndex = model.taskArray.indexOf(task);
@@ -122,14 +122,15 @@ const createCheckbox = (task) => {
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.dataset.task = taskIndex;
-    checkbox.id = `task-${taskIndex}`;
-    checkbox.checked = task.isComplete;
+    checkbox.checked = isChecked;
+    const checkboxNum = document.querySelectorAll("input[type='checkbox']").length;
+    checkbox.id = `checkbox-${checkboxNum}`;
 
     const taskLabel = document.createElement("label");
     taskLabel.classList.add("task-label");
     taskLabel.dataset.task = taskIndex;
-    taskLabel.htmlFor = `task-${taskIndex}`;
-    taskLabel.addEventListener("click", _toggleCompleteClass);
+    taskLabel.htmlFor = `checkbox-${checkboxNum}`;
+    taskLabel.addEventListener("click", func);
 
     checkboxContainer.append(checkbox, taskLabel);
     

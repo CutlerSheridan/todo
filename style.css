@@ -205,13 +205,15 @@ input[type="checkbox"]:checked + .task-label::after {
     font-size: 2.5rem;
     text-decoration: underline;
 }
-.project-selector-container {
+.choice-label {
+    margin-right: 1.3rem;
+}
+.choice-container {
     margin: 2rem;
     display: flex;
     align-items: center;
 }
 select {
-    margin-left: 1.3rem;
     padding: 0 .4rem;
     width: 60%;
 }

@@ -1,6 +1,7 @@
 import * as model from "./model";
 import * as view from "./view";
 import * as controller from "./controller";
+import { format } from "date-fns";
 
 const _contentDiv = document.querySelector(".content");
 
@@ -14,10 +15,15 @@ const createTaskForm = (e) => {
         task
     ));
     _contentDiv.append(_createChoiceContainer(
-        "High Priority?",
+        "High priority?",
         _createPriorityToggle,
         task
     ));
+    _contentDiv.append(_createChoiceContainer(
+        "Due date?",
+        _createDueDateOptions,
+        task
+    ))
 }
 
 const _createHeader = (task) => {
@@ -106,15 +112,6 @@ const _createProjectDropdown = (task) => {
     return projectDropdown;
 }
 const _createPriorityToggle = (task) => {
-    // const priorityCheckbox = document.createElement("input");
-    // priorityCheckbox.classList.add("priority-checkbox");
-    // priorityCheckbox.type = "checkbox";
-    // priorityCheckbox.checked = task.isHighPriority;
-    // priorityCheckbox.dataset.task = model.taskArray.indexOf(task);
-    // priorityCheckbox.addEventListener("change", (e) => {
-    //     const task = model.taskArray[e.target.dataset.task];
-    //     controller.changeProperty(task, "isHighPriority", !task.isHighPriority);
-    // })
     const _togglePriority = (e) => {
         const task = model.taskArray[e.target.dataset.task];
         controller.changeProperty(task, "isHighPriority", !task.isHighPriority);
@@ -123,8 +120,45 @@ const _createPriorityToggle = (task) => {
     const checkboxContainer = view.createCheckbox(task, task.isHighPriority, _togglePriority);
     return checkboxContainer;
 }
+const _createDueDateOptions = (task) => {
+    const dueDateOptionsContainer = document.createElement("div");
+    dueDateOptionsContainer.classList.add("tf-due-date-container");
+    const picker = _createDueDatePicker(task);
+    const toggle = _createDueDateToggle(task);
+    
+    dueDateOptionsContainer.append(toggle, picker);
+    return dueDateOptionsContainer;
+}
+const _createDueDateToggle = (task) => {
+    const _toggleDueDate = (e) => {
+        const task = model.taskArray[e.target.dataset.task];
+        const picker = document.querySelector("input[type='date']");
+        if (task.dueDate) {
+            console.log(picker.value);
+            console.log(task.dueDate);
+            controller.changeProperty(task, "dueDate", null);
+            picker.disabled = true;
+        } else {
+            const yearMonthDay = picker.value.split("-");
+            controller.changeProperty(task, "dueDate", new Date(yearMonthDay[0], yearMonthDay[1] - 1, yearMonthDay[2]));
+            picker.disabled = false;
+        }
+    }
+    const checkboxContainer = view.createCheckbox(task, task.dueDate, _toggleDueDate);
+    return checkboxContainer;
+}
 const _createDueDatePicker = (task) => {
+    const picker = document.createElement("input");
+    picker.type = "date";
+    if (task.dueDate) {
+        picker.value = format(task.dueDate, "yyyy-MM-dd");
+        console.log(format(task.dueDate, "yyyy-MM-dd"));
+    } else {
+        picker.value = format(new Date(), "yyyy-MM-dd");
+        picker.disabled = true;
+    }
 
+    return picker;
 }
 
 export {

@@ -41,6 +41,12 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.8*
+- create Due Date option
+- create Due Date picker
+- make picker display due date or current date upon load
+- make picker disable upon toggling
+- make picker apply or remove current dueDate property from task upon toggling
 - *0.9.7*
 - fix _createProjectDropdown() so the task's current project is selected to begin with
 - create "high priority" choice

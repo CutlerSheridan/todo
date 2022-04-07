@@ -217,6 +217,10 @@ select {
     padding: 0 .4rem;
     min-width: 60%;
 }
+.tf-due-date-container {
+    display: flex;
+    align-items: center;
+}
 /* --- TASK FORM END --- */
 
 /* --- PROJECTS START --- */

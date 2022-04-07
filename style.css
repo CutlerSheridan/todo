@@ -9,6 +9,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: inherit;
+    font-size: 2rem;
 }
 body {
     width: 100%;
@@ -118,6 +119,9 @@ input[type="checkbox"]:checked + .task-label::after {
     width: 2.25rem;
     min-width: 2.25rem;
     height: 2.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     background: black;
     color: white;
@@ -191,6 +195,7 @@ input[type="checkbox"]:checked + .task-label::after {
     align-items: center;
     font-size: 4rem;
     background: transparent;
+    cursor: pointer;
 }
 .tf-header .checkbox-container {
     align-self: auto;
@@ -199,6 +204,16 @@ input[type="checkbox"]:checked + .task-label::after {
 .tf-task-name {
     font-size: 2.5rem;
     text-decoration: underline;
+}
+.project-selector-container {
+    margin: 2rem;
+    display: flex;
+    align-items: center;
+}
+select {
+    margin-left: 1.3rem;
+    padding: 0 .4rem;
+    width: 60%;
 }
 /* --- TASK FORM END --- */
 

@@ -15,6 +15,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
+- make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
 - fix issue where typing in a task name on a project page then clicking a Task Form arrow will bring up a fucked up combo page
 - fix delete buttons maintaining hover behavior on iOS after clicking one
@@ -41,6 +42,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.9*
+- enable due date picker to pick due dates
 - *0.9.8*
 - create Due Date option
 - create Due Date picker

@@ -124,32 +124,29 @@ const _createDueDateOptions = (task) => {
     const dueDateOptionsContainer = document.createElement("div");
     dueDateOptionsContainer.classList.add("tf-due-date-container");
     const picker = _createDueDatePicker(task);
-    const toggle = _createDueDateToggle(task);
-    
+    const toggle = view.createCheckbox(task, task.dueDate, _toggleDueDate);
+
     dueDateOptionsContainer.append(toggle, picker);
     return dueDateOptionsContainer;
 }
-const _createDueDateToggle = (task) => {
-    const _toggleDueDate = (e) => {
-        const task = model.taskArray[e.target.dataset.task];
-        const picker = document.querySelector("input[type='date']");
-        if (task.dueDate) {
-            console.log(picker.value);
-            console.log(task.dueDate);
-            controller.changeProperty(task, "dueDate", null);
-            picker.disabled = true;
-        } else {
-            const yearMonthDay = picker.value.split("-");
-            controller.changeProperty(task, "dueDate", new Date(yearMonthDay[0], yearMonthDay[1] - 1, yearMonthDay[2]));
-            picker.disabled = false;
-        }
+const _toggleDueDate = (e) => {
+    const task = model.taskArray[e.target.dataset.task];
+    const picker = document.querySelector("input[type='date']");
+    if (task.dueDate) {
+        console.log(picker.value);
+        console.log(task.dueDate);
+        controller.changeProperty(task, "dueDate", null);
+        picker.disabled = true;
+    } else {
+        const yearMonthDay = picker.value.split("-");
+        controller.changeProperty(task, "dueDate", new Date(yearMonthDay[0], yearMonthDay[1] - 1, yearMonthDay[2]));
+        picker.disabled = false;
     }
-    const checkboxContainer = view.createCheckbox(task, task.dueDate, _toggleDueDate);
-    return checkboxContainer;
 }
 const _createDueDatePicker = (task) => {
     const picker = document.createElement("input");
     picker.type = "date";
+    picker.dataset.task = model.taskArray.indexOf(task);
     if (task.dueDate) {
         picker.value = format(task.dueDate, "yyyy-MM-dd");
         console.log(format(task.dueDate, "yyyy-MM-dd"));
@@ -157,6 +154,13 @@ const _createDueDatePicker = (task) => {
         picker.value = format(new Date(), "yyyy-MM-dd");
         picker.disabled = true;
     }
+       
+    const _changeDueDate = (e) => {
+        const task = model.taskArray[e.target.dataset.task];
+        const yearMonthDay = picker.value.split("-");
+        controller.changeProperty(task, "dueDate", new Date(yearMonthDay[0], yearMonthDay[1] - 1, yearMonthDay[2]));
+    }
+    picker.addEventListener("change", _changeDueDate);
 
     return picker;
 }

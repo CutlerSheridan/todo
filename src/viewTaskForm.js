@@ -8,7 +8,10 @@ const createTaskForm = (e) => {
     const task = model.taskArray[e.target.dataset.task];
 
     _contentDiv.append(_createHeader(task));
-    _contentDiv.append(_createProjectSelectorContainer(task));
+    _contentDiv.append(_createProjectSelectorContainer(
+        "Project",
+        _createProjectDropdown,
+        task));
 }
 
 const _createHeader = (task) => {
@@ -64,15 +67,19 @@ const _submitTextValue = (e, domElement, task, property) => {
         }
     }
 }
-const _createProjectSelectorContainer = (task) => {
+const _createProjectSelectorContainer = (text, func, task) => {
     const _selectorContainer = document.createElement("div");
-    _selectorContainer.classList.add("project-selector-container");
-    const _selectorLabel = document.createElement("div");
-    _selectorLabel.classList.add("choice-label");
-    _selectorLabel.textContent = "Project:";
-    const _projectDropdown =_createProjectDropdown(task);
-    _selectorContainer.append(_selectorLabel, _projectDropdown);
+    _selectorContainer.classList.add("choice-container", "project-selector-container");
+    _selectorContainer.append(
+        _createChoiceLabel(text),
+        func(task));
     return _selectorContainer;
+}
+const _createChoiceLabel = (text) => {
+    const choiceLabel = document.createElement("div");
+    choiceLabel.classList.add("choice-label");
+    choiceLabel.textContent = text;
+    return choiceLabel;
 }
 const _createProjectDropdown = (task) => {
     const projectDropdown = document.createElement("select");
@@ -90,6 +97,10 @@ const _createProjectDropdown = (task) => {
     })
     return projectDropdown;
 }
+const _createPriorityContainer = (task) => {
+    const x = 1;
+}
+
 export {
     createTaskForm,
 }

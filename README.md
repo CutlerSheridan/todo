@@ -19,7 +19,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - fix issue where typing in a task name on a project page then clicking a Task Form arrow will bring up a fucked up combo page
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
-- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard
+- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name
 - add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized
@@ -41,6 +41,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.6*
+- isolate _createChoiceLabel() for reuse
+- change _createProjectSelectorContainer() to _createChoiceContainer() and pass a function as argument
 - *0.9.5*
 - add project dropdown to Task Form
 - connect dropdown choice to task's project

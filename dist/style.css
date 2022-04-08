@@ -130,6 +130,9 @@ input[type="checkbox"]:checked + .task-label::after {
 .task-form-btn:hover {
     background: grey;
 }
+.complete-task .task-form-btn {
+    background: grey;
+}
 .delete-task-btn {
     background: red;
 }
@@ -220,6 +223,16 @@ select {
 .tf-due-date-container {
     display: flex;
     align-items: center;
+}
+.completion-date {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+    color: grey;
+    font-style: italic;
+}
+.invisible {
+    display: none;
 }
 /* --- TASK FORM END --- */
 

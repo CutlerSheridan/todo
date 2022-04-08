@@ -17,13 +17,10 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Behavior
 - make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
-- fix issue where typing in a task name on a project page then clicking a Task Form arrow will bring up a fucked up combo page
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
 - implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name
 - add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
-- should tasks get auto-added to taskArray?
-- fix footer so it isn't too high if you switch to a page while the address bar is minimized
 - make header remain in place even when focusing on name change input
 - make it so General is not an option on Projects page
 - should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
@@ -38,10 +35,18 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Other
 - isolate task name/due date creation into its own functions
 - would sortIncompleteTasks etc. work without compareAsc()/compareDesc()?
+- should tasks get auto-added to taskArray?
+- fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.11*
+- make completed tasks' Task Form button grey
+- add Date Completed line to Task Form
+- make Date Completed line toggle visibility and update upon clicking Task Completed checkbox
+- whoa fix checkboxes fucking up the first time you check or uncheck them upon page load before a refresh
+- fix issue where typing in a task name on a project page then clicking a Task Form arrow will bring up a fucked up combo page (just added setTimeout of 10ms to Task Form so it triggers after text submission)
 - *0.9.10*
 - add notes to task form
 - make edit boxes auto-populate text if null is entered

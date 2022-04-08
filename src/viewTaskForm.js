@@ -6,6 +6,7 @@ import { format } from "date-fns";
 const _contentDiv = document.querySelector(".content");
 
 const createTaskForm = (e) => {
+    view.clearContent();
     const task = model.taskArray[e.target.dataset.task];
 
     _contentDiv.append(_createHeader(task));
@@ -29,6 +30,7 @@ const createTaskForm = (e) => {
         _createNotesBox,
         task
     ))
+    _contentDiv.append(_createDateCompleted(task));
 }
 
 const _createHeader = (task) => {
@@ -179,6 +181,21 @@ const _createDueDatePicker = (task) => {
 }
 const _createNotesBox = (task) => {
     return _createEditBox(task, "notes");
+}
+const _createDateCompleted = (task) => {
+    const completionStamp = document.createElement("div");
+    completionStamp.classList.add("completion-date");
+    if (task.completionDateTime) {
+        completionStamp.textContent = `Completed on ${format(task.completionDateTime, "MMMM do, yyyy")}`;
+    } else {
+        completionStamp.classList.add("invisible");
+    }
+    const taskCheckbox = document.querySelector("#checkbox-0");
+    taskCheckbox.addEventListener("change", (e) => {
+        completionStamp.textContent = `Completed on ${format(new Date(), "MMMM do, yyyy")}`;
+        completionStamp.classList.toggle("invisible");
+    })
+    return completionStamp;
 }
 
 export {

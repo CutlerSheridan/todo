@@ -13,19 +13,19 @@ const createProjectPage = (e) => {
     } else {
         project = model.projectArray[0];
     }
-    _clearContent(_contentDiv);
+    clearContent();
     _createHeader(project);
     _updateTaskList(project);
     _createNewItemButton(project);
 }
 const createAllProjectsPage = () => {
-    _clearContent(_contentDiv);
+    clearContent();
     _createHeader("allProjects");
     _updateProjectList();
     _createNewItemButton("allProjects");
 }
 const createLogbookPage = () => {
-    _clearContent(_contentDiv);
+    clearContent();
     _createHeader("logbook");
     _updateTaskList("logbook");
 }
@@ -61,7 +61,7 @@ const _createRefreshTasksButton = (project, containingElement) => {
 const _updateTaskList = (project) => {
     let taskListDiv = document.querySelector(".task-list-container");
     if (taskListDiv) {
-        _clearContent(taskListDiv);
+        clearContent(taskListDiv);
     } else {
         taskListDiv = document.createElement("section");
         taskListDiv.classList.add("task-list-container");
@@ -114,6 +114,7 @@ const _createTaskElement = (task) => {
     }
     return taskContainer;
 }
+let _numOfCheckboxes = 0;
 const createCheckbox = (task, isChecked = task.isComplete, func = _toggleCompleteClass) => {
     const checkboxContainer = document.createElement("div");
     checkboxContainer.classList.add("checkbox-container");
@@ -123,17 +124,19 @@ const createCheckbox = (task, isChecked = task.isComplete, func = _toggleComplet
     checkbox.type = "checkbox";
     checkbox.dataset.task = taskIndex;
     checkbox.checked = isChecked;
-    const checkboxNum = document.querySelectorAll("input[type='checkbox']").length;
-    checkbox.id = `checkbox-${checkboxNum}`;
+
+    console.log(task.name);
+    console.log(_numOfCheckboxes);
+    checkbox.id = `checkbox-${_numOfCheckboxes}`;
 
     const taskLabel = document.createElement("label");
     taskLabel.classList.add("task-label");
     taskLabel.dataset.task = taskIndex;
-    taskLabel.htmlFor = `checkbox-${checkboxNum}`;
+    taskLabel.htmlFor = `checkbox-${_numOfCheckboxes}`;
     taskLabel.addEventListener("click", func);
 
     checkboxContainer.append(checkbox, taskLabel);
-    
+    _numOfCheckboxes++;
     return checkboxContainer;
 }
 const _createDueDateElement = (task) => {
@@ -152,8 +155,7 @@ const _createTaskFormButton = (task) => {
     taskFormBtn.dataset.task = model.taskArray.indexOf(task);
 
     taskFormBtn.addEventListener("click", (e) => {
-        _clearContent(_contentDiv);
-        viewTaskForm.createTaskForm(e);
+        setTimeout(() => {viewTaskForm.createTaskForm(e)}, 10);
     })
     return taskFormBtn;
 }
@@ -296,7 +298,7 @@ const _insertNewItemInput = (e, project) => {
 const _updateProjectList = () => {
     let projectListDiv = document.querySelector(".project-list-container");
     if (projectListDiv) {
-        _clearContent(projectListDiv);
+        clearContent(projectListDiv);
     } else {
         projectListDiv = document.createElement("section");
         projectListDiv.classList.add("project-list-container");
@@ -391,10 +393,11 @@ const _replaceProjectInputWithName = (e, nameInput, projectIndex) => {
 }
 // ALL PROJECTS PAGE END
 
-const _clearContent = (node) => {
+const clearContent = (node = _contentDiv) => {
     const contentContainer = document.createRange(node);
     contentContainer.selectNodeContents(node);
     contentContainer.deleteContents();
+    _numOfCheckboxes = 0;
 }
 
 export {
@@ -402,4 +405,5 @@ export {
     createLogbookPage,
     createAllProjectsPage,
     createCheckbox,
+    clearContent,
 }

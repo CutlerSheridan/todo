@@ -31,6 +31,8 @@ const createTaskForm = (e) => {
         task
     ))
     _contentDiv.append(_createDateCompleted(task));
+    const allCheckboxes = document.querySelectorAll(".checkbox-container");
+    allCheckboxes.forEach(checkbox => checkbox.classList.add("tf-checkbox-container"));
 }
 
 const _createHeader = (task) => {

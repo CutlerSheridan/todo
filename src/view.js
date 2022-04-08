@@ -4,6 +4,8 @@ import * as viewTaskForm from "./viewTaskForm";
 import { compareAsc, format, isPast } from "date-fns";
 
 const _contentDiv = document.querySelector(".content");
+let _numOfCheckboxes = 0;
+let deleteBtnsAreShowing = false;
 
 const createProjectPage = (e) => {
     let project;
@@ -49,7 +51,8 @@ const _createHeader = (project) => {
     })();
     headerContainer.append(heading);
     if (project !== "allProjects") {
-        _createRefreshTasksButton(project, headerContainer);
+        headerContainer.append(_createRefreshTasksButton(project));
+        headerContainer.append(_createDeleteToggle());
     }
     _contentDiv.append(headerContainer);
 }
@@ -74,16 +77,40 @@ const createBackBtn = (project) => {
     });
     return backBtn;
 }
-const _createRefreshTasksButton = (project, containingElement) => {
+const _createRefreshTasksButton = (project) => {
     const refreshTasks = document.createElement("button");
     refreshTasks.textContent = "Refresh";
     refreshTasks.classList.add("refresh");
-    containingElement.append(refreshTasks);
     refreshTasks.addEventListener("click", () => {
         _updateTaskList(project);
     });
+    return refreshTasks;
 }
-const _updateTaskList = (project) => {
+const _createDeleteToggle = () => {
+    const deleteToggle = document.createElement("button");
+    deleteToggle.classList.add("delete-toggle");
+    deleteToggle.textContent = "X";
+    deleteToggle.dataset.isInactive = 1;
+
+    deleteToggle.addEventListener("click", _toggleDeleteBtns)
+    return deleteToggle;
+}
+const _toggleDeleteBtns = (e) => {
+    let isInactive = e.target.dataset.isInactive;
+    deleteBtnsAreShowing = !deleteBtnsAreShowing;
+    isInactive *= -1;
+    if (isInactive > 0) {
+        e.target.textContent = "X";
+    } else {
+        e.target.textContent = "—";
+    }
+    e.target.dataset.isInactive = isInactive;
+    const taskFormBtns = document.querySelectorAll(".task-form-btn");
+    const deleteBtns = document.querySelectorAll(".delete-task-btn");
+    taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
+    deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
+}
+const _updateTaskList = (project, deleteButtonsAreOn = false) => {
     let taskListDiv = document.querySelector(".task-list-container");
     if (taskListDiv) {
         clearContent(taskListDiv);
@@ -102,6 +129,7 @@ const _updateTaskList = (project) => {
     completeTasks.classList.add("task-list", "complete-task-list");
     taskListDiv.append(completeTasks);
     controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
+    taskListDiv.append(_createEmptySpaceForBottomOfPage());
 
     _contentDiv.append(taskListDiv);
 
@@ -132,14 +160,13 @@ const _createTaskElement = (task) => {
     }
     taskContainer.append(taskInfoContainer);
     taskContainer.append(_createTaskFormButton(task));
-    // taskContainer.append(_createDeleteTaskBtn(task));
+    taskContainer.append(_createDeleteTaskBtn(task));
 
     if (task.isHighPriority) {
         taskContainer.classList.add(`priority-high`);
     }
     return taskContainer;
 }
-let _numOfCheckboxes = 0;
 const createCheckbox = (task, isChecked = task.isComplete, func = _toggleCompleteClass) => {
     const checkboxContainer = document.createElement("div");
     checkboxContainer.classList.add("checkbox-container");
@@ -173,6 +200,9 @@ const _createDueDateElement = (task) => {
 const _createTaskFormButton = (task) => {
     const taskFormBtn = document.createElement("button");
     taskFormBtn.classList.add("task-form-btn");
+    if (deleteBtnsAreShowing) {
+        taskFormBtn.classList.add("invisible");
+    }
     taskFormBtn.textContent = ">";
     taskFormBtn.dataset.task = model.taskArray.indexOf(task);
 
@@ -184,6 +214,9 @@ const _createTaskFormButton = (task) => {
 const _createDeleteTaskBtn = (task, taskIndex) => {
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-task-btn");
+    if (!deleteBtnsAreShowing) {
+        deleteBtn.classList.add("invisible");
+    }
     deleteBtn.textContent = "X";
     deleteBtn.dataset.task = model.taskArray.indexOf(task);
 
@@ -315,6 +348,11 @@ const _insertNewItemInput = (e, project) => {
                 document.addEventListener("keydown", _inputFunctionHandlers[1]);
             }, 10)
         }
+}
+const _createEmptySpaceForBottomOfPage = () => {
+    const space = document.createElement("div");
+    space.classList.add("empty-space");
+    return space;
 }
 // ALL PROJECTS PAGE START
 const _updateProjectList = () => {

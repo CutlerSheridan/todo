@@ -3,11 +3,9 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
-
+- add sort button that each project remembers
 #### TO-DO LATER
 ##### Features
-- add lastEdited property to project objects and, by default, sort projects page accordingly
 - add options button for project pages
 - add options button for Projects page
 - add "delete all" button
@@ -16,17 +14,17 @@ If you need a free place to keep track of your to-do list, look no further.
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
+- add lastEdited property to project objects and, by default, sort projects page accordingly
 - make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
 - implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name
-- make header remain in place even when focusing on name change input
 - make it so General is not an option on Projects page
 - should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
-- make it so New Task button doesn't cover buttons on tasks
 ##### Style
 - decide on style
+- make footer tabs highlight active one
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 - get a + icon for the New Task button so it centers vertically
 - get > and < icons for buttons
@@ -39,8 +37,15 @@ If you need a free place to keep track of your to-do list, look no further.
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
+- make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.0*
+- add button up top that makes delete buttons appear!  They swap with Task Form buttons
+- isolate Task Form checkboxes for styling
+- make it so New Task button doesn't cover buttons on tasks
+- fix empty space so it doesn't shift to top of task list upon task deletion
+- add global variable to track if delete buttons should be displayed or not
 - *0.9.12*
 - move createBackBtn() to view.js for reuse
 - add back button to project pages

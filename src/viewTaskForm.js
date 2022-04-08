@@ -37,22 +37,12 @@ const _createHeader = (task) => {
     const header = document.createElement("header");
     header.classList.add("tf-header");
 
-    header.append(_createBackBtn(task));
+    header.append(view.createBackBtn(task.project));
     header.append(view.createCheckbox(task));
     const _taskName = _createEditBox(task, "name");
     header.append(_taskName);
 
     return header;
-}
-const _createBackBtn = (task) => {
-    const backBtn = document.createElement("button");
-    backBtn.classList.add("back-btn");
-    backBtn.dataset.project = model.projectArray.indexOf(task.project);
-    backBtn.textContent = "<";
-    backBtn.addEventListener("click", (e) => {
-        view.createProjectPage(e);
-    });
-    return backBtn;
 }
 const _createEditBox = (task, property) => {
     const propEditBox = document.createElement("div");

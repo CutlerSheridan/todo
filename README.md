@@ -3,6 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
+- add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
 
 #### TO-DO LATER
 ##### Features
@@ -20,7 +21,6 @@ If you need a free place to keep track of your to-do list, look no further.
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
 - implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name
-- add button up top that makes delete buttons appear!  maybe even replace "details" buttons?
 - make header remain in place even when focusing on name change input
 - make it so General is not an option on Projects page
 - should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
@@ -41,6 +41,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - write a function to make adding testing projects and tasks faster
 
 #### DONE
+- *0.9.12*
+- move createBackBtn() to view.js for reuse
+- add back button to project pages
 - *0.9.11*
 - make completed tasks' Task Form button grey
 - add Date Completed line to Task Form

@@ -32,6 +32,10 @@ const createLogbookPage = () => {
 
 const _createHeader = (project) => {
     const headerContainer = document.createElement("header");
+    if (typeof(project) !== "string"
+        && project !== model.projectArray[0]) {
+            headerContainer.append(createBackBtn("allProjects"));
+    }
     const heading = document.createElement("h1");
     heading.textContent = (() => {
         switch (project) {
@@ -48,6 +52,27 @@ const _createHeader = (project) => {
         _createRefreshTasksButton(project, headerContainer);
     }
     _contentDiv.append(headerContainer);
+}
+const createBackBtn = (project) => {
+    const backBtn = document.createElement("button");
+    backBtn.classList.add("back-btn");
+    backBtn.textContent = "<";
+    if (typeof(project) === "object") {
+        backBtn.dataset.project = model.projectArray.indexOf(project);
+    } else {
+        backBtn.dataset.project = "allProjects";
+    }
+    console.log(`project: ${project}`);
+    console.log(`backBtn.dataset.project: ${backBtn.dataset.project}`);
+    backBtn.addEventListener("click", (e) => {
+        console.log(`e.target.dataset.project: ${e.target.dataset.project}`);
+        if (e.target.dataset.project !== "allProjects") {
+            createProjectPage(e);
+        } else {
+            createAllProjectsPage();
+        }
+    });
+    return backBtn;
 }
 const _createRefreshTasksButton = (project, containingElement) => {
     const refreshTasks = document.createElement("button");
@@ -124,9 +149,6 @@ const createCheckbox = (task, isChecked = task.isComplete, func = _toggleComplet
     checkbox.type = "checkbox";
     checkbox.dataset.task = taskIndex;
     checkbox.checked = isChecked;
-
-    console.log(task.name);
-    console.log(_numOfCheckboxes);
     checkbox.id = `checkbox-${_numOfCheckboxes}`;
 
     const taskLabel = document.createElement("label");
@@ -402,6 +424,7 @@ const clearContent = (node = _contentDiv) => {
 
 export {
     createProjectPage,
+    createBackBtn,
     createLogbookPage,
     createAllProjectsPage,
     createCheckbox,

@@ -12,6 +12,11 @@ const createProjectPage = (e) => {
     if (e) {
         const clickedElement = e.currentTarget;
         project = model.projectArray[clickedElement.dataset.project];
+        
+        const header = document.querySelector("h1");
+        if (header && header.textContent.toLowerCase() !== project.name) {
+            deleteBtnsAreShowing = false;
+        }
     } else {
         project = model.projectArray[0];
     }
@@ -27,6 +32,10 @@ const createAllProjectsPage = () => {
     _createNewItemButton("allProjects");
 }
 const createLogbookPage = () => {
+    const header = document.querySelector("h1");
+    if (header.textContent.toLowerCase() !== "logbook") {
+        deleteBtnsAreShowing = false;
+    }
     clearContent();
     _createHeader("logbook");
     _updateTaskList("logbook");
@@ -120,8 +129,14 @@ const _createRefreshTasksButton = (project) => {
 const _createDeleteToggle = () => {
     const deleteToggle = document.createElement("button");
     deleteToggle.classList.add("delete-toggle");
-    deleteToggle.textContent = "X";
-    deleteToggle.dataset.isInactive = 1;
+    if (deleteBtnsAreShowing) {
+        deleteToggle.textContent = "—";
+        deleteToggle.dataset.isInactive = -1;
+
+    } else {
+        deleteToggle.textContent = "X";
+        deleteToggle.dataset.isInactive = 1;
+    }
 
     deleteToggle.addEventListener("click", _toggleDeleteBtns)
     return deleteToggle;

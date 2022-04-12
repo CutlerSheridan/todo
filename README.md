@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- get delete button to revert when the page changes
 - make sort button only appear if there are incomplete tasks in a project
 #### TO-DO LATER
 ##### Features
@@ -42,6 +41,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.6*
+- get delete button to revert when the page changes
+- fix delete button so it switches textContent the way it should
 - *0.10.5*
 - get delete buttons working correctly on logbook
 - make those methods use in/completeTasks properties instead of sort____.length

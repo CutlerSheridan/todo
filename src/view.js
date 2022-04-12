@@ -121,8 +121,14 @@ const _createRefreshTasksButton = (project) => {
     const refreshTasks = document.createElement("button");
     refreshTasks.textContent = "Refresh";
     refreshTasks.classList.add("refresh");
-    refreshTasks.addEventListener("click", () => {
-        _updateTaskList(project);
+    refreshTasks.dataset.project = model.projectArray.indexOf(project);
+
+    refreshTasks.addEventListener("click", (e) => {
+        if (project !== "logbook") {
+            createProjectPage(e);
+        } else {
+            createLogbookPage();
+        }
     });
     return refreshTasks;
 }

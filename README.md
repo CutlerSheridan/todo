@@ -41,6 +41,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.7*
+- fix refresh button to work in logbook
 - *0.10.6*
 - get delete button to revert when the page changes
 - fix delete button so it switches textContent the way it should

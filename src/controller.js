@@ -9,9 +9,12 @@ const _addTaskToArray = (task) => {
 const addNewTask = (name, project = model.projectArray[0]) => {
     const task = _createTask(name, project);
     _addTaskToArray(task);
+    _addTaskToProject(task);
     return task;
 }
 const deleteTask = (taskIndex) => {
+    const task = model.taskArray[taskIndex];
+    _subtractTaskFromProject(task);
     model.taskArray.splice(taskIndex, 1);
 }
 const _createProject = (name, showProgress) => {
@@ -26,7 +29,37 @@ const addNewProject = (name, showProgress = true) => {
     return project;
 }
 const changeProperty = (object, property, newValue) => {
+    if (property === "project") {
+        _subtractTaskFromProject(object);
+    }
     object[property] = newValue;
+    if (property === "project") {
+        _addTaskToProject(object);
+    }
+}
+const _addTaskToProject = (task) => {
+    if (task.isComplete) {
+        task.project.completeTasks++;
+    } else {
+        task.project.incompleteTasks++;
+    }
+    console.log(task.project.name);
+    console.log("incomplete:");
+    console.log(task.project.incompleteTasks);
+    console.log("complete:");
+    console.log(task.project.completeTasks);
+}
+const _subtractTaskFromProject = (task) => {
+    if (task.isComplete) {
+        task.project.completeTasks--;
+    } else {
+        task.project.incompleteTasks--;
+    }
+    console.log(task.project.name);
+    console.log("incomplete:");
+    console.log(task.project.incompleteTasks);
+    console.log("complete:");
+    console.log(task.project.completeTasks);
 }
 const sortIncompleteTasks = (project) => {
     const sortedArray = model.taskArray
@@ -107,7 +140,10 @@ const sortCompleteProjects = () => {
     return sortedProjects;
 }
 const toggleTaskCompletion = (task) => {
+    _subtractTaskFromProject(task);
     task.isComplete = !task.isComplete;
+    _addTaskToProject(task);
+    
     if (task.isComplete) {
         task.completionDateTime = new Date();
     } else {
@@ -117,7 +153,7 @@ const toggleTaskCompletion = (task) => {
 
 const addTasksToProject = (project, ...tasks) => {
     for (let i = 0; i < tasks.length; i++) {
-        tasks[i].project = project;
+        changeProperty(tasks[i], "project", project);
     }
 }
 

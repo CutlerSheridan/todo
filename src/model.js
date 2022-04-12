@@ -30,11 +30,15 @@ const Task = (name, project) => {
 const Project = (name, showProgress = true) => {
     let timeCreated = new Date();
     let sortMethod = sortMethods[0];
+    let incompleteTasks = 0;
+    let completeTasks = 0;
     return { 
         name,
         showProgress,
         timeCreated,
         sortMethod,
+        incompleteTasks,
+        completeTasks,
     }
 }
 

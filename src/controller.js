@@ -1,5 +1,4 @@
 import * as model from "./model";
-import { compareAsc, compareDesc } from "date-fns";
 
 const _createTask = (name, project) => {
     return model.Task(name, project);
@@ -61,8 +60,7 @@ const sortMethod = (() => {
         } else if (x.dueDate && !y.dueDate) {
             return -1;
         } else {
-            const comparison = compareAsc(x.dueDate, y.dueDate);
-            return comparison;
+            return x.dueDate - y.dueDate;
         }
     }
     const sortByCreationTime = (x, y) => {
@@ -83,7 +81,7 @@ const sortCompleteTasks = (project) => {
     if (project !== "logbook") {
         sortedArray = sortedArray.filter(task => task.project === project);
     }
-    sortedArray.sort((x, y) => compareDesc(x.completionDateTime, y.completionDateTime));
+    sortedArray.sort((x, y) => y.completionDateTime - x.completionDateTime);
     return sortedArray;
 }
 const sortIncompleteProjects = () => {

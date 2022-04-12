@@ -125,25 +125,23 @@ const sortCompleteTasks = (project) => {
 const sortIncompleteProjects = () => {
     const sortedProjects = model.projectArray
         .filter(project => {
-            const numOfIncompleteTasks = sortIncompleteTasks(project).length;
-            const numOfCompleteTasks = sortCompleteTasks(project).length;
-            return numOfIncompleteTasks > 0
-                || (numOfCompleteTasks === 0 && numOfIncompleteTasks === 0);
+            return project.incompleteTasks > 0
+                || (project.incompleteTasks === 0 && project.completeTasks === 0);
         });
     return sortedProjects;
 }
 const sortCompleteProjects = () => {
     const sortedProjects = model.projectArray
         .filter(project =>
-            sortIncompleteTasks(project).length === 0
-            && sortCompleteTasks(project).length > 0);
+            project.incompleteTasks === 0
+            && project.completeTasks > 0);
     return sortedProjects;
 }
 const toggleTaskCompletion = (task) => {
     _subtractTaskFromProject(task);
     task.isComplete = !task.isComplete;
     _addTaskToProject(task);
-    
+
     if (task.isComplete) {
         task.completionDateTime = new Date();
     } else {

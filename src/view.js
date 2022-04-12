@@ -251,10 +251,18 @@ const _createDeleteTaskBtn = (task, taskIndex) => {
     }
     deleteBtn.textContent = "X";
     deleteBtn.dataset.task = model.taskArray.indexOf(task);
+    deleteBtn.dataset.project = model.projectArray.indexOf(task.project);
 
     deleteBtn.addEventListener("click", (e) => {
         _deleteTask(e);
-        _updateTaskList(task.project);
+        const header = document.querySelector("h1");
+        const isLogbook = header.textContent.toLowerCase() === "logbook";
+        if (isLogbook) {
+            createLogbookPage();
+        } else {
+            createProjectPage(e);
+        }
+        // _updateTaskList(task.project);
     });
     return deleteBtn;
 }
@@ -439,9 +447,8 @@ const _createProgressBar = (project) => {
     progressBarOuter.append(progressBarInner);
 
     progressBarOuter.style.width = "50%";
-    const completeTasks = controller.sortCompleteTasks(project).length;
-    const totalTasks = controller.sortIncompleteTasks(project).length + completeTasks;
-    const percentComplete = completeTasks * 100 / totalTasks;
+    const totalTasks = project.incompleteTasks + project.completeTasks;
+    const percentComplete = project.completeTasks * 100 / totalTasks;
     progressBarInner.style.width = `${percentComplete}%`;
 
     return progressBarOuter;
@@ -449,7 +456,7 @@ const _createProgressBar = (project) => {
 const _createRemainingTasksNum = (project) => {
     const remainingTasksNum = document.createElement("div");
     remainingTasksNum.classList.add("remaining-tasks-num", "project-progress");
-    const numOfTasks = controller.sortIncompleteTasks(project).length;
+    const numOfTasks = project.incompleteTasks;
     remainingTasksNum.textContent = `${numOfTasks} task${numOfTasks === 1 ? "" : "s"}`;
     return remainingTasksNum;
 }

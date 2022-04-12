@@ -45,6 +45,9 @@ header:not(.tf-header) {
 h1 {
     text-transform: capitalize;
 }
+button {
+    cursor: pointer;
+}
 .refresh {
     margin-right: 1rem;
     margin-left: auto;
@@ -57,7 +60,6 @@ h1 {
     border: none;
     background: purple;
     color: white;
-    cursor: pointer;
 }
 .delete-toggle {
     margin-right: 0;
@@ -67,6 +69,7 @@ h1 {
     justify-content: center;
     align-items: center;
     font-size: 2.5rem;
+    border: none;
     background: red;
     color: white;
 }
@@ -151,7 +154,6 @@ input[type="checkbox"]:checked + .task-label::after {
     border: none;
     background: black;
     color: white;
-    cursor: pointer;
 }
 .task-form-btn:hover {
     background: grey;
@@ -206,7 +208,6 @@ input[type="checkbox"]:checked + .task-label::after {
     background: blue;
     color: white;
     font-size: 2.7rem;
-    cursor: pointer;
 }
 .new-item-btn:hover {
     background: darkblue;

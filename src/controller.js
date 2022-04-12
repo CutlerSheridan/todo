@@ -22,7 +22,7 @@ const _addProjectToArray = (project) => {
     model.projectArray.push(project);
 }
 const addNewProject = (name, showProgress = true) => {
-    const project = _createProject(name,showProgress);
+    const project = _createProject(name, showProgress);
     _addProjectToArray(project);
     return project;
 }
@@ -34,25 +34,50 @@ const sortIncompleteTasks = (project) => {
         .filter(task => task.project === project)
         .filter(task => !task.isComplete)
         .sort((x, y) => {
-            if (x.isHighPriority !== y.isHighPriority) {
-                return y.isHighPriority - x.isHighPriority;
-            } else {
-                if (!x.dueDate && y.dueDate) {
-                    return 1;
-                } else if (x.dueDate && !y.dueDate) {
-                    return -1;
-                } else {
-                    const comparison = compareAsc(x.dueDate, y.dueDate);
-                    if (comparison !== 0) {
-                        return comparison;
-                    } else {
-                        return compareDesc(x.creationDateTime, y.creationDateTime);
+            let result = 0;
+            result = sortMethod[project.sortMethod](x, y);
+            if (result !== 0) {
+                return result;
+            }
+            for (let func in sortMethod) {
+                if (func !== project.sortMethod) {
+                    result = sortMethod[func](x, y);
+                    if (result !== 0) {
+                        return result;
                     }
                 }
             }
+            return result;
         });
     return sortedArray;
 }
+const sortMethod = (() => {
+    const sortByPriority = (x, y) => {
+        return y.isHighPriority - x.isHighPriority;
+    }
+    const sortByDueDate = (x, y) => {
+        if (!x.dueDate && y.dueDate) {
+            return 1;
+        } else if (x.dueDate && !y.dueDate) {
+            return -1;
+        } else {
+            const comparison = compareAsc(x.dueDate, y.dueDate);
+            return comparison;
+        }
+    }
+    const sortByCreationTime = (x, y) => {
+        return y.creationDateTime - x.creationDateTime;
+    }
+    const sortByAlphabet = (x, y) => {
+        return y.name - x.name;
+    }
+    return { 
+        sortByPriority,
+        sortByDueDate,
+        sortByCreationTime,
+        sortByAlphabet,
+     }
+})();
 const sortCompleteTasks = (project) => {
     let sortedArray = model.taskArray.filter(task => task.isComplete);
     if (project !== "logbook") {
@@ -65,7 +90,7 @@ const sortIncompleteProjects = () => {
     const sortedProjects = model.projectArray
         .filter(project => {
             const numOfIncompleteTasks = sortIncompleteTasks(project).length;
-            const numOfCompleteTasks = sortCompleteTasks(project).length; 
+            const numOfCompleteTasks = sortCompleteTasks(project).length;
             return numOfIncompleteTasks > 0
                 || (numOfCompleteTasks === 0 && numOfIncompleteTasks === 0);
         });
@@ -73,7 +98,7 @@ const sortIncompleteProjects = () => {
 }
 const sortCompleteProjects = () => {
     const sortedProjects = model.projectArray
-        .filter(project => 
+        .filter(project =>
             sortIncompleteTasks(project).length === 0
             && sortCompleteTasks(project).length > 0);
     return sortedProjects;

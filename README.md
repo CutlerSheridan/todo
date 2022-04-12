@@ -40,6 +40,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.1*
+- refactor sortIncompleteTasks() so it's scalable and ready for sort button integration
 - *0.10.0*
 - add button up top that makes delete buttons appear!  They swap with Task Form buttons
 - isolate Task Form checkboxes for styling

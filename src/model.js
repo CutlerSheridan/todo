@@ -21,8 +21,14 @@ const Task = (name, project) => {
     }
 }
 const Project = (name, showProgress = true) => {
-    // let timeCreated = currentTime;
-    return { name, showProgress }
+    let timeCreated = new Date();
+    let sortMethod = "sortByPriority";
+    return { 
+        name,
+        showProgress,
+        timeCreated,
+        sortMethod,
+    }
 }
 let taskArray = [];
 let projectArray = [];

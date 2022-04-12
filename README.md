@@ -3,7 +3,9 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add sort button that each project remembers
+- add "completeTasks" and "incompleteTasks" properties to projects
+- make sort button only appear if there are incomplete tasks
+- make task list refresh just refresh whole page so buttons at the top appear/disappear appropriately
 #### TO-DO LATER
 ##### Features
 - add options button for project pages
@@ -14,6 +16,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
+- change the task names to contentEditable divs just to simplify everything
 - add lastEdited property to project objects and, by default, sort projects page accordingly
 - make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
@@ -40,6 +43,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.3*
+- add sort button that each project remembers
+- make sort button cycle between sorting options
 - *0.10.2*
 - remove date-fns dependence from controller.js
 - *0.10.1*

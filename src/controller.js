@@ -76,6 +76,11 @@ const sortMethod = (() => {
         sortByAlphabet,
      }
 })();
+const swapSortMethod = (project) => {
+    const projectIndex = model.projectArray.indexOf(project);
+    const sortMethodIndex = model.sortMethods.indexOf(project.sortMethod);
+    project.sortMethod = model.sortMethods[(sortMethodIndex + 1) % model.sortMethods.length];
+}
 const sortCompleteTasks = (project) => {
     let sortedArray = model.taskArray.filter(task => task.isComplete);
     if (project !== "logbook") {
@@ -122,6 +127,7 @@ export {
     addNewProject,
     changeProperty,
     toggleTaskCompletion,
+    swapSortMethod,
     sortIncompleteTasks,
     sortCompleteTasks,
     sortIncompleteProjects,

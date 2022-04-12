@@ -1,7 +1,7 @@
 import * as controller from "./controller";
 import * as model from "./model";
 import * as viewTaskForm from "./viewTaskForm";
-import { compareAsc, format, isPast } from "date-fns";
+import { format } from "date-fns";
 
 const _contentDiv = document.querySelector(".content");
 let _numOfCheckboxes = 0;
@@ -51,10 +51,41 @@ const _createHeader = (project) => {
     })();
     headerContainer.append(heading);
     if (project !== "allProjects") {
+        if (project !== "logbook") {
+            headerContainer.append(_createSortButton(project));
+        }
         headerContainer.append(_createRefreshTasksButton(project));
         headerContainer.append(_createDeleteToggle());
     }
     _contentDiv.append(headerContainer);
+}
+const _createSortButton = (project) => {
+    const sortContainer = document.createElement("div");
+    sortContainer.classList.add("sort-container");
+    const sortLabel = document.createElement("div");
+    sortLabel.textContent = "Sort by:";
+    const sortBtn = document.createElement("button");
+    sortBtn.classList.add("sort-button");
+    sortBtn.dataset.project = model.projectArray.indexOf(project);
+    sortBtn.textContent = (() => {
+        switch(project.sortMethod) {
+            case "sortByPriority":
+                return "Priority";
+            case "sortByDueDate":
+                return "Due Date";
+            case "sortByCreationTime":
+                return "Time Created";
+        }
+    })();
+    sortBtn.addEventListener("click", _changeSortAndRefresh);
+    sortContainer.append(sortLabel, sortBtn);
+    return sortContainer;
+}
+const _changeSortAndRefresh = (e) => {
+    const projectIndex = e.target.dataset.project;
+    const project = model.projectArray[projectIndex];
+    controller.swapSortMethod(project);
+    createProjectPage(e);
 }
 const createBackBtn = (project) => {
     const backBtn = document.createElement("button");
@@ -110,6 +141,7 @@ const _toggleDeleteBtns = (e) => {
     taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
     deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
 }
+
 const _updateTaskList = (project, deleteButtonsAreOn = false) => {
     let taskListDiv = document.querySelector(".task-list-container");
     if (taskListDiv) {

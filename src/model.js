@@ -1,3 +1,10 @@
+const taskArray = [];
+const projectArray = [];
+const sortMethods = [
+    "sortByPriority",
+    "sortByDueDate",
+    "sortByCreationTime",
+]
 const Task = (name, project) => {
     let isHighPriority = false;
     let dueDate = null;
@@ -22,7 +29,7 @@ const Task = (name, project) => {
 }
 const Project = (name, showProgress = true) => {
     let timeCreated = new Date();
-    let sortMethod = "sortByPriority";
+    let sortMethod = sortMethods[0];
     return { 
         name,
         showProgress,
@@ -30,7 +37,11 @@ const Project = (name, showProgress = true) => {
         sortMethod,
     }
 }
-let taskArray = [];
-let projectArray = [];
 
-export { Task, Project, taskArray, projectArray }
+export {
+    Task,
+    Project,
+    taskArray,
+    projectArray,
+    sortMethods,
+ }

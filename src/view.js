@@ -46,19 +46,22 @@ const _createHeader = (project) => {
     if (typeof(project) !== "string"
         && project !== model.projectArray[0]) {
             headerContainer.append(createBackBtn("allProjects"));
+            headerContainer.append(createEditBox(project, "name", "header-project"));
+    } else {
+        const heading = document.createElement("div");
+        heading.classList.add("header-project-name");
+        heading.textContent = (() => {
+            switch (project) {
+                case "logbook":
+                    return project;
+                case "allProjects":
+                    return "Projects";
+                default:
+                    return project.name;
+            };
+        })();
+        headerContainer.append(heading);
     }
-    const heading = document.createElement("h1");
-    heading.textContent = (() => {
-        switch (project) {
-            case "logbook":
-                return project;
-            case "allProjects":
-                return "Projects";
-            default:
-                return project.name;
-        };
-    })();
-    headerContainer.append(heading);
     if (project !== "allProjects") {
         if (project !== "logbook") {
             headerContainer.append(_createSortButton(project));
@@ -86,11 +89,11 @@ const _createSortButton = (project) => {
                 return "Time Created";
         }
     })();
-    sortBtn.addEventListener("click", _changeSortAndRefresh);
+    sortBtn.addEventListener("click", _changeSortAndUpdate);
     sortContainer.append(sortLabel, sortBtn);
     return sortContainer;
 }
-const _changeSortAndRefresh = (e) => {
+const _changeSortAndUpdate = (e) => {
     const projectIndex = e.target.dataset.project;
     const project = model.projectArray[projectIndex];
     controller.swapSortMethod(project);
@@ -185,8 +188,6 @@ const _updateTaskList = (project, deleteButtonsAreOn = false) => {
     taskListDiv.append(_createEmptySpaceForBottomOfPage());
 
     _contentDiv.append(taskListDiv);
-
-    _addListenersToTaskNames();
 }
 const _createTaskElement = (task) => {
     const taskIndex = model.taskArray.indexOf(task);
@@ -203,10 +204,7 @@ const _createTaskElement = (task) => {
     const taskInfoContainer = document.createElement("div");
     taskInfoContainer.classList.add("task-info-container");
     taskInfoContainer.dataset.task = taskIndex;
-    const taskName = document.createElement("div");
-    taskName.textContent = task.name;
-    taskName.classList.add("task-name");
-    taskName.dataset.task = taskIndex;
+    const taskName = createEditBox(task, "name", "task");
     taskInfoContainer.append(taskName);
     if (task.dueDate && !task.isComplete) {
         taskInfoContainer.append(_createDueDateElement(task));
@@ -283,7 +281,6 @@ const _createDeleteTaskBtn = (task, taskIndex) => {
         } else {
             createProjectPage(e);
         }
-        // _updateTaskList(task.project);
     });
     return deleteBtn;
 }
@@ -291,70 +288,61 @@ const _deleteTask = (e) => {
     const taskIndex = e.target.dataset.task;
     controller.deleteTask(taskIndex);
 }
-const _addListenersToTaskNames = () => {
-    const allTaskNames = document.querySelectorAll(".task-name");
-    allTaskNames.forEach(tName => tName.addEventListener("click", _replaceTaskNameWithInput))
+const createEditBox = (obj, property, classPrefix) => {
+    const propEditBox = document.createElement("div");
+    propEditBox.contentEditable = true;
+    propEditBox.classList.add(`${classPrefix}-${property}`);
+    if (obj[property]) {
+        propEditBox.textContent = obj[property];
+    } else {
+        propEditBox.textContent = `Enter ${property} here`;
+    }
+    let objectIndex = model.taskArray.indexOf(obj);
+    if (objectIndex === -1) {
+        objectIndex = model.projectArray.indexOf(obj);
+    }
+    propEditBox.dataset.task = objectIndex;
+    propEditBox.addEventListener("focusin", (e) => {
+        _handleEditBoxFocus(e, obj, property);
+    });
+    return propEditBox;
 }
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
-const _inputFunctionHandlers = [];
-const _replaceTaskNameWithInput = (e) => {
-    const allTaskNames = document.querySelectorAll(".task-name");
-    allTaskNames.forEach(tName => tName.removeEventListener("click", _replaceTaskNameWithInput));
-
-    let nameBox;
-    if (e.target) {
-        nameBox = e.target;
-    } else {
-        nameBox = e;
-    }
-    const taskIndex = nameBox.dataset.task;
-    const taskInfoContainer = document.querySelector(`.task-info-container[data-task="${taskIndex}"]`);
-    const nameInput = document.createElement("div");
-    nameInput.contentEditable = true;
-    nameInput.classList.add("name-change-input");
-    nameInput.textContent = nameBox.textContent;
-
-    nameBox.remove();
-    taskInfoContainer.prepend(nameInput);
-    // all this range/selection stuff makes the cursor start at the end of the div
-    const range = document.createRange();
-    const selection = window.getSelection();
-    range.setStart(nameInput.childNodes[0], nameInput.textContent.length);
-    range.collapse(true);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    nameInput.focus();
-
-    setTimeout(() => {
-        document.addEventListener("click", _inputFunctionHandlers[0] = _replaceTaskInputWithName(e, taskInfoContainer, nameInput, taskIndex));
-        document.addEventListener("keydown", _inputFunctionHandlers[0]);
-    }, 10)
+const _inputHandler = [];
+const _handleEditBoxFocus = (e, obj, property) => {
+    const domElement = e.target;
+    document.addEventListener("click", _inputHandler[0] = _submitTextValue(e, domElement, obj, property));
+    domElement.addEventListener("keydown", _inputHandler[0]);
+    // document.addEventListener("blur", _inputHandler[0]);
 }
-const _replaceTaskInputWithName = (e, taskInfoContainer, nameInput, taskIndex) => {
-    return function actualFunction(e) {
-            if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
-                if (nameInput.textContent === "") {
-                    nameInput.textContent = "New task name?";
-                }
-                model.taskArray[taskIndex].name = nameInput.textContent;
-                const taskNameElement = document.createElement("div");
-                taskNameElement.textContent = nameInput.textContent;
-                taskNameElement.classList.add("task-name");
-                taskNameElement.dataset.task = taskIndex;
-    
-                nameInput.remove();
-                taskInfoContainer.prepend(taskNameElement);
-    
-                document.removeEventListener("click", _inputFunctionHandlers[0]);
-                document.removeEventListener("keydown", _inputFunctionHandlers[0]);
-
-                _addListenersToTaskNames();
-                _updateTaskList(model.taskArray[taskIndex].project);
-            } else if (e.type === "keydown" && nameInput.textContent === "New task name?") {
-                nameInput.textContent = "";
+const _submitTextValue = (e, domElement, obj, property) => {
+    return function realSubmitTextValueFunction(e) {
+        if ((e.type === "click" && e.target !== domElement) || (e.type === "keydown" && e.key === "Enter")) {
+            // if (e.type !== "blur") {
+                domElement.blur();
+            // }
+            controller.changeProperty(obj, property, domElement.textContent);
+            document.removeEventListener("click", _inputHandler[0]);
+            domElement.removeEventListener("keydown", _inputHandler[0]);
+            // document.removeEventListener("blur", _inputHandler[0]);
+            if (domElement.textContent === "") {
+                domElement.textContent = `Enter ${property} here`;
             }
+        } else if (e.type === "keydown" && domElement.textContent === `Enter ${property} here`) {
+            domElement.textContent = "";
+        }
     }
 }
+
+    // // all this range/selection stuff makes the cursor start at the end of the div
+    // const range = document.createRange();
+    // const selection = window.getSelection();
+    // range.setStart(nameInput.childNodes[0], nameInput.textContent.length);
+    // range.collapse(true);
+    // selection.removeAllRanges();
+    // selection.addRange(range);
+    // nameInput.focus();
+
 const _toggleCompleteClass = (e) => {
     const taskIndex = e.target.dataset.task;
     const taskContainer = document.querySelector(`.task-container[data-task="${taskIndex}"]`);
@@ -523,6 +511,7 @@ const clearContent = (node = _contentDiv) => {
 export {
     createProjectPage,
     createBackBtn,
+    createEditBox,
     createLogbookPage,
     createAllProjectsPage,
     createCheckbox,

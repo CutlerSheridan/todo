@@ -3,17 +3,15 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
+- add button on All Projects page to make "swap progress type" buttons dis/appear
+- add option to delete project
+
 #### TO-DO LATER
 ##### Features
-- add options button for project pages
-- add options button for Projects page
-- add "delete all" button
 - add "add sample tasks" button
-- add "edit project name" option (but not from clicking title on Projects page as that should bring you to specific project page)
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
-- change the task names to contentEditable divs just to simplify everything
 - add lastEdited property to project objects and, by default, sort projects page accordingly
 - make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
@@ -21,18 +19,14 @@ If you need a free place to keep track of your to-do list, look no further.
 - fix checkboxes maintaining hover after tap
 - implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name
 - make it so General is not an option on Projects page
-- should each project have tasksComplete and tasksIncomplete properties so it doesn't have to constantly run the sorting algorithm?
 ##### Style
 - decide on style
 - make footer tabs highlight active one
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 - get a + icon for the New Task button so it centers vertically
 - get > and < icons for buttons
-- New Item button should not cover delete buttons
 - adjust for desktop
 ##### Other
-- isolate task name/due date creation into its own functions
-- would sortIncompleteTasks etc. work without compareAsc()/compareDesc()?
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
 ##### Maybe
@@ -40,6 +34,11 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.9*
+- fix Sort By so it's not centered at the top
+- change the task names to contentEditable divs just to simplify everything + reuse the same functions in the Task Form as well
+- migrate createEditBox() and related functions to view.js for reuse
+- make Project header names editable only when you're on the project page
 - *0.10.8*
 - prevent sort button from appearing in logbook
 - *0.10.7*

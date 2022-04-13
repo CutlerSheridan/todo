@@ -41,51 +41,12 @@ const _createHeader = (task) => {
 
     header.append(view.createBackBtn(task.project));
     header.append(view.createCheckbox(task));
-    const _taskName = _createEditBox(task, "name");
+    const _taskName = view.createEditBox(task, "name", "tf-task");
     header.append(_taskName);
 
     return header;
 }
-const _createEditBox = (task, property) => {
-    const propEditBox = document.createElement("div");
-    propEditBox.contentEditable = true;
-    propEditBox.classList.add(`tf-task-${property}`);
-    if (task[property]) {
-        propEditBox.textContent = task[property];
-    } else {
-        propEditBox.textContent = `Enter task ${property} here`;
-    }
-    propEditBox.dataset.task = model.taskArray.indexOf(task);
-    propEditBox.addEventListener("focusin", (e) => {
-        _handleEditBoxFocus(e, task, property);
-    });
-    return propEditBox;
-}
-const _inputHandler = [];
-const _handleEditBoxFocus = (e, task, property) => {
-    const domElement = e.target;
-    document.addEventListener("click", _inputHandler[0] = _submitTextValue(e, domElement, task, property));
-    domElement.addEventListener("keydown", _inputHandler[0]);
-    // document.addEventListener("blur", _inputHandler[0]);
-}
-const _submitTextValue = (e, domElement, task, property) => {
-    return function realSubmitTextValueFunction(e) {
-        if ((e.type === "click" && e.target !== domElement) || (e.type === "keydown" && e.key === "Enter")) {
-            // if (e.type !== "blur") {
-                domElement.blur();
-            // }
-            controller.changeProperty(task, property, domElement.textContent);
-            document.removeEventListener("click", _inputHandler[0]);
-            domElement.removeEventListener("keydown", _inputHandler[0]);
-            // document.removeEventListener("blur", _inputHandler[0]);
-            if (domElement.textContent === "") {
-                domElement.textContent = `Enter task ${property} here`;
-            }
-        } else if (e.type === "keydown" && domElement.textContent === `Enter task ${property} here`) {
-            domElement.textContent = "";
-        }
-    }
-}
+
 const _createChoiceContainer = (text, func, task) => {
     const choiceContainer = document.createElement("div");
     choiceContainer.classList.add("choice-container");
@@ -172,7 +133,7 @@ const _createDueDatePicker = (task) => {
     return picker;
 }
 const _createNotesBox = (task) => {
-    return _createEditBox(task, "notes");
+    return view.createEditBox(task, "notes", "tf-task");
 }
 const _createDateCompleted = (task) => {
     const completionStamp = document.createElement("div");

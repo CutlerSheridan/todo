@@ -42,15 +42,16 @@ header:not(.tf-header) {
     background: transparent;
     cursor: pointer;
 }
-h1 {
+.header-project-name {
     font-size: 2rem;
     text-transform: capitalize;
+    font-weight: bold;
 }
 button {
     cursor: pointer;
 }
 .sort-container {
-    margin-right: 0;
+    margin-right: 1rem;
     margin-left: auto;
     display: flex;
     flex-direction: column;
@@ -64,7 +65,6 @@ button {
 }
 .refresh {
     margin-right: 1rem;
-    margin-left: auto;
     width: 6rem;
     height: 4rem;
     display: flex;

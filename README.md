@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make sort button only appear if there are incomplete tasks in a project
 #### TO-DO LATER
 ##### Features
 - add options button for project pages
@@ -41,6 +40,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.8*
+- prevent sort button from appearing in logbook
 - *0.10.7*
 - fix refresh button to work in logbook
 - *0.10.6*

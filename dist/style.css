@@ -50,7 +50,7 @@ button {
     cursor: pointer;
 }
 .sort-container {
-    margin-right: 0rem;
+    margin-right: 0;
     margin-left: auto;
     display: flex;
     flex-direction: column;

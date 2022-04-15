@@ -3,15 +3,25 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add button on All Projects page to make "swap progress type" buttons dis/appear
-- add option to delete project
+- refactor New Task and New Project buttons to work with contentEditable divs
+- fix this godforsaken bug that makes it so, on iOS, pressing "New Task" creates a new task element and gives it focus, but the keyboard doesn't pop up
+  - on subsequent presses of New Task, the keyboard DOES pop up, but ONLY if there is already a task with the same name as the placeholder task name
+  - FocusEvent fires twice if New Task placeholder name is unique, triggering _handleEditBoxFocus() twice
+  - the other task(s) with identical name(s) do not need to be immediately before the new task
+  - the FocusEvent attributes in the console should have relatedTarget: button.new-item-button, but the extra Event's relatedTarget is null
+  - doesn't matter what the identically-named task is (as in, the issue is not related to creating a task with the same placeholder name that the listener checks for to delete or repopulate when a user is typing)
+  - the focus/keyboard functions correctly even when no other identically-named task exists IF another task name has accidentally allowed an "enter" line break to occur...?
+  - confirmed the textContent in the newly-created Task Name derives from the task.name property, it's not going too fast and using the placeholder for empty task names
 
 #### TO-DO LATER
 ##### Features
+- add button on All Projects page to make "swap progress type" buttons dis/appear
+- add option to delete project
 - add "add sample tasks" button
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
+- make clicking away from mid-edit task name not switch to editing another task name
 - add lastEdited property to project objects and, by default, sort projects page accordingly
 - make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
@@ -34,6 +44,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.9.1*
+- (placeholder build while I try to fix this task name focus issue)
 - *0.10.9*
 - fix Sort By so it's not centered at the top
 - change the task names to contentEditable divs just to simplify everything + reuse the same functions in the Task Form as well

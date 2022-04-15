@@ -288,9 +288,9 @@ const _deleteTask = (e) => {
     const taskIndex = e.target.dataset.task;
     controller.deleteTask(taskIndex);
 }
+
 const createEditBox = (obj, property, classPrefix) => {
     const propEditBox = document.createElement("div");
-    propEditBox.contentEditable = true;
     propEditBox.classList.add(`${classPrefix}-${property}`);
     if (obj[property]) {
         propEditBox.textContent = obj[property];
@@ -300,19 +300,24 @@ const createEditBox = (obj, property, classPrefix) => {
     let objectIndex = model.taskArray.indexOf(obj);
     if (objectIndex === -1) {
         objectIndex = model.projectArray.indexOf(obj);
+        propEditBox.dataset.project = objectIndex;
+    } else {
+        propEditBox.dataset.task = objectIndex;
     }
-    propEditBox.dataset.task = objectIndex;
-    propEditBox.addEventListener("focusin", (e) => {
+    propEditBox.contentEditable = true;
+    propEditBox.addEventListener("focus", function(e) {
         _handleEditBoxFocus(e, obj, property);
     });
     return propEditBox;
 }
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
-const _inputHandler = [];
+const _inputHandlers = [];
 const _handleEditBoxFocus = (e, obj, property) => {
+    console.log(e);
+    console.log(e.target);
     const domElement = e.target;
-    document.addEventListener("click", _inputHandler[0] = _submitTextValue(e, domElement, obj, property));
-    domElement.addEventListener("keydown", _inputHandler[0]);
+    document.addEventListener("click", _inputHandlers[0] = _submitTextValue(e, domElement, obj, property));
+    domElement.addEventListener("keydown", _inputHandlers[0]);
     // document.addEventListener("blur", _inputHandler[0]);
 }
 const _submitTextValue = (e, domElement, obj, property) => {
@@ -322,8 +327,8 @@ const _submitTextValue = (e, domElement, obj, property) => {
                 domElement.blur();
             // }
             controller.changeProperty(obj, property, domElement.textContent);
-            document.removeEventListener("click", _inputHandler[0]);
-            domElement.removeEventListener("keydown", _inputHandler[0]);
+            document.removeEventListener("click", _inputHandlers[0]);
+            domElement.removeEventListener("keydown", _inputHandlers[0]);
             // document.removeEventListener("blur", _inputHandler[0]);
             if (domElement.textContent === "") {
                 domElement.textContent = `Enter ${property} here`;
@@ -367,13 +372,25 @@ const _createNewItemButton = (project) => {
         _insertNewItemInput(e, project);
     })
 }
+
 const _insertNewItemInput = (e, project) => {
+    // e.preventDefault();
         if (project !== "allProjects") {
             const incompleteTaskList = document.querySelector(".incomplete-task-list");
-            const newTask = controller.addNewTask("New task name?", project);
+            const newTask = controller.addNewTask("Enter name here", project);
+            console.log("new task:");
+            console.log(newTask);
             incompleteTaskList.append(_createTaskElement(newTask));
+            // setTimeout(() => {taskNameDiv.focus()}, 10);
             const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
-            _replaceTaskNameWithInput(taskNameDiv);
+            console.log("taskNameDiv:");
+            console.log(taskNameDiv);
+            setTimeout(() => {
+                _moveCaretToEnd(taskNameDiv)
+            }, 10);
+            taskNameDiv.focus();
+                
+            // _replaceTaskNameWithInput(taskNameDiv);
         } else {
             _removeListenersFromProjects();
             
@@ -383,26 +400,32 @@ const _insertNewItemInput = (e, project) => {
             incompleteProjects.append(_createProjectElement(newProject));
             const projectNameDiv = document.querySelector(`.project-container[data-project="${projectIndex}"] .project-name`);
 
-             // all this range/selection stuff makes the cursor start at the end of the div
-            const range = document.createRange();
-            const selection = window.getSelection();
-            range.setStart(projectNameDiv.childNodes[0], projectNameDiv.textContent.length);
-            range.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(range);
+            _moveCaretToEnd(projectNameDiv);
             projectNameDiv.focus();
 
             setTimeout(() => {
-                document.addEventListener("click", _inputFunctionHandlers[1] = _replaceProjectInputWithName(e, projectNameDiv, projectIndex));
-                document.addEventListener("keydown", _inputFunctionHandlers[1]);
+                document.addEventListener("click", _inputHandlers[1] = _replaceProjectInputWithName(e, projectNameDiv, projectIndex));
+                document.addEventListener("keydown", _inputHandlers[1]);
             }, 10)
         }
+}
+const _moveCaretToEnd = (element) => {
+    // all this range/selection stuff makes the cursor start at the end of the div
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.setStart(element.childNodes[0], element.textContent.length);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    // element.focus() goes next but has to stay separate because of the setTimeout on the task name box
 }
 const _createEmptySpaceForBottomOfPage = () => {
     const space = document.createElement("div");
     space.classList.add("empty-space");
     return space;
 }
+
+
 // ALL PROJECTS PAGE START
 const _updateProjectList = () => {
     let projectListDiv = document.querySelector(".project-list-container");
@@ -490,8 +513,8 @@ const _replaceProjectInputWithName = (e, nameInput, projectIndex) => {
                 const projectContainer = document.querySelector(`.project-container[data-project="${projectIndex}"]`);
                 projectContainer.prepend(projectNameElement);
     
-                document.removeEventListener("click", _inputFunctionHandlers[1]);
-                document.removeEventListener("keydown", _inputFunctionHandlers[1]);
+                document.removeEventListener("click", _inputHandlers[1]);
+                document.removeEventListener("keydown", _inputHandlers[1]);
 
                 _updateProjectList();
             } else if (e.type === "keydown" && nameInput.textContent === "New project name?") {

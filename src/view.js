@@ -205,6 +205,7 @@ const _createTaskElement = (task) => {
     taskInfoContainer.classList.add("task-info-container");
     taskInfoContainer.dataset.task = taskIndex;
     const taskName = createEditBox(task, "name", "task");
+
     taskInfoContainer.append(taskName);
     if (task.dueDate && !task.isComplete) {
         taskInfoContainer.append(_createDueDateElement(task));
@@ -288,7 +289,8 @@ const _deleteTask = (e) => {
     const taskIndex = e.target.dataset.task;
     controller.deleteTask(taskIndex);
 }
-
+// this is currying to be able to pass arguments to the callback below and still be able to remove it
+const _inputHandlers = [];
 const createEditBox = (obj, property, classPrefix) => {
     const propEditBox = document.createElement("div");
     propEditBox.classList.add(`${classPrefix}-${property}`);
@@ -305,48 +307,34 @@ const createEditBox = (obj, property, classPrefix) => {
         propEditBox.dataset.task = objectIndex;
     }
     propEditBox.contentEditable = true;
-    propEditBox.addEventListener("focus", function(e) {
-        _handleEditBoxFocus(e, obj, property);
-    });
+    propEditBox.addEventListener("focus", _inputHandlers[0] = _handleEditBoxFocus(obj, property));
+    
     return propEditBox;
 }
-// this is currying to be able to pass arguments to the callback below and still be able to remove it
-const _inputHandlers = [];
-const _handleEditBoxFocus = (e, obj, property) => {
-    console.log(e);
-    console.log(e.target);
-    const domElement = e.target;
-    document.addEventListener("click", _inputHandlers[0] = _submitTextValue(e, domElement, obj, property));
-    domElement.addEventListener("keydown", _inputHandlers[0]);
-    // document.addEventListener("blur", _inputHandler[0]);
+
+const _handleEditBoxFocus = (obj, property) => {
+    return function realHandleEditBoxFocus(e) {
+        const domElement = e.target;
+        document.addEventListener("mousedown", _inputHandlers[1] = _submitTextValue(e, domElement, obj, property));
+        domElement.addEventListener("keydown", _inputHandlers[1]);
+    }
 }
 const _submitTextValue = (e, domElement, obj, property) => {
     return function realSubmitTextValueFunction(e) {
-        if ((e.type === "click" && e.target !== domElement) || (e.type === "keydown" && e.key === "Enter")) {
-            // if (e.type !== "blur") {
-                domElement.blur();
-            // }
-            controller.changeProperty(obj, property, domElement.textContent);
-            document.removeEventListener("click", _inputHandlers[0]);
-            domElement.removeEventListener("keydown", _inputHandlers[0]);
-            // document.removeEventListener("blur", _inputHandler[0]);
+        if ((e.type === "mousedown" && e.target !== domElement) || (e.type === "keydown" && e.key === "Enter")) {
+            e.preventDefault();
+            domElement.blur();
             if (domElement.textContent === "") {
                 domElement.textContent = `Enter ${property} here`;
             }
+            controller.changeProperty(obj, property, domElement.textContent);
+            document.removeEventListener("mousedown", _inputHandlers[1]);
+            domElement.removeEventListener("keydown", _inputHandlers[1]);
         } else if (e.type === "keydown" && domElement.textContent === `Enter ${property} here`) {
             domElement.textContent = "";
         }
     }
 }
-
-    // // all this range/selection stuff makes the cursor start at the end of the div
-    // const range = document.createRange();
-    // const selection = window.getSelection();
-    // range.setStart(nameInput.childNodes[0], nameInput.textContent.length);
-    // range.collapse(true);
-    // selection.removeAllRanges();
-    // selection.addRange(range);
-    // nameInput.focus();
 
 const _toggleCompleteClass = (e) => {
     const taskIndex = e.target.dataset.task;
@@ -374,23 +362,13 @@ const _createNewItemButton = (project) => {
 }
 
 const _insertNewItemInput = (e, project) => {
-    // e.preventDefault();
         if (project !== "allProjects") {
             const incompleteTaskList = document.querySelector(".incomplete-task-list");
             const newTask = controller.addNewTask("Enter name here", project);
-            console.log("new task:");
-            console.log(newTask);
             incompleteTaskList.append(_createTaskElement(newTask));
-            // setTimeout(() => {taskNameDiv.focus()}, 10);
+
             const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
-            console.log("taskNameDiv:");
-            console.log(taskNameDiv);
-            setTimeout(() => {
-                _moveCaretToEnd(taskNameDiv)
-            }, 10);
-            taskNameDiv.focus();
-                
-            // _replaceTaskNameWithInput(taskNameDiv);
+            _moveCaretToEnd(taskNameDiv)
         } else {
             _removeListenersFromProjects();
             
@@ -404,8 +382,8 @@ const _insertNewItemInput = (e, project) => {
             projectNameDiv.focus();
 
             setTimeout(() => {
-                document.addEventListener("click", _inputHandlers[1] = _replaceProjectInputWithName(e, projectNameDiv, projectIndex));
-                document.addEventListener("keydown", _inputHandlers[1]);
+                document.addEventListener("click", _inputHandlers[2] = _replaceProjectInputWithName(e, projectNameDiv, projectIndex));
+                document.addEventListener("keydown", _inputHandlers[2]);
             }, 10)
         }
 }
@@ -417,7 +395,7 @@ const _moveCaretToEnd = (element) => {
     range.collapse(true);
     selection.removeAllRanges();
     selection.addRange(range);
-    // element.focus() goes next but has to stay separate because of the setTimeout on the task name box
+    element.focus();
 }
 const _createEmptySpaceForBottomOfPage = () => {
     const space = document.createElement("div");
@@ -504,17 +482,9 @@ const _replaceProjectInputWithName = (e, nameInput, projectIndex) => {
     return function actualFunction(e) {
             if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
                 model.projectArray[projectIndex].name = nameInput.textContent;
-                const projectNameElement = document.createElement("div");
-                projectNameElement.textContent = nameInput.textContent;
-                projectNameElement.classList.add("project-name");
-                projectNameElement.dataset.project = projectIndex;
     
-                nameInput.remove();
-                const projectContainer = document.querySelector(`.project-container[data-project="${projectIndex}"]`);
-                projectContainer.prepend(projectNameElement);
-    
-                document.removeEventListener("click", _inputHandlers[1]);
-                document.removeEventListener("keydown", _inputHandlers[1]);
+                document.removeEventListener("click", _inputHandlers[2]);
+                document.removeEventListener("keydown", _inputHandlers[2]);
 
                 _updateProjectList();
             } else if (e.type === "keydown" && nameInput.textContent === "New project name?") {

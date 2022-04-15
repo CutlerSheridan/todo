@@ -3,15 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- refactor New Task and New Project buttons to work with contentEditable divs
-- fix this godforsaken bug that makes it so, on iOS, pressing "New Task" creates a new task element and gives it focus, but the keyboard doesn't pop up
-  - on subsequent presses of New Task, the keyboard DOES pop up, but ONLY if there is already a task with the same name as the placeholder task name
-  - FocusEvent fires twice if New Task placeholder name is unique, triggering _handleEditBoxFocus() twice
-  - the other task(s) with identical name(s) do not need to be immediately before the new task
-  - the FocusEvent attributes in the console should have relatedTarget: button.new-item-button, but the extra Event's relatedTarget is null
-  - doesn't matter what the identically-named task is (as in, the issue is not related to creating a task with the same placeholder name that the listener checks for to delete or repopulate when a user is typing)
-  - the focus/keyboard functions correctly even when no other identically-named task exists IF another task name has accidentally allowed an "enter" line break to occur...?
-  - confirmed the textContent in the newly-created Task Name derives from the task.name property, it's not going too fast and using the placeholder for empty task names
+- refactor New Project to use createEditBox() if possible
 
 #### TO-DO LATER
 ##### Features
@@ -44,6 +36,24 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.10*
+- delete most of the _replaceProjectInputWithName() function because it calls _updateProjectList()
+- fix this godforsaken bug that makes it so, on iOS, pressing "New Task" creates a new task element and gives it focus, but the keyboard doesn't pop up
+  - on subsequent presses of New Task, the keyboard DOES pop up, but ONLY if there is already a task with the same name as the placeholder task name
+  - the contentEditable div works fine on project names
+  - FocusEvent fires twice if New Task placeholder name is unique, triggering _handleEditBoxFocus() twice
+  - the other task(s) with identical name(s) do not need to be immediately before the new task
+  - the FocusEvent attributes in the console should have relatedTarget: button.new-item-button, but the extra Event's relatedTarget is null
+  - doesn't matter what the identically-named task is (as in, the issue is not related to creating a task with the same placeholder name that the listener checks for to delete or repopulate when a user is typing)
+  - the focus/keyboard functions correctly even when no other identically-named task exists IF another task name has accidentally allowed an "enter" line break to occur...?
+  - confirmed the textContent in the newly-created Task Name derives from the task.name property, it's not going too fast and using the placeholder for empty task names
+  - if I use createEditBox() in _createProjectElement(), same issue occurs
+  - the e.preventDefault() on the project name element is not what makes project names function fine
+  - _submitTextValue() is getting called via click immediately upon pressing the New Item button
+  -OH MY GOD.  This has to do with the "focus" and "click" events interrupting each other; setting the "focus" listener to {once: true} solves this, but then you can't edit a task name more than once.  PROGRESS
+  - change "click" event to "mousedown"
+  - curry _handleEditBoxFocus().  Somehow... somehow this fixed it.  Jesus Christ.  Three days on this.
+- abstract _moveCaretToEnd() as a function for reuse
 - *0.10.9.1*
 - (placeholder build while I try to fix this task name focus issue)
 - *0.10.9*

@@ -13,7 +13,7 @@ const createProjectPage = (e) => {
         const clickedElement = e.currentTarget;
         project = model.projectArray[clickedElement.dataset.project];
         
-        const header = document.querySelector("h1");
+        const header = document.querySelector(".header-project-name");
         if (header && header.textContent.toLowerCase() !== project.name) {
             deleteBtnsAreShowing = false;
         }
@@ -32,7 +32,7 @@ const createAllProjectsPage = () => {
     _createNewItemButton("allProjects");
 }
 const createLogbookPage = () => {
-    const header = document.querySelector("h1");
+    const header = document.querySelector(".header-project-name");
     if (header.textContent.toLowerCase() !== "logbook") {
         deleteBtnsAreShowing = false;
     }
@@ -108,10 +108,7 @@ const createBackBtn = (project) => {
     } else {
         backBtn.dataset.project = "allProjects";
     }
-    console.log(`project: ${project}`);
-    console.log(`backBtn.dataset.project: ${backBtn.dataset.project}`);
     backBtn.addEventListener("click", (e) => {
-        console.log(`e.target.dataset.project: ${e.target.dataset.project}`);
         if (e.target.dataset.project !== "allProjects") {
             createProjectPage(e);
         } else {
@@ -308,6 +305,9 @@ const createEditBox = (obj, property, classPrefix) => {
     }
     propEditBox.contentEditable = true;
     propEditBox.addEventListener("focus", _inputHandlers[0] = _handleEditBoxFocus(obj, property));
+    if (classPrefix === "project") {
+        propEditBox.addEventListener("mousedown", (e) => e.preventDefault());
+    }
     
     return propEditBox;
 }
@@ -316,7 +316,7 @@ const _handleEditBoxFocus = (obj, property) => {
     return function realHandleEditBoxFocus(e) {
         const domElement = e.target;
         document.addEventListener("mousedown", _inputHandlers[1] = _submitTextValue(e, domElement, obj, property));
-        domElement.addEventListener("keydown", _inputHandlers[1]);
+        document.addEventListener("keydown", _inputHandlers[1]);
     }
 }
 const _submitTextValue = (e, domElement, obj, property) => {
@@ -329,8 +329,13 @@ const _submitTextValue = (e, domElement, obj, property) => {
             }
             controller.changeProperty(obj, property, domElement.textContent);
             document.removeEventListener("mousedown", _inputHandlers[1]);
-            domElement.removeEventListener("keydown", _inputHandlers[1]);
-        } else if (e.type === "keydown" && domElement.textContent === `Enter ${property} here`) {
+            document.removeEventListener("keydown", _inputHandlers[1]);
+
+            if (document.querySelector(".project-list")) {
+                _updateProjectList();
+            }
+        } else if (e.type === "keydown" 
+        && (domElement.textContent === `Enter ${property} here` || domElement.textContent === `New project name?`)) {
             domElement.textContent = "";
         }
     }
@@ -376,15 +381,9 @@ const _insertNewItemInput = (e, project) => {
             const newProject = controller.addNewProject("New project name?");
             const projectIndex = model.projectArray.indexOf(newProject);
             incompleteProjects.append(_createProjectElement(newProject));
+            
             const projectNameDiv = document.querySelector(`.project-container[data-project="${projectIndex}"] .project-name`);
-
             _moveCaretToEnd(projectNameDiv);
-            projectNameDiv.focus();
-
-            setTimeout(() => {
-                document.addEventListener("click", _inputHandlers[2] = _replaceProjectInputWithName(e, projectNameDiv, projectIndex));
-                document.addEventListener("keydown", _inputHandlers[2]);
-            }, 10)
         }
 }
 const _moveCaretToEnd = (element) => {
@@ -432,13 +431,7 @@ const _createProjectElement = (project, isComplete = false) => {
     projectContainer.classList.add("project-container");
     projectContainer.dataset.project = model.projectArray.indexOf(project);
 
-    const projectNameElement = document.createElement("div");
-    projectNameElement.classList.add("project-name");
-    projectNameElement.textContent = project.name;
-    projectNameElement.contentEditable = true;
-    projectNameElement.addEventListener("mousedown", (e) => {
-        e.preventDefault();
-    });
+    const projectNameElement = createEditBox(project, "name", "project");
     projectContainer.append(projectNameElement);
     if (!isComplete) {
         if (project.showProgress) {
@@ -477,20 +470,6 @@ const _addListenersToProjects = () => {
 const _removeListenersFromProjects = () => {
     const allProjects = document.querySelectorAll(".project-container");
     allProjects.forEach(projectElement => projectElement.removeEventListener("click", createProjectPage));
-}
-const _replaceProjectInputWithName = (e, nameInput, projectIndex) => {
-    return function actualFunction(e) {
-            if ((e.type === "click" && e.target !== nameInput) || (e.type === "keydown" && e.key === "Enter")) {
-                model.projectArray[projectIndex].name = nameInput.textContent;
-    
-                document.removeEventListener("click", _inputHandlers[2]);
-                document.removeEventListener("keydown", _inputHandlers[2]);
-
-                _updateProjectList();
-            } else if (e.type === "keydown" && nameInput.textContent === "New project name?") {
-                nameInput.textContent = "";
-            }
-    }
 }
 // ALL PROJECTS PAGE END
 

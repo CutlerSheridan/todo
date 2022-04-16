@@ -3,23 +3,20 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- refactor New Project to use createEditBox() if possible
+- add button on All Projects page to make "swap progress type" buttons dis/appear
+- add option to delete project
 
 #### TO-DO LATER
 ##### Features
-- add button on All Projects page to make "swap progress type" buttons dis/appear
-- add option to delete project
 - add "add sample tasks" button
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
-- make clicking away from mid-edit task name not switch to editing another task name
 - add lastEdited property to project objects and, by default, sort projects page accordingly
 - make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
-- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name
 - make it so General is not an option on Projects page
 ##### Style
 - decide on style
@@ -31,11 +28,16 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Other
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
+- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name FIXED ITSELF?
 ##### Maybe
 - write a function to make adding testing projects and tasks faster
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.10.11*
+- refactor New Project to use createEditBox() if possible
+- adjust createEditBox() so clicking a project name in Projects creates the project page without the keyboard briefly popping up
+- fix Projects page so, when you're typing in the name of a new project, you can tap another project name to focus out without it taking you to that other project's page
 - *0.10.10*
 - delete most of the _replaceProjectInputWithName() function because it calls _updateProjectList()
 - fix this godforsaken bug that makes it so, on iOS, pressing "New Task" creates a new task element and gives it focus, but the keyboard doesn't pop up
@@ -53,6 +55,7 @@ If you need a free place to keep track of your to-do list, look no further.
   -OH MY GOD.  This has to do with the "focus" and "click" events interrupting each other; setting the "focus" listener to {once: true} solves this, but then you can't edit a task name more than once.  PROGRESS
   - change "click" event to "mousedown"
   - curry _handleEditBoxFocus().  Somehow... somehow this fixed it.  Jesus Christ.  Three days on this.
+- make clicking away from mid-edit task name not switch to editing another task name (also fixed thanks to previous bug fix)
 - abstract _moveCaretToEnd() as a function for reuse
 - *0.10.9.1*
 - (placeholder build while I try to fix this task name focus issue)

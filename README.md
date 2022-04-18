@@ -3,9 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add button on All Projects page to make "swap progress type" buttons dis/appear
-- add option to delete project
-
+- change project elements so project name and progress are in one container, delete button and progress toggle are separate
 #### TO-DO LATER
 ##### Features
 - add "add sample tasks" button
@@ -34,6 +32,12 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.11.0*
+- fix Delete buttons
+- expand Delete buttons to delete projects too on Projects page
+- add Delete buttons and toggle to Projects page
+- make Delete Toggle revert upon switching to Projects page
+- prevent Delete buttons on Projects page from opening a project
 - *0.10.11*
 - refactor New Project to use createEditBox() if possible
 - adjust createEditBox() so clicking a project name in Projects creates the project page without the keyboard briefly popping up

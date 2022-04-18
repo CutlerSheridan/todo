@@ -28,6 +28,31 @@ const addNewProject = (name, showProgress = true) => {
     _addProjectToArray(project);
     return project;
 }
+const deleteProject = (projectIndex) => {
+    _deleteTasksFromProject(projectIndex);
+    model.projectArray.splice(projectIndex, 1);
+}
+const _deleteTasksFromProject = (projectIndex) => {
+    const filteredTasks = model.taskArray.filter(task => task.project === model.projectArray[projectIndex]);
+    console.log("tasks matching project:");
+    console.log(filteredTasks);
+    console.log("array of their indices:");
+    const testTaskIndices = [];
+    filteredTasks.forEach(task => testTaskIndices.push(model.taskArray.indexOf(task)));
+    console.log(testTaskIndices);
+    const taskIndicesToDelete = model.taskArray.filter(task => task.project === model.projectArray[projectIndex])
+        .map(task => model.taskArray.indexOf(task));
+    console.log("real resulting array of indices");
+    console.log(taskIndicesToDelete);
+    console.log("full array");
+    console.log(model.taskArray);
+    for (let i = taskIndicesToDelete.length - 1; i >= 0; i--) {
+        console.log("Task being deleted:");
+        console.log(model.taskArray[taskIndicesToDelete[i]].name);
+        deleteTask(taskIndicesToDelete[i]);
+    }
+    // taskIndicesToDelete.forEach(taskIndex => deleteTask(taskIndex));
+}
 const changeProperty = (object, property, newValue) => {
     if (property === "project") {
         _subtractTaskFromProject(object);
@@ -55,11 +80,6 @@ const _subtractTaskFromProject = (task) => {
     } else {
         task.project.incompleteTasks--;
     }
-    console.log(task.project.name);
-    console.log("incomplete:");
-    console.log(task.project.incompleteTasks);
-    console.log("complete:");
-    console.log(task.project.completeTasks);
 }
 const sortIncompleteTasks = (project) => {
     const sortedArray = model.taskArray
@@ -159,6 +179,7 @@ export {
     addNewTask,
     deleteTask,
     addNewProject,
+    deleteProject,
     changeProperty,
     toggleTaskCompletion,
     swapSortMethod,

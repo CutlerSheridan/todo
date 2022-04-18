@@ -26,6 +26,10 @@ const createProjectPage = (e) => {
     _createNewItemButton(project);
 }
 const createAllProjectsPage = () => {
+    const header = document.querySelector(".header-project-name");
+    if (header.textContent.toLowerCase() !== "projects") {
+        deleteBtnsAreShowing = false;
+    }
     clearContent();
     _createHeader("allProjects");
     _updateProjectList();
@@ -67,8 +71,8 @@ const _createHeader = (project) => {
             headerContainer.append(_createSortButton(project));
         }
         headerContainer.append(_createRefreshTasksButton(project));
-        headerContainer.append(_createDeleteToggle());
     }
+    headerContainer.append(_createDeleteToggle());
     _contentDiv.append(headerContainer);
 }
 const _createSortButton = (project) => {
@@ -158,7 +162,7 @@ const _toggleDeleteBtns = (e) => {
     }
     e.target.dataset.isInactive = isInactive;
     const taskFormBtns = document.querySelectorAll(".task-form-btn");
-    const deleteBtns = document.querySelectorAll(".delete-task-btn");
+    const deleteBtns = document.querySelectorAll(".delete-btn");
     taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
     deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
 }
@@ -209,7 +213,7 @@ const _createTaskElement = (task) => {
     }
     taskContainer.append(taskInfoContainer);
     taskContainer.append(_createTaskFormButton(task));
-    taskContainer.append(_createDeleteTaskBtn(task));
+    taskContainer.append(_createDeleteBtn(task));
 
     if (task.isHighPriority) {
         taskContainer.classList.add(`priority-high`);
@@ -260,31 +264,49 @@ const _createTaskFormButton = (task) => {
     })
     return taskFormBtn;
 }
-const _createDeleteTaskBtn = (task, taskIndex) => {
+const _createDeleteBtn = (taskOrProject) => {
     const deleteBtn = document.createElement("button");
-    deleteBtn.classList.add("delete-task-btn");
+    deleteBtn.classList.add("delete-btn");
     if (!deleteBtnsAreShowing) {
         deleteBtn.classList.add("invisible");
     }
     deleteBtn.textContent = "X";
-    deleteBtn.dataset.task = model.taskArray.indexOf(task);
-    deleteBtn.dataset.project = model.projectArray.indexOf(task.project);
+
+    const taskIndex = model.taskArray.indexOf(taskOrProject);
+    if (taskIndex !== -1) {
+        deleteBtn.dataset.task = taskIndex;
+        deleteBtn.dataset.project = model.projectArray.indexOf(taskOrProject.project);
+    } else {
+        deleteBtn.dataset.project = model.projectArray.indexOf(taskOrProject);
+    }
 
     deleteBtn.addEventListener("click", (e) => {
-        _deleteTask(e);
-        const header = document.querySelector("h1");
-        const isLogbook = header.textContent.toLowerCase() === "logbook";
-        if (isLogbook) {
-            createLogbookPage();
+        console.log(e);
+        console.log(`taskIndex: ${taskIndex}`);
+        _deleteTaskOrProject(e);
+        if (taskIndex !== -1) {
+            const header = document.querySelector(".header-project-name");
+            const isLogbook = header.textContent.toLowerCase() === "logbook";
+            if (isLogbook) {
+                createLogbookPage();
+            } else {
+                createProjectPage(e);
+            }
         } else {
-            createProjectPage(e);
+            createAllProjectsPage();
         }
     });
     return deleteBtn;
 }
-const _deleteTask = (e) => {
-    const taskIndex = e.target.dataset.task;
-    controller.deleteTask(taskIndex);
+const _deleteTaskOrProject = (e) => {
+    console.log(`type of = ${typeof(e.target.dataset.task)}`);
+    console.log(`el.dataset.task = ${e.target.dataset.task}`);
+    if (e.target.dataset.task) {
+        const taskIndex = e.target.dataset.task;
+        controller.deleteTask(taskIndex);
+    } else {
+        controller.deleteProject(e.target.dataset.project);
+    }
 }
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
 const _inputHandlers = [];
@@ -439,6 +461,7 @@ const _createProjectElement = (project, isComplete = false) => {
         } else {
             projectContainer.append(_createRemainingTasksNum(project));
         }
+        projectContainer.append(_createDeleteBtn(project));
     }
     return projectContainer;
 }
@@ -464,12 +487,16 @@ const _createRemainingTasksNum = (project) => {
     return remainingTasksNum;
 }
 const _addListenersToProjects = () => {
-    const allProjects = document.querySelectorAll(".project-container");
+    const allProjects = document.querySelectorAll(".project-name");
     allProjects.forEach(projectElement => projectElement.addEventListener("click", createProjectPage));
+    const allProjectProgressElements = document.querySelectorAll(".project-progress");
+    allProjectProgressElements.forEach(progEl => progEl.addEventListener("click", createProjectPage));
 }
 const _removeListenersFromProjects = () => {
-    const allProjects = document.querySelectorAll(".project-container");
+    const allProjects = document.querySelectorAll(".project-name");
     allProjects.forEach(projectElement => projectElement.removeEventListener("click", createProjectPage));
+    const allProjectProgressElements = document.querySelectorAll(".project-progress");
+    allProjectProgressElements.forEach(progEl => progEl.removeEventListener("click", createProjectPage));
 }
 // ALL PROJECTS PAGE END
 

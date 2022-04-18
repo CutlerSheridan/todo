@@ -158,7 +158,7 @@ input[type="checkbox"]:checked + .task-label::after {
     color: red;
 }
 .task-form-btn,
-.delete-task-btn {
+.delete-btn {
     width: 2.25rem;
     min-width: 2.25rem;
     height: 2.25rem;
@@ -175,10 +175,10 @@ input[type="checkbox"]:checked + .task-label::after {
 .complete-task .task-form-btn {
     background: grey;
 }
-.delete-task-btn {
+.delete-btn {
     background: red;
 }
-.delete-task-btn:hover {
+.delete-btn:hover {
     background: darkred;
 }
 .name-change-input {

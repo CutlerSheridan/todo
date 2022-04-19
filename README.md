@@ -3,19 +3,21 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- change project elements so project name and progress are in one container, delete button and progress toggle are separate
+- add Progress style button on each project element
+- add Progress style button toggle for projects
+
 #### TO-DO LATER
 ##### Features
 - add "add sample tasks" button
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
+- make it so pressing "done" on "new project" interface adds back the listeners so you can click through to projects; fix on task names too, if possible, though it works correctly with two taps instead of one when trying to click another name to edit it
 - add lastEdited property to project objects and, by default, sort projects page accordingly
 - make text inputs start with shift key down using input[autocapitalize="on"]
 - make New Task box have translucent placeholder text
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
-- make it so General is not an option on Projects page
 ##### Style
 - decide on style
 - make footer tabs highlight active one
@@ -23,6 +25,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - get a + icon for the New Task button so it centers vertically
 - get > and < icons for buttons
 - adjust for desktop
+- stop delete button appearance on Projects page from changing the width of the progress bars
 ##### Other
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
@@ -32,6 +35,12 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.11.1*
+- change project elements so project name and progress are in one container, delete button and progress toggle are separate
+- fix complete projects not showing up in Projects
+- make it so General is not an option on Projects page
+- add another sample project
+- fix New Project button so focus directs correctly
 - *0.11.0*
 - fix Delete buttons
 - expand Delete buttons to delete projects too on Projects page

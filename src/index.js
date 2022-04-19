@@ -77,6 +77,19 @@ const setup = (() => {
     }
     controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...moreTasksForTesting);
 
+    controller.addNewProject("Here's a project");
+    const newProjectTasks = [];
+    for (let i = 0; i < 10; i++) {
+        newProjectTasks[i] = controller.addNewTask("Here's a task");
+        if (i > 6) {
+            newProjectTasks[i].isHighPriority = true;
+        }
+        if (i % 2 === 0) {
+            controller.toggleTaskCompletion(newProjectTasks[i]);
+        }
+    }
+    controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...newProjectTasks);
+
     view.createProjectPage();
     const generalTab = document.querySelector("#tab-general");
     generalTab.addEventListener("click", view.createProjectPage);

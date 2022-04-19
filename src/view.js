@@ -12,7 +12,7 @@ const createProjectPage = (e) => {
     if (e) {
         const clickedElement = e.currentTarget;
         project = model.projectArray[clickedElement.dataset.project];
-        
+        console.log(e.currentTarget);
         const header = document.querySelector(".header-project-name");
         if (header && header.textContent.toLowerCase() !== project.name) {
             deleteBtnsAreShowing = false;
@@ -404,7 +404,7 @@ const _insertNewItemInput = (e, project) => {
             const projectIndex = model.projectArray.indexOf(newProject);
             incompleteProjects.append(_createProjectElement(newProject));
             
-            const projectNameDiv = document.querySelector(`.project-container[data-project="${projectIndex}"] .project-name`);
+            const projectNameDiv = document.querySelector(`.project-info-container[data-project="${projectIndex}"] .project-name`);
             _moveCaretToEnd(projectNameDiv);
         }
 }
@@ -438,7 +438,11 @@ const _updateProjectList = () => {
     const incompleteProjects = document.createElement("section");
     incompleteProjects.classList.add("project-list", "incomplete-project-list");
     projectListDiv.append(incompleteProjects);
-    controller.sortIncompleteProjects().forEach(project => incompleteProjects.append(_createProjectElement(project)));
+    controller.sortIncompleteProjects().forEach(project => {
+        if (project.name.toLowerCase() !== "general") {
+            incompleteProjects.append(_createProjectElement(project))
+        }
+    });
 
     const completeProjects = document.createElement("section");
     completeProjects.classList.add("project-list");
@@ -451,18 +455,20 @@ const _updateProjectList = () => {
 const _createProjectElement = (project, isComplete = false) => {
     const projectContainer = document.createElement("div");
     projectContainer.classList.add("project-container");
-    projectContainer.dataset.project = model.projectArray.indexOf(project);
-
+    
+    const nameAndProgressContainer = document.createElement("div");
+    nameAndProgressContainer.dataset.project = model.projectArray.indexOf(project);
+    nameAndProgressContainer.classList.add("project-info-container");
     const projectNameElement = createEditBox(project, "name", "project");
-    projectContainer.append(projectNameElement);
+    nameAndProgressContainer.append(projectNameElement);
     if (!isComplete) {
         if (project.showProgress) {
-            projectContainer.append(_createProgressBar(project));
+            nameAndProgressContainer.append(_createProgressBar(project));
         } else {
-            projectContainer.append(_createRemainingTasksNum(project));
+            nameAndProgressContainer.append(_createRemainingTasksNum(project));
         }
-        projectContainer.append(_createDeleteBtn(project));
     }
+    projectContainer.append(nameAndProgressContainer, _createDeleteBtn(project));
     return projectContainer;
 }
 const _createProgressBar = (project) => {
@@ -487,16 +493,16 @@ const _createRemainingTasksNum = (project) => {
     return remainingTasksNum;
 }
 const _addListenersToProjects = () => {
-    const allProjects = document.querySelectorAll(".project-name");
+    const allProjects = document.querySelectorAll(".project-info-container");
     allProjects.forEach(projectElement => projectElement.addEventListener("click", createProjectPage));
-    const allProjectProgressElements = document.querySelectorAll(".project-progress");
-    allProjectProgressElements.forEach(progEl => progEl.addEventListener("click", createProjectPage));
+    // const allProjectProgressElements = document.querySelectorAll(".project-progress");
+    // allProjectProgressElements.forEach(progEl => progEl.addEventListener("click", createProjectPage));
 }
 const _removeListenersFromProjects = () => {
-    const allProjects = document.querySelectorAll(".project-name");
+    const allProjects = document.querySelectorAll(".project-info-container");
     allProjects.forEach(projectElement => projectElement.removeEventListener("click", createProjectPage));
-    const allProjectProgressElements = document.querySelectorAll(".project-progress");
-    allProjectProgressElements.forEach(progEl => progEl.removeEventListener("click", createProjectPage));
+    // const allProjectProgressElements = document.querySelectorAll(".project-progress");
+    // allProjectProgressElements.forEach(progEl => progEl.removeEventListener("click", createProjectPage));
 }
 // ALL PROJECTS PAGE END
 

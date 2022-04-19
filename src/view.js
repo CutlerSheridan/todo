@@ -72,6 +72,9 @@ const _createHeader = (project) => {
         }
         headerContainer.append(_createRefreshTasksButton(project));
     }
+    if (project === "allProjects") {
+        headerContainer.append(_createProgressTogglesToggle());
+    }
     headerContainer.append(_createDeleteToggle());
     _contentDiv.append(headerContainer);
 }
@@ -151,23 +154,28 @@ const _createDeleteToggle = () => {
     deleteToggle.addEventListener("click", _toggleDeleteBtns)
     return deleteToggle;
 }
-const _toggleDeleteBtns = (e) => {
-    let isInactive = e.target.dataset.isInactive;
+const _toggleDeleteBtns = () => {
+    const deleteToggle = document.querySelector(".delete-toggle");
+    let isInactive = deleteToggle.dataset.isInactive;
     deleteBtnsAreShowing = !deleteBtnsAreShowing;
     isInactive *= -1;
+    deleteToggle.dataset.isInactive = isInactive;
     if (isInactive > 0) {
-        e.target.textContent = "X";
+        deleteToggle.textContent = "X";
     } else {
-        e.target.textContent = "—";
+        deleteToggle.textContent = "—";
+        const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
+        if (progressTogglesToggle && progressTogglesToggle.dataset.isInactive < 0) {
+            _toggleProgressToggles();
+        }
     }
-    e.target.dataset.isInactive = isInactive;
     const taskFormBtns = document.querySelectorAll(".task-form-btn");
     const deleteBtns = document.querySelectorAll(".delete-btn");
     taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
     deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
 }
 
-const _updateTaskList = (project, deleteButtonsAreOn = false) => {
+const _updateTaskList = (project) => {
     let taskListDiv = document.querySelector(".task-list-container");
     if (taskListDiv) {
         clearContent(taskListDiv);
@@ -426,6 +434,34 @@ const _createEmptySpaceForBottomOfPage = () => {
 
 
 // ALL PROJECTS PAGE START
+const _createProgressTogglesToggle = () => {
+    const toggle = document.createElement("button");
+    toggle.classList.add("progress-toggles-toggle");
+    toggle.dataset.isInactive = 1;
+    toggle.textContent = "%?";
+
+    toggle.addEventListener("click", _toggleProgressToggles);
+    return toggle;
+}
+const _toggleProgressToggles = () => {
+    const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
+    let isInactive = progressTogglesToggle.dataset.isInactive;
+    isInactive *= -1;
+    progressTogglesToggle.dataset.isInactive = isInactive;
+    if (isInactive > 0) {
+        progressTogglesToggle.textContent = "%?";
+    } else {
+        progressTogglesToggle.textContent = "—";
+        const deleteToggle = document.querySelector(".delete-toggle");
+        if (deleteToggle.dataset.isInactive < 0) {
+            _toggleDeleteBtns();
+        }
+    }
+    const allProgressToggles = document.querySelectorAll(".progress-toggle");
+    if (allProgressToggles.length > 0) {
+        allProgressToggles.classList.toggle("invisible");
+    }
+}
 const _updateProjectList = () => {
     let projectListDiv = document.querySelector(".project-list-container");
     if (projectListDiv) {

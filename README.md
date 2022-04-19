@@ -3,8 +3,7 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add Progress style button on each project element
-- add Progress style button toggle for projects
+- add progress toggle button on each project element
 
 #### TO-DO LATER
 ##### Features
@@ -35,6 +34,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.11.2*
+- add progress toggles toggle for Projects page
 - *0.11.1*
 - change project elements so project name and progress are in one container, delete button and progress toggle are separate
 - fix complete projects not showing up in Projects

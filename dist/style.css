@@ -75,8 +75,8 @@ button {
     background: purple;
     color: white;
 }
+.progress-toggles-toggle,
 .delete-toggle {
-    margin-right: 0;
     width: 5rem;
     height: 4rem;
     display: flex;
@@ -86,6 +86,14 @@ button {
     border: none;
     background: red;
     color: white;
+}
+.progress-toggles-toggle {
+    margin-right: 1rem;
+    margin-left: auto;
+    background: green;
+}
+.delete-toggle {
+    margin-right: 0;
 }
 /* --- HEADER END --- */
 

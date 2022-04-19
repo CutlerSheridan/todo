@@ -1,6 +1,7 @@
 import * as controller from "./controller";
 import * as model from "./model";
 import * as viewTaskForm from "./viewTaskForm";
+import * as test from "./test";
 import { format } from "date-fns";
 
 const _contentDiv = document.querySelector(".content");
@@ -24,7 +25,8 @@ const createProjectPage = (e) => {
     _createHeader(project);
     _updateTaskList(project);
     if (project === model.projectArray[0]) {
-        _createClearAllButton();
+        test.createClearAllButton();
+        test.createDemoButton();
     }
     _createNewItemButton(project);
 }
@@ -433,21 +435,6 @@ const _createEmptySpaceForBottomOfPage = () => {
     const space = document.createElement("div");
     space.classList.add("empty-space");
     return space;
-}
-const _createClearAllButton = () => {
-    const btn = document.createElement("button");
-    btn.classList.add("clear-all-btn");
-    btn.textContent = "Clear all";
-    btn.addEventListener("click", () => {
-        controller.clearAll();
-        createProjectPage();
-    });
-    _contentDiv.append(btn);
-
-    const footer = document.querySelector("footer");
-    const displacementAmount = 15;
-    btn.style.right = displacementAmount * 6 + "px";
-    btn.style.bottom = footer.offsetHeight + displacementAmount + "px";
 }
 
 // ALL PROJECTS PAGE START

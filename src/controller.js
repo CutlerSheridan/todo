@@ -1,32 +1,32 @@
 import * as model from "./model";
 
-const _createTask = (name, project) => {
-    return model.Task(name, project);
-}
-const _addTaskToArray = (task) => {
-    model.taskArray.push(task);
-}
 const addNewTask = (name, project = model.projectArray[0]) => {
     const task = _createTask(name, project);
     _addTaskToArray(task);
     _addTaskToProject(task);
     return task;
 }
+const _createTask = (name, project) => {
+    return model.Task(name, project);
+}
+const _addTaskToArray = (task) => {
+    model.taskArray.push(task);
+}
 const deleteTask = (taskIndex) => {
     const task = model.taskArray[taskIndex];
     _subtractTaskFromProject(task);
     model.taskArray.splice(taskIndex, 1);
+}
+const addNewProject = (name, showProgress = true) => {
+    const project = _createProject(name, showProgress);
+    _addProjectToArray(project);
+    return project;
 }
 const _createProject = (name, showProgress) => {
     return model.Project(name, showProgress);
 }
 const _addProjectToArray = (project) => {
     model.projectArray.push(project);
-}
-const addNewProject = (name, showProgress = true) => {
-    const project = _createProject(name, showProgress);
-    _addProjectToArray(project);
-    return project;
 }
 const deleteProject = (projectIndex) => {
     _deleteTasksFromProject(projectIndex);
@@ -173,11 +173,6 @@ const addTasksToProject = (project, ...tasks) => {
         changeProperty(tasks[i], "project", project);
     }
 }
-const clearAll = () => {
-    console.log("gets to clearAll()");
-    model.taskArray.splice(0, model.taskArray.length);
-    model.projectArray.splice(1, model.projectArray.length - 1);
-}
 
 export {
     addNewTask,
@@ -192,5 +187,4 @@ export {
     sortIncompleteProjects,
     sortCompleteProjects,
     addTasksToProject,
-    clearAll,
 }

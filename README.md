@@ -3,14 +3,12 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- create new "test" module
-- move "clear all" to "test" module
-- add "add sample tasks" button
+- save everything in localStorage
+- read localStorage upon loading page
 
 #### TO-DO LATER
 ##### Features
-- save everything in localStorage
-- read localStorage upon loading page
+- add checklist capability to task form page?
 ##### Behavior
 - make it so pressing "done" on "new project" interface adds back the listeners so you can click through to projects; fix on task names too, if possible, though it works correctly with two taps instead of one when trying to click another name to edit it
 - add lastEdited property to project objects and, by default, sort projects page accordingly
@@ -27,17 +25,20 @@ If you need a free place to keep track of your to-do list, look no further.
 - adjust for desktop
 - stop delete button appearance on Projects page from changing the width of the progress bars
 - add my name
-- get project progresses same height
+- make project progresses same height
 - make headers all same height
 ##### Other
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
 - implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name FIXED ITSELF?
 ##### Maybe
-- write a function to make adding testing projects and tasks faster
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.12.1*
+- create new "test" module
+- move "clear all" to "test" module
+- add "add sample tasks" button
 - *0.12.0*
 - add Clear All button
 - fix create___() functions so, if a tab is clicked on from a task form page, the tab navigates the user correctly

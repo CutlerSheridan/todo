@@ -459,7 +459,7 @@ const _toggleProgressToggles = () => {
     }
     const allProgressToggles = document.querySelectorAll(".progress-toggle");
     if (allProgressToggles.length > 0) {
-        allProgressToggles.classList.toggle("invisible");
+        allProgressToggles.forEach(toggle => toggle.classList.toggle("invisible"));
     }
 }
 const _updateProjectList = () => {
@@ -504,12 +504,19 @@ const _createProjectElement = (project, isComplete = false) => {
             nameAndProgressContainer.append(_createRemainingTasksNum(project));
         }
     }
-    projectContainer.append(nameAndProgressContainer, _createDeleteBtn(project));
+    projectContainer.append(
+        nameAndProgressContainer,
+        _createDeleteBtn(project)
+        );
+    if (!isComplete) {
+        projectContainer.append(_createProgressToggle(project));
+    }
     return projectContainer;
 }
 const _createProgressBar = (project) => {
     const progressBarOuter = document.createElement("div");
     progressBarOuter.classList.add("progress-bar-outer", "project-progress");
+    progressBarOuter.dataset.project = model.projectArray.indexOf(project);
     const progressBarInner = document.createElement("div");
     progressBarInner.classList.add("progress-bar-inner");
     progressBarOuter.append(progressBarInner);
@@ -524,21 +531,44 @@ const _createProgressBar = (project) => {
 const _createRemainingTasksNum = (project) => {
     const remainingTasksNum = document.createElement("div");
     remainingTasksNum.classList.add("remaining-tasks-num", "project-progress");
+    remainingTasksNum.dataset.project = model.projectArray.indexOf(project);
     const numOfTasks = project.incompleteTasks;
     remainingTasksNum.textContent = `${numOfTasks} task${numOfTasks === 1 ? "" : "s"}`;
     return remainingTasksNum;
 }
+const _createProgressToggle = (project) => {
+    const toggle = document.createElement("button");
+    toggle.classList.add("progress-toggle");
+    toggle.textContent = "%/#";
+    toggle.dataset.project = model.projectArray.indexOf(project);
+    toggle.classList.add("invisible");
+
+    toggle.addEventListener("click", _toggleProgressStyle);
+    return toggle;
+}
+const _toggleProgressStyle = (e) => {
+    const projectIndex = e.target.dataset.project;
+    const project = model.projectArray[projectIndex];
+    const nameAndProgressContainer = document.querySelector(`.project-info-container[data-project="${projectIndex}"]`);
+    const progressElement = document.querySelector(`.project-progress[data-project="${projectIndex}"]`);
+
+    let newProgressElement;
+    if (progressElement.classList.contains("remaining-tasks-num")) {
+        newProgressElement = _createProgressBar(project);
+    } else if (progressElement.classList.contains("progress-bar-outer")) {
+        newProgressElement = _createRemainingTasksNum(project);
+    }
+    progressElement.remove();
+    nameAndProgressContainer.append(newProgressElement);
+    controller.changeProperty(project, "showProgress", !project.showProgress);
+}
 const _addListenersToProjects = () => {
     const allProjects = document.querySelectorAll(".project-info-container");
     allProjects.forEach(projectElement => projectElement.addEventListener("click", createProjectPage));
-    // const allProjectProgressElements = document.querySelectorAll(".project-progress");
-    // allProjectProgressElements.forEach(progEl => progEl.addEventListener("click", createProjectPage));
 }
 const _removeListenersFromProjects = () => {
     const allProjects = document.querySelectorAll(".project-info-container");
     allProjects.forEach(projectElement => projectElement.removeEventListener("click", createProjectPage));
-    // const allProjectProgressElements = document.querySelectorAll(".project-progress");
-    // allProjectProgressElements.forEach(progEl => progEl.removeEventListener("click", createProjectPage));
 }
 // ALL PROJECTS PAGE END
 

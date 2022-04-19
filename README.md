@@ -3,11 +3,11 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add progress toggle button on each project element
+- add "clear everything" button
+- add "add sample tasks" button
 
 #### TO-DO LATER
 ##### Features
-- add "add sample tasks" button
 - save everything in localStorage
 - read localStorage upon loading page
 ##### Behavior
@@ -25,6 +25,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - get > and < icons for buttons
 - adjust for desktop
 - stop delete button appearance on Projects page from changing the width of the progress bars
+- add my name
+- get project progresses same height
 ##### Other
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
@@ -34,6 +36,11 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.11.3*
+- add progress toggle button on each project element
+- make progress toggle buttons work
+- adjust progress toggle so it changes the project property
+- prevent progress toggles from appearing on completed projects
 - *0.11.2*
 - add progress toggles toggle for Projects page
 - *0.11.1*

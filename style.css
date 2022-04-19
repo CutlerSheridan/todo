@@ -278,9 +278,14 @@ select {
 }
 .project-container {
     margin: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
     font-size: 2rem;
     text-transform: capitalize;
     cursor: pointer;
+}
+.project-info-container {
+    width: 100%;
 }
 .project-progress {
     margin-top: .5rem;

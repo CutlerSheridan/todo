@@ -112,15 +112,6 @@ button {
 .priority-high {
     background: pink;
 }
-/* .priority-2 {
-    background: pink;
-}
-.priority-1 {
-    background: yellow;
-}
-.priority-0 {
-    background: olivedrab;
-} */
 .checkbox-container {
     align-self: flex-start;
     margin-top: .5rem;
@@ -218,6 +209,7 @@ input[type="checkbox"]:checked + .task-label::after {
 /* --- TASKS END --- */
 
 /* --- NEW ITEM BUTTON START --- */
+.clear-all-btn,
 .new-item-btn {
     position: fixed;
     height: 6rem;
@@ -233,6 +225,11 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 .new-item-btn:hover {
     background: darkblue;
+}
+.clear-all-btn {
+    width: 8rem;
+    font-size: 1.8rem;
+    background: red;
 }
 /* --- NEW ITEM BUTTON END --- */
 
@@ -259,6 +256,7 @@ input[type="checkbox"]:checked + .task-label::after {
     margin: 2rem;
     display: flex;
     align-items: center;
+    font-size: 2rem;
 }
 select {
     padding: 0 .4rem;

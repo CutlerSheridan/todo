@@ -51,7 +51,6 @@ const _deleteTasksFromProject = (projectIndex) => {
         console.log(model.taskArray[taskIndicesToDelete[i]].name);
         deleteTask(taskIndicesToDelete[i]);
     }
-    // taskIndicesToDelete.forEach(taskIndex => deleteTask(taskIndex));
 }
 const changeProperty = (object, property, newValue) => {
     if (property === "project") {
@@ -174,6 +173,11 @@ const addTasksToProject = (project, ...tasks) => {
         changeProperty(tasks[i], "project", project);
     }
 }
+const clearAll = () => {
+    console.log("gets to clearAll()");
+    model.taskArray.splice(0, model.taskArray.length);
+    model.projectArray.splice(1, model.projectArray.length - 1);
+}
 
 export {
     addNewTask,
@@ -188,4 +192,5 @@ export {
     sortIncompleteProjects,
     sortCompleteProjects,
     addTasksToProject,
+    clearAll,
 }

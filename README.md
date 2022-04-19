@@ -3,7 +3,8 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- add "clear everything" button
+- create new "test" module
+- move "clear all" to "test" module
 - add "add sample tasks" button
 
 #### TO-DO LATER
@@ -27,6 +28,7 @@ If you need a free place to keep track of your to-do list, look no further.
 - stop delete button appearance on Projects page from changing the width of the progress bars
 - add my name
 - get project progresses same height
+- make headers all same height
 ##### Other
 - should tasks get auto-added to taskArray?
 - fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
@@ -36,6 +38,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.12.0*
+- add Clear All button
+- fix create___() functions so, if a tab is clicked on from a task form page, the tab navigates the user correctly
 - *0.11.3*
 - add progress toggle button on each project element
 - make progress toggle buttons work

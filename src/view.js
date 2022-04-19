@@ -23,11 +23,14 @@ const createProjectPage = (e) => {
     clearContent();
     _createHeader(project);
     _updateTaskList(project);
+    if (project === model.projectArray[0]) {
+        _createClearAllButton();
+    }
     _createNewItemButton(project);
 }
 const createAllProjectsPage = () => {
     const header = document.querySelector(".header-project-name");
-    if (header.textContent.toLowerCase() !== "projects") {
+    if (header && header.textContent.toLowerCase() !== "projects") {
         deleteBtnsAreShowing = false;
     }
     clearContent();
@@ -37,7 +40,7 @@ const createAllProjectsPage = () => {
 }
 const createLogbookPage = () => {
     const header = document.querySelector(".header-project-name");
-    if (header.textContent.toLowerCase() !== "logbook") {
+    if (header && header.textContent.toLowerCase() !== "logbook") {
         deleteBtnsAreShowing = false;
     }
     clearContent();
@@ -431,7 +434,21 @@ const _createEmptySpaceForBottomOfPage = () => {
     space.classList.add("empty-space");
     return space;
 }
+const _createClearAllButton = () => {
+    const btn = document.createElement("button");
+    btn.classList.add("clear-all-btn");
+    btn.textContent = "Clear all";
+    btn.addEventListener("click", () => {
+        controller.clearAll();
+        createProjectPage();
+    });
+    _contentDiv.append(btn);
 
+    const footer = document.querySelector("footer");
+    const displacementAmount = 15;
+    btn.style.right = displacementAmount * 6 + "px";
+    btn.style.bottom = footer.offsetHeight + displacementAmount + "px";
+}
 
 // ALL PROJECTS PAGE START
 const _createProgressTogglesToggle = () => {

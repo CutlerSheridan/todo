@@ -61,12 +61,6 @@ const changeProperty = (object, property, newValue) => {
     if (property === "project") {
         _addTaskToProject(object);
     }
-    if (property === "dueDate") {
-        console.log("object being changed");
-        console.log(object);
-        console.log("new date input");
-        console.log(newValue);
-    }
     if (model.taskArray.length > 0) {
         localStorage.setItem("storedTaskArray", JSON.stringify(model.taskArray));
     }
@@ -75,10 +69,32 @@ const changeProperty = (object, property, newValue) => {
     }
 }
 const _addTaskToProject = (task) => {
+    if (task.name === "completed task") {
+        console.log("task at start of addTaskToProject()");
+        console.log(task);
+        console.log("isComplete property:");
+        console.log(task.isComplete);
+        console.log("project complete:");
+        console.log(task.project.completeTasks);
+        console.log("project incomplete:");
+        console.log(task.project.incompleteTasks);
+        console.log("type of isComplete");
+        console.log(typeof (task.isComplete));
+    }
     if (task.isComplete) {
         task.project.completeTasks++;
     } else {
         task.project.incompleteTasks++;
+    }
+    if (task.name === "completed task") {
+        console.log("task at end of addTaskToProject()");
+        console.log(task);
+        console.log("isComplete property:");
+        console.log(task.isComplete);
+        console.log("project complete:");
+        console.log(task.project.completeTasks);
+        console.log("project incomplete:");
+        console.log(task.project.incompleteTasks);
     }
 }
 const _subtractTaskFromProject = (task) => {
@@ -214,28 +230,32 @@ const _repopulateTasks = () => {
         const storedTaskArray = JSON.parse(localStorage.getItem("storedTaskArray"));
         localStorage.removeItem("storedTaskArray");
         storedTaskArray.forEach(task => {
-            const newTask = addNewTask(task.name);
+            const projectIndex = model.projectArray.findIndex(project => {
+                return (project.name === task.project.name
+                    && project.showProgress === task.project.showProgress
+                    && project.sortMethod === task.project.sortMethod
+                )
+            });
+            const newTask = addNewTask(task.name, model.projectArray[projectIndex]);
             for (let prop in task) {
-                if (prop === "project") {
-                    const projectIndex = model.projectArray.findIndex(project => {
-                        return (project.name === task.project.name
-                            && project.showProgress === task.project.showProgress
-                            && project.sortMethod === task.project.sortMethod)
-                    })
-                    console.log(`Project index:  ${projectIndex}`);
-                    newTask.project = model.projectArray[projectIndex];
-                } else if (prop === "dueDate"
+                if (prop === "dueDate"
                     || prop === "completionDateTime"
                     || prop === "creationDateTime"
-                    ) {
-                        if (task[prop] !== null) {
-                            changeProperty(newTask, prop, parseJSON(task[prop]));
-                        }
-                } else if (prop !== "isPastDue") {
+                ) {
+                    if (task[prop] !== null) {
+                        changeProperty(newTask, prop, parseJSON(task[prop]));
+                    }
+                } else if (prop === "isComplete") {
+                    if (task[prop] === true) {
+                        toggleTaskCompletion(newTask);
+                    }
+                } else if (prop !== "isPastDue" && prop !== "project") {
                     changeProperty(newTask, prop, task[prop]);
                 }
             }
         })
+        console.log("model.projectArray");
+        console.log(model.projectArray);
     }
 }
 

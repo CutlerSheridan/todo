@@ -4,9 +4,6 @@ If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
 - make Back button in task form within logbook go back to logbook
-- make progress of projects calculate correctl (currently says 0 for all)
-  - is it checking before arrays get populated?
-  - or actually addNewTask() isn't properly adding task to project because of how the arrays are repopulating; should try to pass the correct project into the addNewTask() argument in _repopulateTask()
 
 #### TO-DO LATER
 ##### Features
@@ -37,6 +34,12 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.13.1*
+- make progress of projects calculate correctly (currently says 0 for all)
+  - is it checking before arrays get populated?
+  - or actually addNewTask() isn't properly adding task to project because of how the arrays are repopulating; should try to pass the correct project into the addNewTask() argument in _repopulateTask()
+  - the task.isComplete property is accurate; for some reason the _addTaskToProject() function isn't working
+  - use toggleTaskCompletion in _repopulateTasks() if the property is isComplete and the value is true
 - *0.13.0*
 - add localStorage.setItem() for storedTaskArray and storedProjectArray
 - move addTasksToProject() to test.js

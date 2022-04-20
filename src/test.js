@@ -24,6 +24,7 @@ const _clearAll = () => {
     model.projectArray.splice(1, model.projectArray.length - 1);
     model.projectArray[0].incompleteTasks = 0;
     model.projectArray[0].completeTasks = 0;
+    localStorage.clear();
 }
 
 const createDemoButton = () => {
@@ -40,6 +41,11 @@ const createDemoButton = () => {
     const displacementAmount = 15;
     btn.style.right = displacementAmount * 12 + "px";
     btn.style.bottom = footer.offsetHeight + displacementAmount + "px";
+}
+const _addTasksToProject = (project, ...tasks) => {
+    for (let i = 0; i < tasks.length; i++) {
+        controller.changeProperty(tasks[i], "project", project);
+    }
 }
 const _addSampleData = () => {
     controller.addNewTask("First Test");
@@ -77,7 +83,7 @@ const _addSampleData = () => {
             controller.toggleTaskCompletion(otherTasksArray[i]);
         }
     }
-    controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...otherTasksArray);
+    _addTasksToProject(model.projectArray[model.projectArray.length - 1], ...otherTasksArray);
 
     controller.addNewTask("Scroll test task");
     controller.addNewTask("Scroll test task");
@@ -93,7 +99,7 @@ const _addSampleData = () => {
         completedTasksForTesting[i] = controller.addNewTask("Another testing task");
         controller.toggleTaskCompletion(completedTasksForTesting[i]);
     }
-    controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...completedTasksForTesting);
+    _addTasksToProject(model.projectArray[model.projectArray.length - 1], ...completedTasksForTesting);
 
     const _getRandomInt = (max) => {
         return Math.floor(Math.random() * max);
@@ -109,7 +115,7 @@ const _addSampleData = () => {
         }
         moreTasksForTesting[i].dueDate = new Date(2022, (_getRandomInt(11) + 1), (_getRandomInt(27) + 1));
     }
-    controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...moreTasksForTesting);
+    _addTasksToProject(model.projectArray[model.projectArray.length - 1], ...moreTasksForTesting);
 
     controller.addNewProject("Here's a project");
     const newProjectTasks = [];
@@ -122,7 +128,15 @@ const _addSampleData = () => {
             controller.toggleTaskCompletion(newProjectTasks[i]);
         }
     }
-    controller.addTasksToProject(model.projectArray[model.projectArray.length - 1], ...newProjectTasks);
+    _addTasksToProject(model.projectArray[model.projectArray.length - 1], ...newProjectTasks);
+    console.log("storedTaskArray at end of test.js");
+    console.log(JSON.parse(localStorage.getItem("storedTaskArray")));
+    console.log("model.taskArray at end of demo");
+    console.log(model.taskArray);
+    console.log("stored project array at end of test.js");
+    console.log(JSON.parse(localStorage.getItem("storedProjectArray")));
+    console.log("model.projectArray at end of test.js");
+    console.log(model.projectArray);
 }
 
 export {

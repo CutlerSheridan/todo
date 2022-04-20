@@ -29,6 +29,9 @@ const createProjectPage = (e) => {
         test.createDemoButton();
     }
     _createNewItemButton(project);
+    if (model.taskArray.length > 0) {
+        console.log(model.taskArray[0].dueDate);
+    }
 }
 const createAllProjectsPage = () => {
     const header = document.querySelector(".header-project-name");

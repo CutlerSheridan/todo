@@ -3,8 +3,10 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- save everything in localStorage
-- read localStorage upon loading page
+- make Back button in task form within logbook go back to logbook
+- make progress of projects calculate correctl (currently says 0 for all)
+  - is it checking before arrays get populated?
+  - or actually addNewTask() isn't properly adding task to project because of how the arrays are repopulating; should try to pass the correct project into the addNewTask() argument in _repopulateTask()
 
 #### TO-DO LATER
 ##### Features
@@ -35,6 +37,21 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.13.0*
+- add localStorage.setItem() for storedTaskArray and storedProjectArray
+- move addTasksToProject() to test.js
+- save everything in localStorage
+- read localStorage upon loading page
+- figure out why localStorage is emptying the storedTaskArray
+  - it's happening during _repopulateProjects() because console.log() shows the array is full before that and at least as far as localStorage.removeItem();
+  - it's happening during the forEach loop
+  - it's happening during changeProperty()
+  - it happens when changeProperty() tries to call localStorage.setItem("storedTaskArray");
+  - ohhh it's because this is changing storedTaskArray before _repopulateTaskArray() is called, which requires the full storedTaskArray to work
+- figure out why projects are repopulated but tasks aren't
+  - oh I bet it's because it's not actually linking the new tasks with the same projects, they're just identical objects, so I need to save the indices of the projects
+- import parseJSON from date-fns to parse the JSON date strings into Date objects
+- add conditional in _repopulateTasks() to only assign date properties if the stored date is not null
 - *0.12.1*
 - create new "test" module
 - move "clear all" to "test" module

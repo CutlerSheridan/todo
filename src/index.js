@@ -3,8 +3,13 @@ import * as view from "./view";
 import * as controller from "./controller";
 
 const setup = (() => {
-    controller.addNewProject("general");
-
+    controller.repopulateDataFromLocalStorage();
+    if (!model.projectArray.length > 0) {
+        controller.addNewProject("general");
+    }
+    console.log(model.taskArray);
+    console.log(model.projectArray);
+    console.log("hello");
 
     view.createProjectPage();
     const generalTab = document.querySelector("#tab-general");

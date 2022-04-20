@@ -13,7 +13,6 @@ const createProjectPage = (e) => {
     if (e) {
         const clickedElement = e.currentTarget;
         project = model.projectArray[clickedElement.dataset.project];
-        console.log(e.currentTarget);
         const header = document.querySelector(".header-project-name");
         if (header && header.textContent.toLowerCase() !== project.name) {
             deleteBtnsAreShowing = false;
@@ -29,9 +28,6 @@ const createProjectPage = (e) => {
         test.createDemoButton();
     }
     _createNewItemButton(project);
-    if (model.taskArray.length > 0) {
-        console.log(model.taskArray[0].dueDate);
-    }
 }
 const createAllProjectsPage = () => {
     const header = document.querySelector(".header-project-name");
@@ -121,14 +117,25 @@ const createBackBtn = (project) => {
     if (typeof(project) === "object") {
         backBtn.dataset.project = model.projectArray.indexOf(project);
     } else {
-        backBtn.dataset.project = "allProjects";
+        backBtn.dataset.project = project;
     }
     backBtn.addEventListener("click", (e) => {
-        if (e.target.dataset.project !== "allProjects") {
-            createProjectPage(e);
-        } else {
-            createAllProjectsPage();
+        switch (e.target.dataset.project) {
+            case "allProjects":
+                createAllProjectsPage();
+                break;
+            case "logbook":
+                createLogbookPage();
+                break;
+            default:
+                createProjectPage(e);
+                break;
         }
+        // if (e.target.dataset.project !== "allProjects") {
+        //     createProjectPage(e);
+        // } else {
+        //     createAllProjectsPage();
+        // }
     });
     return backBtn;
 }
@@ -274,6 +281,9 @@ const _createTaskFormButton = (task) => {
     }
     taskFormBtn.textContent = ">";
     taskFormBtn.dataset.task = model.taskArray.indexOf(task);
+    if (document.querySelector(".header-project-name").textContent === "logbook") {
+        taskFormBtn.dataset.projectName = "logbook";
+    }
 
     taskFormBtn.addEventListener("click", (e) => {
         setTimeout(() => {viewTaskForm.createTaskForm(e)}, 10);
@@ -297,8 +307,6 @@ const _createDeleteBtn = (taskOrProject) => {
     }
 
     deleteBtn.addEventListener("click", (e) => {
-        console.log(e);
-        console.log(`taskIndex: ${taskIndex}`);
         _deleteTaskOrProject(e);
         if (taskIndex !== -1) {
             const header = document.querySelector(".header-project-name");
@@ -315,8 +323,6 @@ const _createDeleteBtn = (taskOrProject) => {
     return deleteBtn;
 }
 const _deleteTaskOrProject = (e) => {
-    console.log(`type of = ${typeof(e.target.dataset.task)}`);
-    console.log(`el.dataset.task = ${e.target.dataset.task}`);
     if (e.target.dataset.task) {
         const taskIndex = e.target.dataset.task;
         controller.deleteTask(taskIndex);

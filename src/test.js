@@ -129,14 +129,6 @@ const _addSampleData = () => {
         }
     }
     _addTasksToProject(model.projectArray[model.projectArray.length - 1], ...newProjectTasks);
-    console.log("storedTaskArray at end of test.js");
-    console.log(JSON.parse(localStorage.getItem("storedTaskArray")));
-    console.log("model.taskArray at end of demo");
-    console.log(model.taskArray);
-    console.log("stored project array at end of test.js");
-    console.log(JSON.parse(localStorage.getItem("storedProjectArray")));
-    console.log("model.projectArray at end of test.js");
-    console.log(model.projectArray);
 }
 
 export {

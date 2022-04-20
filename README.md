@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make Back button in task form within logbook go back to logbook
 
 #### TO-DO LATER
 ##### Features
@@ -34,6 +33,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - make header remain in place even when focusing on name change input
 
 #### DONE
+- *0.13.2*
+- clean up console.log()s
+- make Back button in task form within logbook go back to logbook
 - *0.13.1*
 - make progress of projects calculate correctly (currently says 0 for all)
   - is it checking before arrays get populated?

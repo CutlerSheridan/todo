@@ -9,7 +9,11 @@ const createTaskForm = (e) => {
     view.clearContent();
     const task = model.taskArray[e.target.dataset.task];
 
-    _contentDiv.append(_createHeader(task));
+    if (e.target.dataset.projectName === "logbook") {
+        _contentDiv.append(_createHeader(task, true));
+    } else {
+        _contentDiv.append(_createHeader(task));
+    }
     _contentDiv.append(_createChoiceContainer(
         "Project",
         _createProjectDropdown,
@@ -35,11 +39,15 @@ const createTaskForm = (e) => {
     allCheckboxes.forEach(checkbox => checkbox.classList.add("tf-checkbox-container"));
 }
 
-const _createHeader = (task) => {
+const _createHeader = (task, arrivedFromLogbook = false) => {
     const header = document.createElement("header");
     header.classList.add("tf-header");
 
-    header.append(view.createBackBtn(task.project));
+    if (arrivedFromLogbook) {
+        header.append(view.createBackBtn("logbook"));
+    } else {
+        header.append(view.createBackBtn(task.project));
+    }
     header.append(view.createCheckbox(task));
     const _taskName = view.createEditBox(task, "name", "tf-task");
     header.append(_taskName);
@@ -83,7 +91,6 @@ const _createPriorityToggle = (task) => {
     const _togglePriority = (e) => {
         const task = model.taskArray[e.target.dataset.task];
         controller.changeProperty(task, "isHighPriority", !task.isHighPriority);
-        console.log(task.isComplete);
     }
     const checkboxContainer = view.createCheckbox(task, task.isHighPriority, _togglePriority);
     return checkboxContainer;
@@ -101,8 +108,6 @@ const _toggleDueDate = (e) => {
     const task = model.taskArray[e.target.dataset.task];
     const picker = document.querySelector("input[type='date']");
     if (task.dueDate) {
-        console.log(picker.value);
-        console.log(task.dueDate);
         controller.changeProperty(task, "dueDate", null);
         picker.disabled = true;
     } else {
@@ -117,7 +122,6 @@ const _createDueDatePicker = (task) => {
     picker.dataset.task = model.taskArray.indexOf(task);
     if (task.dueDate) {
         picker.value = format(task.dueDate, "yyyy-MM-dd");
-        console.log(format(task.dueDate, "yyyy-MM-dd"));
     } else {
         picker.value = format(new Date(), "yyyy-MM-dd");
         picker.disabled = true;

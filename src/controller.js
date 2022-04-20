@@ -69,32 +69,10 @@ const changeProperty = (object, property, newValue) => {
     }
 }
 const _addTaskToProject = (task) => {
-    if (task.name === "completed task") {
-        console.log("task at start of addTaskToProject()");
-        console.log(task);
-        console.log("isComplete property:");
-        console.log(task.isComplete);
-        console.log("project complete:");
-        console.log(task.project.completeTasks);
-        console.log("project incomplete:");
-        console.log(task.project.incompleteTasks);
-        console.log("type of isComplete");
-        console.log(typeof (task.isComplete));
-    }
     if (task.isComplete) {
         task.project.completeTasks++;
     } else {
         task.project.incompleteTasks++;
-    }
-    if (task.name === "completed task") {
-        console.log("task at end of addTaskToProject()");
-        console.log(task);
-        console.log("isComplete property:");
-        console.log(task.isComplete);
-        console.log("project complete:");
-        console.log(task.project.completeTasks);
-        console.log("project incomplete:");
-        console.log(task.project.incompleteTasks);
     }
 }
 const _subtractTaskFromProject = (task) => {
@@ -197,7 +175,6 @@ const toggleTaskCompletion = (task) => {
     localStorage.setItem("storedProjectArray", JSON.stringify(model.projectArray));
 }
 const repopulateDataFromLocalStorage = () => {
-    console.log("reached repopulateData");
     if (localStorage.length > 0) {
         _repopulateProjects();
         _repopulateTasks();
@@ -214,15 +191,12 @@ const _repopulateProjects = () => {
             for (let prop in project) {
                 if (prop === "timeCreated") {
                     changeProperty(newProj, prop, parseJSON(project[prop]));
-                    console.log("task array after first use of 'timeCreated' changeProperty()");
-                    console.log(JSON.parse(localStorage.getItem("storedTaskArray")));
                 } else if (prop !== "incompleteTasks"
                     && prop !== "completeTasks") {
                     changeProperty(newProj, prop, project[prop]);
                 }
             }
         })
-        console.log(localStorage);
     }
 }
 const _repopulateTasks = () => {
@@ -254,8 +228,6 @@ const _repopulateTasks = () => {
                 }
             }
         })
-        console.log("model.projectArray");
-        console.log(model.projectArray);
     }
 }
 

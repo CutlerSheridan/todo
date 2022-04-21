@@ -3,14 +3,12 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make text inputs start with shift key down using input[autocapitalize="on"]
+- fix delete buttons maintaining hover behavior on iOS after clicking one
+- fix checkboxes maintaining hover after tap
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
-- make it so pressing "done" on "new project" interface adds back the listeners so you can click through to projects; fix on task names too, if possible, though it works correctly with two taps instead of one when trying to click another name to edit it
-- fix delete buttons maintaining hover behavior on iOS after clicking one
-- fix checkboxes maintaining hover after tap
 ##### Style
 - decide on style
 - make footer tabs highlight active one
@@ -29,6 +27,10 @@ If you need a free place to keep track of your to-do list, look no further.
 - sort completed projects according to last one completed
 
 #### DONE
+- *0.13.5*
+- make text inputs start with shift key down using input[autocapitalize="on"] (this didn't totally work but not worth wasting time on)
+- make it so pressing "done" on "new project" interface adds back the listeners so you can click through to projects
+- fix "done" on task names too, if possible, though it works correctly with two taps instead of one when trying to click another name to edit it
 - *0.13.4*
 - fix repopulating checking sortMethod messing up if a project's sortMethod is different (currently, if you go to a project, change the sort method, and refresh, all of those tasks go into General)
 - *0.13.3*

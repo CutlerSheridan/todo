@@ -348,6 +348,7 @@ const createEditBox = (obj, property, classPrefix) => {
         propEditBox.dataset.task = objectIndex;
     }
     propEditBox.contentEditable = true;
+    propEditBox.autocapitalize = "sentences";
     propEditBox.addEventListener("focus", _inputHandlers[0] = _handleEditBoxFocus(obj, property));
     if (classPrefix === "project") {
         propEditBox.addEventListener("mousedown", (e) => e.preventDefault());
@@ -361,11 +362,16 @@ const _handleEditBoxFocus = (obj, property) => {
         const domElement = e.target;
         document.addEventListener("mousedown", _inputHandlers[1] = _submitTextValue(e, domElement, obj, property));
         document.addEventListener("keydown", _inputHandlers[1]);
+        document.addEventListener("focusout", _inputHandlers[1]);
     }
 }
 const _submitTextValue = (e, domElement, obj, property) => {
     return function realSubmitTextValueFunction(e) {
-        if ((e.type === "mousedown" && e.target !== domElement) || (e.type === "keydown" && e.key === "Enter")) {
+        const clearAllBtn = document.querySelector(".new-item-btn");
+        clearAllBtn.textContent = e.type;
+        if ((e.type === "mousedown" && e.target !== domElement)
+            || (e.type === "keydown" && e.key === "Enter")
+            || e.type === "focusout") {
             e.preventDefault();
             domElement.blur();
             if (domElement.textContent === "") {
@@ -374,12 +380,14 @@ const _submitTextValue = (e, domElement, obj, property) => {
             controller.changeProperty(obj, property, domElement.textContent);
             document.removeEventListener("mousedown", _inputHandlers[1]);
             document.removeEventListener("keydown", _inputHandlers[1]);
+            document.removeEventListener("focusout", _inputHandlers[1]);
+
 
             if (document.querySelector(".project-list")) {
                 _updateProjectList();
             }
-        } else if (e.type === "keydown" 
-        && (domElement.textContent === `Enter ${property} here` || domElement.textContent === `New project name?`)) {
+        } else if (e.type === "keydown"
+            && (domElement.textContent === `Enter ${property} here` || domElement.textContent === `New project name?`)) {
             domElement.textContent = "";
         }
     }

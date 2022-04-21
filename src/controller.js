@@ -61,11 +61,11 @@ const changeProperty = (object, property, newValue) => {
     if (property === "project") {
         _addTaskToProject(object);
     }
-    if (model.taskArray.length > 0) {
-        localStorage.setItem("storedTaskArray", JSON.stringify(model.taskArray));
-    }
     if (model.projectArray.length > 0) {
         localStorage.setItem("storedProjectArray", JSON.stringify(model.projectArray));
+        if (model.taskArray.length > 0) {
+            localStorage.setItem("storedTaskArray", JSON.stringify(model.taskArray));
+        }
     }
 }
 const _addTaskToProject = (task) => {
@@ -136,6 +136,9 @@ const swapSortMethod = (project) => {
     project.sortMethod = model.sortMethods[(sortMethodIndex + 1) % model.sortMethods.length];
 
     localStorage.setItem("storedProjectArray", JSON.stringify(model.projectArray));
+    if (model.taskArray.length > 0) {
+        localStorage.setItem("storedTaskArray", JSON.stringify(model.taskArray));
+    }
 }
 const sortCompleteTasks = (project) => {
     let sortedArray = model.taskArray.filter(task => task.isComplete);
@@ -196,14 +199,29 @@ const _repopulateProjects = () => {
                 }
             }
         })
+        console.log("_repopulateProjects() stored project array");
+        console.log(storedProjectArray);
+        console.log("model.projectArray");
+        console.log(model.projectArray);
+
     }
 }
 const _repopulateTasks = () => {
     if (localStorage.getItem("storedTaskArray")) {
         const storedTaskArray = JSON.parse(localStorage.getItem("storedTaskArray"));
+        console.log("storedTaskArray");
+        console.log(storedTaskArray);
         localStorage.removeItem("storedTaskArray");
         storedTaskArray.forEach(task => {
             const projectIndex = model.projectArray.findIndex(project => {
+                if (task.name === "This should not be in General") {
+                    console.log("task.project");
+                    console.log(task.project);
+                    console.log(`task: ${task.name}`);
+                    console.log("project.sortMethod vs. task.project.sortMethod");
+                    console.log(project.sortMethod + " vs. " + task.project.sortMethod);
+                }
+
                 return (project.name === task.project.name
                     && project.showProgress === task.project.showProgress
                     && project.sortMethod === task.project.sortMethod

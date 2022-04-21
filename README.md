@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- fix repopulating checking sortMethod messing up if a project's sortMethod is different (currently, if you go to a project, change the sort method, and refresh, all of those tasks go into General)
 - make text inputs start with shift key down using input[autocapitalize="on"]
 
 #### TO-DO LATER
@@ -30,6 +29,8 @@ If you need a free place to keep track of your to-do list, look no further.
 - sort completed projects according to last one completed
 
 #### DONE
+- *0.13.4*
+- fix repopulating checking sortMethod messing up if a project's sortMethod is different (currently, if you go to a project, change the sort method, and refresh, all of those tasks go into General)
 - *0.13.3*
 - sort Projects alphabetically
 - fix tasks not sorting alphabetically

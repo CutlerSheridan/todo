@@ -3,20 +3,19 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
+- fix repopulating checking sortMethod messing up if a project's sortMethod is different (currently, if you go to a project, change the sort method, and refresh, all of those tasks go into General)
+- make text inputs start with shift key down using input[autocapitalize="on"]
 
 #### TO-DO LATER
 ##### Features
-- add checklist capability to task form page?
 ##### Behavior
 - make it so pressing "done" on "new project" interface adds back the listeners so you can click through to projects; fix on task names too, if possible, though it works correctly with two taps instead of one when trying to click another name to edit it
-- add lastEdited property to project objects and, by default, sort projects page accordingly
-- make text inputs start with shift key down using input[autocapitalize="on"]
-- make New Task box have translucent placeholder text
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap
 ##### Style
 - decide on style
 - make footer tabs highlight active one
+- make New Task box have translucent placeholder text
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 - get a + icon for the New Task button so it centers vertically
 - get > and < icons for buttons
@@ -26,13 +25,14 @@ If you need a free place to keep track of your to-do list, look no further.
 - make project progresses same height
 - make headers all same height
 ##### Other
-- should tasks get auto-added to taskArray?
-- fix footer so it isn't too high if you switch to a page while the address bar is minimized NO LONGER SEEMS TO BE A PROBLEM?
-- implement "focusout" eventListener when editing name in a box (in view + viewTaskForm) for when iOS user presses "done" on keyboard - alternatively, just have every keystroke update the task name FIXED ITSELF?
 ##### Maybe
-- make header remain in place even when focusing on name change input
+- add checklist capability to task form page?
+- sort completed projects according to last one completed
 
 #### DONE
+- *0.13.3*
+- sort Projects alphabetically
+- fix tasks not sorting alphabetically
 - *0.13.2*
 - clean up console.log()s
 - make Back button in task form within logbook go back to logbook

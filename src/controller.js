@@ -121,7 +121,7 @@ const sortMethod = (() => {
         return y.creationDateTime - x.creationDateTime;
     }
     const sortByAlphabet = (x, y) => {
-        return y.name - x.name;
+        return x.name.localeCompare(y.name);
     }
     return {
         sortByPriority,
@@ -149,16 +149,15 @@ const sortIncompleteProjects = () => {
     const sortedProjects = model.projectArray
         .filter(project => {
             return project.incompleteTasks > 0
-                || (project.incompleteTasks === 0 && project.completeTasks === 0);
-        });
+                || (project.incompleteTasks === 0 && project.completeTasks === 0)
+        }).sort((a, b) => a.name.localeCompare(b.name));
     return sortedProjects;
 }
 const sortCompleteProjects = () => {
-    const sortedProjects = model.projectArray
+    return model.projectArray
         .filter(project =>
             project.incompleteTasks === 0
             && project.completeTasks > 0);
-    return sortedProjects;
 }
 const toggleTaskCompletion = (task) => {
     _subtractTaskFromProject(task);

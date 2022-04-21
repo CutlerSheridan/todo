@@ -60,8 +60,6 @@ const _addSampleData = () => {
     controller.addNewTask("This is gonna be the fourth test right about here");
     model.taskArray[model.taskArray.length - 1].dueDate = new Date(2022, 4, 15);
     
-    controller.addNewTask("This should not be in General", model.projectArray[1]);
-
     controller.addNewTask("Another test");
     controller.addNewTask("Past due task");
     model.taskArray[model.taskArray.length - 1].dueDate = new Date(2022, 1, 15);
@@ -76,6 +74,8 @@ const _addSampleData = () => {
 
     controller.addNewProject("empty", false);
     controller.addNewProject("other", false);
+    controller.addNewTask("This should not be in General", model.projectArray[model.projectArray.length - 1]);
+
     const otherTasksArray = [];
     for (let i = 0; i < 7; i++) {
         otherTasksArray[i] = controller.addNewTask("This goes in Other");

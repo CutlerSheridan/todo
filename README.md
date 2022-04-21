@@ -11,7 +11,6 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Behavior
 ##### Style
 - decide on style
-- make footer tabs highlight active one
 - make New Task box have translucent placeholder text
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 - get a + icon for the New Task button so it centers vertically
@@ -19,14 +18,18 @@ If you need a free place to keep track of your to-do list, look no further.
 - adjust for desktop
 - stop delete button appearance on Projects page from changing the width of the progress bars
 - add my name
-- make project progresses same height
-- make headers all same height
 ##### Other
 ##### Maybe
 - add checklist capability to task form page?
 - sort completed projects according to last one completed
 
 #### DONE
+- *0.13.6*
+- adjust task form style
+- clean up console.log()s
+- make footer tabs highlight active one
+- make headers all same height
+- make project progresses same height
 - *0.13.5*
 - make text inputs start with shift key down using input[autocapitalize="on"] (this didn't totally work but not worth wasting time on)
 - make it so pressing "done" on "new project" interface adds back the listeners so you can click through to projects

@@ -20,6 +20,9 @@ const createProjectPage = (e) => {
     } else {
         project = model.projectArray[0];
     }
+    if (project === model.projectArray[0]) {
+        _makeActiveTab(project);
+    }
     clearContent();
     _createHeader(project);
     _updateTaskList(project);
@@ -34,6 +37,7 @@ const createAllProjectsPage = () => {
     if (header && header.textContent.toLowerCase() !== "projects") {
         deleteBtnsAreShowing = false;
     }
+    _makeActiveTab("allProjects");
     clearContent();
     _createHeader("allProjects");
     _updateProjectList();
@@ -44,9 +48,22 @@ const createLogbookPage = () => {
     if (header && header.textContent.toLowerCase() !== "logbook") {
         deleteBtnsAreShowing = false;
     }
+    _makeActiveTab("logbook");
     clearContent();
     _createHeader("logbook");
     _updateTaskList("logbook");
+}
+const _makeActiveTab = (project) => {
+    const tabs = document.querySelectorAll(".footer-tab");
+    tabs.forEach(tab => {
+        if (tab.textContent.toLowerCase() === project
+        || (tab.textContent.toLowerCase() === "projects" && project === "allProjects")
+        || (project.name && tab.textContent.toLowerCase() === project.name.toLowerCase())) {
+            tab.classList.add("active-tab");
+        } else {
+            tab.classList.remove("active-tab");
+        }
+    })
 }
 
 const _createHeader = (project) => {
@@ -367,8 +384,6 @@ const _handleEditBoxFocus = (obj, property) => {
 }
 const _submitTextValue = (e, domElement, obj, property) => {
     return function realSubmitTextValueFunction(e) {
-        const clearAllBtn = document.querySelector(".new-item-btn");
-        clearAllBtn.textContent = e.type;
         if ((e.type === "mousedown" && e.target !== domElement)
             || (e.type === "keydown" && e.key === "Enter")
             || e.type === "focusout") {

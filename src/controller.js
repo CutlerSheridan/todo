@@ -199,29 +199,14 @@ const _repopulateProjects = () => {
                 }
             }
         })
-        console.log("_repopulateProjects() stored project array");
-        console.log(storedProjectArray);
-        console.log("model.projectArray");
-        console.log(model.projectArray);
-
     }
 }
 const _repopulateTasks = () => {
     if (localStorage.getItem("storedTaskArray")) {
         const storedTaskArray = JSON.parse(localStorage.getItem("storedTaskArray"));
-        console.log("storedTaskArray");
-        console.log(storedTaskArray);
         localStorage.removeItem("storedTaskArray");
         storedTaskArray.forEach(task => {
             const projectIndex = model.projectArray.findIndex(project => {
-                if (task.name === "This should not be in General") {
-                    console.log("task.project");
-                    console.log(task.project);
-                    console.log(`task: ${task.name}`);
-                    console.log("project.sortMethod vs. task.project.sortMethod");
-                    console.log(project.sortMethod + " vs. " + task.project.sortMethod);
-                }
-
                 return (project.name === task.project.name
                     && project.showProgress === task.project.showProgress
                     && project.sortMethod === task.project.sortMethod

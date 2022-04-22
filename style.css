@@ -140,8 +140,10 @@ input[type="checkbox"] + .task-label::after {
     border: 2px solid white;
     transition: all .2s;
 }
-input[type="checkbox"] + .task-label:hover::after {
-    background: grey;
+@media (hover: hover) {
+    input[type="checkbox"] + .task-label:hover::after {
+        background: grey;
+    }
 }
 input[type="checkbox"]:checked + .task-label::after {
     background: black;
@@ -169,17 +171,19 @@ input[type="checkbox"]:checked + .task-label::after {
     background: black;
     color: white;
 }
-.task-form-btn:hover {
-    background: grey;
-}
 .complete-task .task-form-btn {
     background: grey;
 }
 .delete-btn {
     background: red;
 }
-.delete-btn:hover {
-    background: darkred;
+@media (hover: hover) {
+    .task-form-btn:hover {
+        background: grey;
+    }
+    .delete-btn:hover {
+        background: darkred;
+    }
 }
 .name-change-input {
     font-size: inherit;
@@ -225,8 +229,10 @@ input[type="checkbox"]:checked + .task-label::after {
     color: white;
     font-size: 2.7rem;
 }
-.new-item-btn:hover {
-    background: darkblue;
+@media (hover: hover) {
+    .new-item-btn:hover {
+        background: darkblue;
+    }
 }
 .demo-btn {
     font-size: 1.8rem;

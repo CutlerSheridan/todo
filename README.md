@@ -3,27 +3,29 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- fix delete buttons maintaining hover behavior on iOS after clicking one
-- fix checkboxes maintaining hover after tap
+- decide on style
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
 ##### Style
-- decide on style
-- make New Task box have translucent placeholder text
-- fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 - get a + icon for the New Task button so it centers vertically
 - get > and < icons for buttons
 - adjust for desktop
-- stop delete button appearance on Projects page from changing the width of the progress bars
 - add my name
+- make New Task box have translucent placeholder text
+- fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 ##### Other
 ##### Maybe
 - add checklist capability to task form page?
 - sort completed projects according to last one completed
 
 #### DONE
+- *0.13.7*
+- fix delete buttons maintaining hover behavior on iOS after clicking one
+- fix checkboxes maintaining hover after tap
+- fix all buttons retaining hover status on mobile
+- stop delete button or progress toggle appearance on Projects page from changing the width of the progress bars
 - *0.13.6*
 - adjust task form style
 - clean up console.log()s

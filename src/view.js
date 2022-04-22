@@ -454,7 +454,6 @@ const _insertNewItemInput = (e, project) => {
         }
 }
 const _moveCaretToEnd = (element) => {
-    // all this range/selection stuff makes the cursor start at the end of the div
     const range = document.createRange();
     const selection = window.getSelection();
     range.setStart(element.childNodes[0], element.textContent.length);
@@ -557,7 +556,7 @@ const _createProgressBar = (project) => {
     progressBarInner.classList.add("progress-bar-inner");
     progressBarOuter.append(progressBarInner);
 
-    progressBarOuter.style.width = "50%";
+    progressBarOuter.style.width = "35vw";
     const totalTasks = project.incompleteTasks + project.completeTasks;
     const percentComplete = project.completeTasks * 100 / totalTasks;
     progressBarInner.style.width = `${percentComplete}%`;

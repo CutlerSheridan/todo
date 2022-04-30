@@ -87,16 +87,19 @@ const _createHeader = (project) => {
         })();
         headerContainer.append(heading);
     }
+    const headerBtnsContainer = document.createElement("div");
+    headerBtnsContainer.classList.add("header-btns-container");
     if (project !== "allProjects") {
         if (project !== "logbook") {
-            headerContainer.append(_createSortButton(project));
+            headerBtnsContainer.append(_createSortButton(project));
         }
-        headerContainer.append(_createRefreshTasksButton(project));
+        headerBtnsContainer.append(_createRefreshTasksButton(project));
     }
     if (project === "allProjects") {
-        headerContainer.append(_createProgressTogglesToggle());
+        headerBtnsContainer.append(_createProgressTogglesToggle());
     }
-    headerContainer.append(_createDeleteToggle());
+    headerBtnsContainer.append(_createDeleteToggle());
+    headerContainer.append(headerBtnsContainer);
     _contentDiv.append(headerContainer);
 }
 const _createSortButton = (project) => {
@@ -117,6 +120,16 @@ const _createSortButton = (project) => {
                 return "Time Created";
         }
     })();
+    // _addIcon(sortBtn, (() => {
+    //     switch(project.sortMethod) {
+    //         case "sortByPriority":
+    //             return "Priority";
+    //         case "sortByDueDate":
+    //             return "Due Date";
+    //         case "sortByCreationTime":
+    //             return "Time Created";
+    //     }
+    // })());
     sortBtn.addEventListener("click", _changeSortAndUpdate);
     sortContainer.append(sortLabel, sortBtn);
     return sortContainer;
@@ -130,7 +143,7 @@ const _changeSortAndUpdate = (e) => {
 const createBackBtn = (project) => {
     const backBtn = document.createElement("button");
     backBtn.classList.add("back-btn");
-    backBtn.textContent = "<";
+    _addIcon(backBtn, "chevron_left");
     if (typeof(project) === "object") {
         backBtn.dataset.project = model.projectArray.indexOf(project);
     } else {
@@ -148,18 +161,13 @@ const createBackBtn = (project) => {
                 createProjectPage(e);
                 break;
         }
-        // if (e.target.dataset.project !== "allProjects") {
-        //     createProjectPage(e);
-        // } else {
-        //     createAllProjectsPage();
-        // }
     });
     return backBtn;
 }
 const _createRefreshTasksButton = (project) => {
     const refreshTasks = document.createElement("button");
-    refreshTasks.textContent = "Refresh";
     refreshTasks.classList.add("refresh");
+    _addIcon(refreshTasks, "refresh");
     refreshTasks.dataset.project = model.projectArray.indexOf(project);
 
     refreshTasks.addEventListener("click", (e) => {
@@ -175,11 +183,11 @@ const _createDeleteToggle = () => {
     const deleteToggle = document.createElement("button");
     deleteToggle.classList.add("delete-toggle");
     if (deleteBtnsAreShowing) {
-        deleteToggle.textContent = "—";
+        _addIcon(deleteToggle, "remove");
         deleteToggle.dataset.isInactive = -1;
 
     } else {
-        deleteToggle.textContent = "X";
+        _addIcon(deleteToggle, "close");
         deleteToggle.dataset.isInactive = 1;
     }
 
@@ -193,9 +201,9 @@ const _toggleDeleteBtns = () => {
     isInactive *= -1;
     deleteToggle.dataset.isInactive = isInactive;
     if (isInactive > 0) {
-        deleteToggle.textContent = "X";
+        _addIcon(deleteToggle, "close");
     } else {
-        deleteToggle.textContent = "—";
+        _addIcon(deleteToggle, "remove");
         const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
         if (progressTogglesToggle && progressTogglesToggle.dataset.isInactive < 0) {
             _toggleProgressToggles();
@@ -205,8 +213,10 @@ const _toggleDeleteBtns = () => {
     const deleteBtns = document.querySelectorAll(".delete-btn");
     taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
     deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
-    document.querySelector(".demo-btn").classList.toggle("invisible");
-    document.querySelector(".clear-all-btn").classList.toggle("invisible");
+    if (document.querySelector(".demo-btn")) {
+        document.querySelector(".demo-btn").classList.toggle("invisible");
+        document.querySelector(".clear-all-btn").classList.toggle("invisible");
+    }
 }
 
 const _updateTaskList = (project) => {
@@ -298,7 +308,7 @@ const _createTaskFormButton = (task) => {
     if (deleteBtnsAreShowing) {
         taskFormBtn.classList.add("invisible");
     }
-    taskFormBtn.textContent = ">";
+    _addIcon(taskFormBtn, "chevron_right");
     taskFormBtn.dataset.task = model.taskArray.indexOf(task);
     if (document.querySelector(".header-project-name").textContent === "logbook") {
         taskFormBtn.dataset.projectName = "logbook";
@@ -315,7 +325,7 @@ const _createDeleteBtn = (taskOrProject) => {
     if (!deleteBtnsAreShowing) {
         deleteBtn.classList.add("invisible");
     }
-    deleteBtn.textContent = "X";
+    _addIcon(deleteBtn, "close");
 
     const taskIndex = model.taskArray.indexOf(taskOrProject);
     if (taskIndex !== -1) {
@@ -422,7 +432,7 @@ const _toggleCompleteClass = (e) => {
 const _createNewItemButton = (project) => {
     const newItemBtn = document.createElement("button");
     newItemBtn.classList.add("new-item-btn");
-    newItemBtn.textContent = "+";
+    _addIcon(newItemBtn, "add");
     _contentDiv.append(newItemBtn);
 
     const footer = document.querySelector("footer");
@@ -464,6 +474,10 @@ const _moveCaretToEnd = (element) => {
     selection.addRange(range);
     element.focus();
 }
+const _addIcon = (element, iconCode) => {
+    element.textContent = iconCode;
+    element.classList.add("material-symbols-outlined");
+}
 const _createEmptySpaceForBottomOfPage = () => {
     const space = document.createElement("div");
     space.classList.add("empty-space");
@@ -475,7 +489,7 @@ const _createProgressTogglesToggle = () => {
     const toggle = document.createElement("button");
     toggle.classList.add("progress-toggles-toggle");
     toggle.dataset.isInactive = 1;
-    toggle.textContent = "%?";
+    _addIcon(toggle, "percent");
 
     toggle.addEventListener("click", _toggleProgressToggles);
     return toggle;
@@ -486,9 +500,9 @@ const _toggleProgressToggles = () => {
     isInactive *= -1;
     progressTogglesToggle.dataset.isInactive = isInactive;
     if (isInactive > 0) {
-        progressTogglesToggle.textContent = "%?";
+        _addIcon(progressTogglesToggle, "percent");
     } else {
-        progressTogglesToggle.textContent = "—";
+        _addIcon(progressTogglesToggle, "remove");
         const deleteToggle = document.querySelector(".delete-toggle");
         if (deleteToggle.dataset.isInactive < 0) {
             _toggleDeleteBtns();
@@ -576,7 +590,7 @@ const _createRemainingTasksNum = (project) => {
 const _createProgressToggle = (project) => {
     const toggle = document.createElement("button");
     toggle.classList.add("progress-toggle");
-    toggle.textContent = "%/#";
+    _addIcon(toggle, "percent");
     toggle.dataset.project = model.projectArray.indexOf(project);
     toggle.classList.add("invisible");
 

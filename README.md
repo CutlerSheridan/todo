@@ -4,7 +4,6 @@ If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
 - decide on style
-- fix 
 
 #### TO-DO LATER
 ##### Features
@@ -20,8 +19,18 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Maybe
 - add checklist capability to task form page?
 - sort completed projects according to last one completed
+- make completed tasks / projects a dropdown
 
 #### DONE
+- *0.14.1*
+- change everything to off-white and off-black again but a little nicer
+- import material icons
+- apply icons
+- prevent icon ligature from displaying before icon loads
+- make header buttons smaller
+- fix back button returning to Projects page only working the first time
+- fix Projects page delete toggle and progress toggles toggle not properly switching to the other if one is already active
+- put header right buttons into div for cleaner, more consistent formatting
 - *0.14.0*
 - create CSS color variables
 - make tasks/projects fade into header as user scrolls

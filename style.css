@@ -1,15 +1,27 @@
 :root {
     /* --clr-pri: white; */
     /* --clr-pri: rgb(221,0,18); */
-    --clr-pri: rgb(43, 79, 208);
+    /* --clr-pri: rgb(43, 79, 208); */
+    --clr-pri: rgb(240,240,240);
     /* --clr-sec: rgb(34,34,34); */
-    --clr-sec: rgb(206,216,247);
-    --clr-ter: rgb(1, 28, 108);
+    /* --clr-sec: rgb(206,216,247); */
+    --clr-sec: rgb(34,34,34);
+    /* --clr-ter: rgb(1, 28, 108); */
+    --clr-ter: pink;
     margin-right: calc(100vw - 100%);
     margin-left: 0;
     font-size: 62.5%;
     font-family: Helvetica;
     background: var(--clr-pri);
+}
+.material-symbols-outlined {
+    /* max-width: 100%; */
+    overflow: hidden;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 40
 }
 * {
     margin: 0;
@@ -24,6 +36,9 @@ body {
 }
 .content {
     padding-bottom: 7rem;
+}
+button {
+    cursor: pointer;
 }
 
 /* --- HEADER START --- */
@@ -47,6 +62,7 @@ header:not(.tf-header) {
     justify-content: center;
     align-items: center;
     font-size: 4rem;
+    text-align: center;
     background: transparent;
     cursor: pointer;
 }
@@ -55,52 +71,48 @@ header:not(.tf-header) {
     text-transform: capitalize;
     font-weight: bold;
 }
-button {
-    cursor: pointer;
+.header-btns-container {
+    margin-left: auto;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
 }
 .sort-container {
-    margin-right: 1rem;
-    margin-left: auto;
+    height: 3.7rem;
+    width: calc(auto + 1rem);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 .sort-button {
-    padding: 0;
-    font-size: 1.7rem;
-}
-.refresh {
-    margin-right: 1rem;
-    width: 6rem;
-    height: 4rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding: 0 .7rem;
+    height: 2.5rem;
     font-size: 1.5rem;
     border: none;
     background: var(--clr-sec);
     color: var(--clr-pri);
 }
+.refresh,
 .progress-toggles-toggle,
 .delete-toggle {
-    width: 5rem;
-    height: 4rem;
+    min-width: 3.7rem;
+    height: 3.7rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2.5rem;
     border: none;
 }
+.refresh,
 .progress-toggles-toggle {
-    margin-right: 1rem;
-    margin-left: auto;
     background: var(--clr-sec);
     color: var(--clr-pri);
 }
+.progress-toggles-toggle {
+}
 .delete-toggle {
-    margin-right: 0;
     background: red;
     color: var(--clr-sec);
 }
@@ -135,7 +147,8 @@ input[type="checkbox"] {
     height: 2rem;
     width: 2rem;
     min-width: 2rem;
-    background: var(--clr-ter);
+    background: var(--clr-sec);
+    border-radius: .6rem;
     cursor: pointer;
 }
 input[type="checkbox"] + .task-label::after {
@@ -145,22 +158,22 @@ input[type="checkbox"] + .task-label::after {
     height: calc(100% - 8px);
     left: 2px;
     top: 2px;
-    background: var(--clr-sec);
-    border: 2px solid var(--clr-sec);
+    background: var(--clr-pri);
+    border: 2px solid var(--clr-pri);
+    border-radius: .4rem;
     transition: all .2s;
 }
 @media (hover: hover) {
     input[type="checkbox"] + .task-label:hover::after {
-        background: var(--clr-pri);
+        background: var(--clr-ter);
     }
 }
 input[type="checkbox"]:checked + .task-label::after {
-    background: var(--clr-ter);
+    background: var(--clr-sec);
 }
 .task-info-container {
     margin: 0 1.5rem 0 1rem;
     width: 100%;
-    color: var(--clr-sec);
 }
 .due-date {
     font-size: 1.5rem;
@@ -174,7 +187,8 @@ input[type="checkbox"]:checked + .task-label::after {
     font-weight: bold;
 }
 .task-form-btn,
-.delete-btn {
+.delete-btn,
+.progress-toggle {
     width: 2.25rem;
     min-width: 2.25rem;
     height: 2.25rem;
@@ -211,7 +225,7 @@ input[type="checkbox"]:checked + .task-label::after {
 .complete-task {
     font-style: italic;
     color: grey;
-    background: skyblue;
+    background: transparent;
 }
 .complete-task-list input[type="checkbox"]:checked + .task-label {
     background: grey;

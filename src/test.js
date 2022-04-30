@@ -7,6 +7,9 @@ const _contentDiv = document.querySelector(".content");
 const createClearAllButton = () => {
     const btn = document.createElement("button");
     btn.classList.add("clear-all-btn");
+    if (!view.deleteBtnsAreShowing) {
+        btn.classList.add("invisible");
+    }
     btn.textContent = "Clear all";
     btn.addEventListener("click", () => {
         _clearAll();
@@ -30,6 +33,9 @@ const _clearAll = () => {
 const createDemoButton = () => {
     const btn = document.createElement("button");
     btn.classList.add("demo-btn");
+    if (!view.deleteBtnsAreShowing) {
+        btn.classList.add("invisible");
+    }
     btn.textContent = "Demo";
     btn.addEventListener("click", () => {
         _addSampleData();

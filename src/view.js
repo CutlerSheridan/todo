@@ -183,7 +183,7 @@ const _createDeleteToggle = () => {
         deleteToggle.dataset.isInactive = 1;
     }
 
-    deleteToggle.addEventListener("click", _toggleDeleteBtns)
+    deleteToggle.addEventListener("mousedown", _toggleDeleteBtns)
     return deleteToggle;
 }
 const _toggleDeleteBtns = () => {
@@ -205,6 +205,8 @@ const _toggleDeleteBtns = () => {
     const deleteBtns = document.querySelectorAll(".delete-btn");
     taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
     deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
+    document.querySelector(".demo-btn").classList.toggle("invisible");
+    document.querySelector(".clear-all-btn").classList.toggle("invisible");
 }
 
 const _updateTaskList = (project) => {
@@ -615,6 +617,7 @@ const clearContent = (node = _contentDiv) => {
 }
 
 export {
+    deleteBtnsAreShowing,
     createProjectPage,
     createBackBtn,
     createEditBox,

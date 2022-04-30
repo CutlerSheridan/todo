@@ -4,6 +4,7 @@ If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
 - decide on style
+- fix 
 
 #### TO-DO LATER
 ##### Features
@@ -21,6 +22,11 @@ If you need a free place to keep track of your to-do list, look no further.
 - sort completed projects according to last one completed
 
 #### DONE
+- *0.14.0*
+- create CSS color variables
+- make tasks/projects fade into header as user scrolls
+- play with a blueprint-style color palette
+- attach Demo and Clear All buttons to Delete Button toggle
 - *0.13.7*
 - fix delete buttons maintaining hover behavior on iOS after clicking one
 - fix checkboxes maintaining hover after tap

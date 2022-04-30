@@ -1,8 +1,15 @@
 :root {
+    /* --clr-pri: white; */
+    /* --clr-pri: rgb(221,0,18); */
+    --clr-pri: rgb(43, 79, 208);
+    /* --clr-sec: rgb(34,34,34); */
+    --clr-sec: rgb(206,216,247);
+    --clr-ter: rgb(1, 28, 108);
     margin-right: calc(100vw - 100%);
     margin-left: 0;
     font-size: 62.5%;
     font-family: Helvetica;
+    background: var(--clr-pri);
 }
 * {
     margin: 0;
@@ -27,8 +34,8 @@ header:not(.tf-header) {
     height: 10rem;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid black;
-    background: white;
+    background-image: linear-gradient(var(--clr-pri) 85%, transparent);
+    color: var(--clr-sec);
     z-index: 1000;
 }
 .back-btn {
@@ -73,8 +80,8 @@ button {
     align-items: center;
     font-size: 1.5rem;
     border: none;
-    background: purple;
-    color: white;
+    background: var(--clr-sec);
+    color: var(--clr-pri);
 }
 .progress-toggles-toggle,
 .delete-toggle {
@@ -85,25 +92,27 @@ button {
     align-items: center;
     font-size: 2.5rem;
     border: none;
-    background: red;
-    color: white;
 }
 .progress-toggles-toggle {
     margin-right: 1rem;
     margin-left: auto;
-    background: green;
+    background: var(--clr-sec);
+    color: var(--clr-pri);
 }
 .delete-toggle {
     margin-right: 0;
+    background: red;
+    color: var(--clr-sec);
 }
 /* --- HEADER END --- */
 
 /* --- TASKS START --- */
-.task-list {
-    border-top: 1px solid lightcoral;
+.incomplete-task-list {
+    border-bottom: 1px solid var(--clr-sec);
 }
 .task-container {
     margin: 1rem 2rem;
+    min-height: 3rem;
     display: flex;
     align-items: center;
     font-size: 2rem;
@@ -111,7 +120,7 @@ button {
     white-space: pre-wrap;
 }
 .priority-high {
-    background: pink;
+    background: var(--clr-ter);
 }
 .checkbox-container {
     align-self: flex-start;
@@ -126,7 +135,7 @@ input[type="checkbox"] {
     height: 2rem;
     width: 2rem;
     min-width: 2rem;
-    background: black;
+    background: var(--clr-ter);
     cursor: pointer;
 }
 input[type="checkbox"] + .task-label::after {
@@ -136,28 +145,33 @@ input[type="checkbox"] + .task-label::after {
     height: calc(100% - 8px);
     left: 2px;
     top: 2px;
-    background: white;
-    border: 2px solid white;
+    background: var(--clr-sec);
+    border: 2px solid var(--clr-sec);
     transition: all .2s;
 }
 @media (hover: hover) {
     input[type="checkbox"] + .task-label:hover::after {
-        background: grey;
+        background: var(--clr-pri);
     }
 }
 input[type="checkbox"]:checked + .task-label::after {
-    background: black;
+    background: var(--clr-ter);
 }
 .task-info-container {
     margin: 0 1.5rem 0 1rem;
     width: 100%;
+    color: var(--clr-sec);
 }
 .due-date {
     font-size: 1.5rem;
-    color: black;
+    color: var(--clr-sec);
 }
 .past-due {
     color: red;
+}
+.past-due::after {
+    content: " !";
+    font-weight: bold;
 }
 .task-form-btn,
 .delete-btn {
@@ -168,14 +182,15 @@ input[type="checkbox"]:checked + .task-label::after {
     justify-content: center;
     align-items: center;
     border: none;
-    background: black;
-    color: white;
+    background: var(--clr-sec);
+    color: var(--clr-pri);
 }
 .complete-task .task-form-btn {
     background: grey;
 }
 .delete-btn {
     background: red;
+    color: var(--clr-sec);
 }
 @media (hover: hover) {
     .task-form-btn:hover {
@@ -188,7 +203,7 @@ input[type="checkbox"]:checked + .task-label::after {
 .name-change-input {
     font-size: inherit;
     border: none;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid var(--clr-sec);
     background: transparent;
     white-space: pre-wrap;
 }
@@ -223,11 +238,13 @@ input[type="checkbox"]:checked + .task-label::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid black;
+    /* border: 2px solid var(--clr-sec); */
+    border: none;
     border-radius: 5rem;
-    background: blue;
-    color: white;
+    background: var(--clr-sec);
+    color: var(--clr-pri);
     font-size: 2.7rem;
+    box-shadow: 2px 2px 5px 0 black;
 }
 @media (hover: hover) {
     .new-item-btn:hover {
@@ -241,6 +258,7 @@ input[type="checkbox"]:checked + .task-label::after {
     width: 8rem;
     font-size: 1.8rem;
     background: red;
+    color: var(--clr-sec);
 }
 /* --- NEW ITEM BUTTON END --- */
 
@@ -290,8 +308,8 @@ select {
 /* --- TASK FORM END --- */
 
 /* --- PROJECTS START --- */
-.project-list {
-    border-top: 1px solid lightcoral;
+.incomplete-project-list {
+    border-bottom: 1px solid var(--clr-sec);
 }
 .project-container {
     margin: 1rem 2rem;
@@ -312,7 +330,7 @@ select {
     padding: .2rem;
     display: flex;
     align-items: center;
-    background: white;
+    background: var(--clr-pri);
     border: 3px solid grey;
     border-radius: 1rem;
 }
@@ -331,21 +349,26 @@ footer {
     position: fixed;
     bottom: 0rem;
     width: 100%;
-    height: 7rem;
+    height: 6rem;
     display: flex;
-    font-size: 2.5rem;
+    font-size: 2.25rem;
 }
 .footer-tab {
     width: calc(100%/3);
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
+    border: 3px solid var(--clr-sec);
+    border-right-width: 1.5px;
+    border-left-width: 1.5px;
+    border-bottom: none;
     text-align: center;
-    background: white;
+    background: var(--clr-pri);
     cursor: pointer;
+    color: var(--clr-sec);
 }
 .active-tab {
-    background: orange;
+    background: var(--clr-sec);
+    color: var(--clr-pri);
 }
 /* --- FOOTER END --- */

@@ -14,7 +14,7 @@ const createProjectPage = (e) => {
         const clickedElement = e.currentTarget;
         project = model.projectArray[clickedElement.dataset.project];
         const header = document.querySelector(".header-project-name");
-        if (header && header.textContent.toLowerCase() !== project.name) {
+        if (header && header.textContent.toLowerCase() !== project.name.toLowerCase()) {
             deleteBtnsAreShowing = false;
         }
     } else {
@@ -230,10 +230,12 @@ const _updateTaskList = (project) => {
     }
 
     if (project !== "logbook") {
-        const incompleteTasks = document.createElement("section");
-        incompleteTasks.classList.add("task-list", "incomplete-task-list");
-        taskListDiv.append(incompleteTasks);
-        controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
+        if (project.incompleteTasks > 0) {
+            const incompleteTasks = document.createElement("section");
+            incompleteTasks.classList.add("task-list", "incomplete-task-list");
+            taskListDiv.append(incompleteTasks);
+            controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
+        }
     }
     const completeTasks = document.createElement("section");
     completeTasks.classList.add("task-list", "complete-task-list");
@@ -383,7 +385,6 @@ const createEditBox = (obj, property, classPrefix) => {
     if (classPrefix === "project") {
         propEditBox.addEventListener("mousedown", (e) => e.preventDefault());
     }
-    
     return propEditBox;
 }
 
@@ -448,7 +449,15 @@ const _createNewItemButton = (project) => {
 
 const _insertNewItemInput = (e, project) => {
         if (project !== "allProjects") {
-            const incompleteTaskList = document.querySelector(".incomplete-task-list");
+            let incompleteTaskList;
+            if (!document.querySelector(".incomplete-task-list")) {
+                const taskListDiv = document.querySelector(".task-list-container")
+                incompleteTaskList = document.createElement("section");
+                incompleteTaskList.classList.add("task-list", "incomplete-task-list");
+                taskListDiv.prepend(incompleteTaskList);
+            } else {
+                incompleteTaskList = document.querySelector(".incomplete-task-list");
+            }
             const newTask = controller.addNewTask("Enter name here", project);
             incompleteTaskList.append(_createTaskElement(newTask));
 
@@ -456,8 +465,18 @@ const _insertNewItemInput = (e, project) => {
             _moveCaretToEnd(taskNameDiv)
         } else {
             _removeListenersFromProjects();
+
+            let incompleteProjects;
+            if (!document.querySelector(".incomplete-project-list")) {
+                const projectListDiv = document.querySelector(".project-list-container");
+                incompleteProjects = document.createElement("section");
+                incompleteProjects.classList.add("project-list", "incomplete-project-list");
+                console.log(incompleteProjects);
+                projectListDiv.prepend(incompleteProjects);
+            } else {
+                incompleteProjects = document.querySelector(".incomplete-project-list");
+            }
             
-            const incompleteProjects = document.querySelector(".incomplete-project-list");
             const newProject = controller.addNewProject("New project name?");
             const projectIndex = model.projectArray.indexOf(newProject);
             incompleteProjects.append(_createProjectElement(newProject));
@@ -523,14 +542,18 @@ const _updateProjectList = () => {
         projectListDiv.classList.add("project-list-container");
     }
 
-    const incompleteProjects = document.createElement("section");
-    incompleteProjects.classList.add("project-list", "incomplete-project-list");
-    projectListDiv.append(incompleteProjects);
-    controller.sortIncompleteProjects().forEach(project => {
-        if (project.name.toLowerCase() !== "general") {
-            incompleteProjects.append(_createProjectElement(project))
-        }
-    });
+    if (model.projectArray.some(project => 
+        (project.incompleteTasks > 0 && project !== model.projectArray[0]
+        || (project.incompleteTasks === 0 && project.completeTasks === 0 && project !== model.projectArray[0])))) {
+        const incompleteProjects = document.createElement("section");
+        incompleteProjects.classList.add("project-list", "incomplete-project-list");
+        projectListDiv.append(incompleteProjects);
+        controller.sortIncompleteProjects().forEach(project => {
+            if (project !== model.projectArray[0]) {
+                incompleteProjects.append(_createProjectElement(project))
+            }
+        });
+    }
 
     const completeProjects = document.createElement("section");
     completeProjects.classList.add("project-list");

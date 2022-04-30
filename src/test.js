@@ -39,6 +39,7 @@ const createDemoButton = () => {
     btn.textContent = "Demo";
     btn.addEventListener("click", () => {
         _addSampleData();
+        view.deleteBtnsAreShowing = false;
         view.createProjectPage();
     });
     _contentDiv.append(btn);

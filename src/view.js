@@ -75,6 +75,7 @@ const _createHeader = (project) => {
     } else {
         const heading = document.createElement("div");
         heading.classList.add("header-project-name");
+        heading.classList.add("preset-name");
         heading.textContent = (() => {
             switch (project) {
                 case "logbook":

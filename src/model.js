@@ -1,8 +1,8 @@
 const taskArray = [];
 const projectArray = [];
 const sortMethods = [
-    "sortByPriority",
     "sortByDueDate",
+    "sortByPriority",
     "sortByCreationTime",
 ]
 const Task = (name, project) => {

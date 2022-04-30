@@ -9,8 +9,6 @@ If you need a free place to keep track of your to-do list, look no further.
 ##### Features
 ##### Behavior
 ##### Style
-- get a + icon for the New Task button so it centers vertically
-- get > and < icons for buttons
 - adjust for desktop
 - add my name
 - make New Task box have translucent placeholder text
@@ -22,6 +20,12 @@ If you need a free place to keep track of your to-do list, look no further.
 - make completed tasks / projects a dropdown
 
 #### DONE
+- *0.14.2*
+- add transition to footer tabs
+- make preset header names bigger
+- make custom header names smaller
+- adjust header line breaks/hyphenation
+- prevent sort method from wrapping
 - *0.14.1*
 - change everything to off-white and off-black again but a little nicer
 - import material icons

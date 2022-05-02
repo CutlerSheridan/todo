@@ -6,8 +6,11 @@
     /* --clr-sec: rgb(34,34,34); */
     /* --clr-sec: rgb(206,216,247); */
     --clr-sec: rgb(34,34,34);
+    --clr-sec-light: rgb(80,80,80);
     /* --clr-ter: rgb(1, 28, 108); */
     --clr-ter: pink;
+    --clr-red: red;
+    --clr-red-dark: crimson;
     margin-right: calc(100vw - 100%);
     margin-left: 0;
     font-size: 62.5%;
@@ -15,7 +18,6 @@
     background: var(--clr-pri);
 }
 .material-symbols-outlined {
-    /* max-width: 100%; */
     overflow: hidden;
     font-variation-settings:
     'FILL' 0,
@@ -113,13 +115,26 @@ header:not(.tf-header) {
     background: var(--clr-sec);
     color: var(--clr-pri);
 }
+@media (hover:hover) {
+    .sort-button:hover,
+    .back-btn:hover,
+    .refresh:hover,
+    .progress-toggles-toggle:hover {
+        background: var(--clr-sec-light);
+    }
+}
 .back-btn {
     margin-right: 1.2rem;
     font-size: 4rem;
 }
 .delete-toggle {
-    background: red;
+    background: var(--clr-red);
     color: var(--clr-sec);
+}
+@media (hover:hover) {
+    .delete-toggle:hover {
+        background: var(--clr-red-dark);
+    }
 }
 /* --- HEADER END --- */
 
@@ -170,7 +185,7 @@ input[type="checkbox"] + .task-label::after {
 }
 @media (hover: hover) {
     input[type="checkbox"] + .task-label:hover::after {
-        background: var(--clr-ter);
+        background: var(--clr-sec-light);
     }
 }
 input[type="checkbox"]:checked + .task-label::after {
@@ -185,7 +200,7 @@ input[type="checkbox"]:checked + .task-label::after {
     color: var(--clr-sec);
 }
 .past-due {
-    color: red;
+    color: var(--clr-red);
 }
 .past-due::after {
     content: " !";
@@ -206,18 +221,18 @@ input[type="checkbox"]:checked + .task-label::after {
     color: var(--clr-pri);
 }
 .complete-task .task-form-btn {
-    background: grey;
+    background: var(--clr-sec-light);
 }
 .delete-btn {
-    background: red;
+    background: var(--clr-red);
     color: var(--clr-sec);
 }
 @media (hover: hover) {
     .task-form-btn:hover {
-        background: grey;
+        background: var(--clr-sec-light);
     }
     .delete-btn:hover {
-        background: darkred;
+        background: var(--clr-red-dark);
     }
 }
 .name-change-input {
@@ -230,17 +245,17 @@ input[type="checkbox"]:checked + .task-label::after {
 
 .complete-task {
     font-style: italic;
-    color: grey;
+    color: var(--clr-sec-light);
     background: transparent;
 }
 .complete-task-list input[type="checkbox"]:checked + .task-label {
-    background: grey;
+    background: var(--clr-sec-light);
 }
 .complete-task-list input[type="checkbox"]:checked + .task-label::after {
-    background: grey;
+    background: var(--clr-sec-light);
 }
 .complete-task > .due-date {
-    color: grey;
+    color: var(--clr-sec-light);
 }
 .empty-space {
     height: 8rem;
@@ -264,12 +279,7 @@ input[type="checkbox"]:checked + .task-label::after {
     background: var(--clr-sec);
     color: var(--clr-pri);
     font-size: 2.7rem;
-    box-shadow: 2px 2px 5px 0 grey;
-}
-@media (hover: hover) {
-    .new-item-btn:hover {
-        background: darkblue;
-    }
+    box-shadow: 2px 2px 5px 0 var(--clr-sec-light);
 }
 .demo-btn {
     font-size: 1.8rem;
@@ -277,8 +287,17 @@ input[type="checkbox"]:checked + .task-label::after {
 .clear-all-btn {
     width: 8rem;
     font-size: 1.8rem;
-    background: red;
+    background: var(--clr-red);
     color: var(--clr-sec);
+}
+@media (hover: hover) {
+    .demo-btn:hover,
+    .new-item-btn:hover {
+        background: var(--clr-sec-light);
+    }
+    .clear-all-btn:hover {
+        background: var(--clr-red-dark);
+    }
 }
 /* --- NEW ITEM BUTTON END --- */
 
@@ -319,7 +338,7 @@ select {
     width: 100%;
     text-align: center;
     font-size: 1.7rem;
-    color: grey;
+    color: var(--clr-sec-light);
 }
 .invisible {
     display: none;
@@ -350,7 +369,7 @@ select {
     display: flex;
     align-items: center;
     background: var(--clr-pri);
-    border: 3px solid grey;
+    border: 3px solid var(--clr-sec-light);
     border-radius: 1rem;
 }
 .progress-bar-inner {
@@ -385,7 +404,16 @@ footer {
     background: var(--clr-pri);
     cursor: pointer;
     color: var(--clr-sec);
-    transition: .2s all;
+    transition: .15s all;
+}
+.footer-tab:active {
+    background: var(--clr-sec);
+}
+@media (hover:hover) {
+    .footer-tab:hover {
+        background: var(--clr-sec-light);
+        color: var(--clr-pri);
+    }
 }
 .active-tab {
     background: var(--clr-sec);

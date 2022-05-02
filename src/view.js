@@ -121,16 +121,6 @@ const _createSortButton = (project) => {
                 return "Time Created";
         }
     })();
-    // _addIcon(sortBtn, (() => {
-    //     switch(project.sortMethod) {
-    //         case "sortByPriority":
-    //             return "Priority";
-    //         case "sortByDueDate":
-    //             return "Due Date";
-    //         case "sortByCreationTime":
-    //             return "Time Created";
-    //     }
-    // })());
     sortBtn.addEventListener("click", _changeSortAndUpdate);
     sortContainer.append(sortLabel, sortBtn);
     return sortContainer;
@@ -471,7 +461,6 @@ const _insertNewItemInput = (e, project) => {
                 const projectListDiv = document.querySelector(".project-list-container");
                 incompleteProjects = document.createElement("section");
                 incompleteProjects.classList.add("project-list", "incomplete-project-list");
-                console.log(incompleteProjects);
                 projectListDiv.prepend(incompleteProjects);
             } else {
                 incompleteProjects = document.querySelector(".incomplete-project-list");

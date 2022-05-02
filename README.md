@@ -18,8 +18,11 @@ If you need a free place to keep track of your to-do list, look no further.
 - add checklist capability to task form page?
 - sort completed projects according to last one completed
 - make completed tasks / projects collapsible
+- make list dividers only show if there are incomplete ones AND complete ones?
 
 #### DONE
+- *0.14.4*
+- add hover colors for buttons
 - *0.14.3*
 - make sort method button equal height of other header buttons
 - make in/complete tasks divider line only appear if there are incomplete tasks

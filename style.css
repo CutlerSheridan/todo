@@ -2,11 +2,15 @@
     /* --clr-pri: white; */
     /* --clr-pri: rgb(221,0,18); */
     /* --clr-pri: rgb(43, 79, 208); */
-    --clr-pri: rgb(240,240,240);
+    /* --clr-pri: rgb(240,240,240); */
+    --clr-pri: rgb(34,34,34);
+    --clr-pri-light: rgb(80,80,80);
     /* --clr-sec: rgb(34,34,34); */
     /* --clr-sec: rgb(206,216,247); */
-    --clr-sec: rgb(34,34,34);
-    --clr-sec-light: rgb(80,80,80);
+    /* --clr-sec: rgb(34,34,34); */
+    /* --clr-sec-light: rgb(80,80,80); */
+    --clr-sec: rgb(240,240,240);
+    --clr-sec-light: rgb(180,180,180);
     /* --clr-ter: rgb(1, 28, 108); */
     --clr-ter: pink;
     --clr-red: red;
@@ -14,8 +18,13 @@
     margin-right: calc(100vw - 100%);
     margin-left: 0;
     font-size: 62.5%;
-    font-family: Helvetica;
+    font-family: "Manrope", sans-serif;
     background: var(--clr-pri);
+}
+@media only screen and (min-width: 600px) {
+    :root {
+        font-size: 72%;
+    }
 }
 .material-symbols-outlined {
     overflow: hidden;
@@ -37,7 +46,10 @@ body {
     height: 100%;
 }
 .content {
+    margin: auto;
     padding-bottom: 7rem;
+    max-width: 80rem;
+    color: var(--clr-sec);
 }
 button {
     cursor: pointer;
@@ -49,7 +61,7 @@ header:not(.tf-header) {
     padding: 2rem;
     padding-bottom: 1.5rem;
     top: 0rem;
-    min-height: 8rem;
+    min-height: 9rem;
     display: flex;
     align-items: flex-end;
     background-image: linear-gradient(var(--clr-pri) 85%, transparent);
@@ -65,6 +77,8 @@ header:not(.tf-header) {
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+    font-family: "Anton", sans-serif;
+    letter-spacing: .1rem;
 }
 .preset-name {
     line-height: .9;
@@ -128,12 +142,12 @@ header:not(.tf-header) {
     font-size: 4rem;
 }
 .delete-toggle {
-    background: var(--clr-red);
+    background: var(--clr-red-dark);
     color: var(--clr-sec);
 }
 @media (hover:hover) {
     .delete-toggle:hover {
-        background: var(--clr-red-dark);
+        background: var(--clr-red);
     }
 }
 /* --- HEADER END --- */
@@ -144,15 +158,17 @@ header:not(.tf-header) {
 }
 .task-container {
     margin: 1rem 2rem;
+    padding: .2rem .7rem;
     min-height: 3rem;
     display: flex;
     align-items: center;
     font-size: 2rem;
     transition: all .2s;
     white-space: pre-wrap;
+    /* color: var(--clr-sec); */
 }
 .priority-high {
-    background: var(--clr-ter);
+    background: var(--clr-red-dark);
 }
 .checkbox-container {
     align-self: flex-start;
@@ -202,8 +218,11 @@ input[type="checkbox"]:checked + .task-label::after {
 .past-due {
     color: var(--clr-red);
 }
+.priority-high .past-due {
+    color: var(--clr-sec);
+}
 .past-due::after {
-    content: " !";
+    content: "  (Past Due)";
     font-weight: bold;
 }
 .task-form-btn,
@@ -224,7 +243,7 @@ input[type="checkbox"]:checked + .task-label::after {
     background: var(--clr-sec-light);
 }
 .delete-btn {
-    background: var(--clr-red);
+    background: var(--clr-red-dark);
     color: var(--clr-sec);
 }
 @media (hover: hover) {
@@ -232,7 +251,7 @@ input[type="checkbox"]:checked + .task-label::after {
         background: var(--clr-sec-light);
     }
     .delete-btn:hover {
-        background: var(--clr-red-dark);
+        background: var(--clr-red);
     }
 }
 .name-change-input {
@@ -279,7 +298,7 @@ input[type="checkbox"]:checked + .task-label::after {
     background: var(--clr-sec);
     color: var(--clr-pri);
     font-size: 2.7rem;
-    box-shadow: 2px 2px 5px 0 var(--clr-sec-light);
+    box-shadow: 2px 2px 5px 1px var(--clr-pri-light);
 }
 .demo-btn {
     font-size: 1.8rem;
@@ -287,7 +306,7 @@ input[type="checkbox"]:checked + .task-label::after {
 .clear-all-btn {
     width: 8rem;
     font-size: 1.8rem;
-    background: var(--clr-red);
+    background: var(--clr-red-dark);
     color: var(--clr-sec);
 }
 @media (hover: hover) {
@@ -296,14 +315,15 @@ input[type="checkbox"]:checked + .task-label::after {
         background: var(--clr-sec-light);
     }
     .clear-all-btn:hover {
-        background: var(--clr-red-dark);
+        background: var(--clr-red);
     }
 }
 /* --- NEW ITEM BUTTON END --- */
 
 /* --- TASK FORM START --- */
 .tf-header {
-    padding: 1rem 2rem;
+    padding: 2rem 2rem;
+    padding-bottom: 1rem;
     display: flex;
     align-items: center;
 }
@@ -314,6 +334,8 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 .tf-task-name {
     font-size: 2.5rem;
+    font-family: "Anton", sans-serif;
+    letter-spacing: .1rem;
 }
 .choice-label {
     margin-right: 1.3rem;
@@ -328,6 +350,7 @@ select {
     padding: 0 .4rem;
     min-width: 60%;
     text-transform: capitalize;
+    color: var(--clr-pri);
 }
 .tf-due-date-container {
     display: flex;
@@ -369,12 +392,12 @@ select {
     display: flex;
     align-items: center;
     background: var(--clr-pri);
-    border: 3px solid var(--clr-sec-light);
+    border: 3px solid var(--clr-sec);
     border-radius: 1rem;
 }
 .progress-bar-inner {
     height: 100%;
-    background: green;
+    background: var(--clr-sec);
     border-radius: .5rem;
 }
 .remaining-tasks-num {
@@ -386,7 +409,8 @@ select {
 footer {
     position: fixed;
     bottom: 0rem;
-    width: 100%;
+    left: -1.5px;
+    width: calc(100% + 3px);
     height: 6rem;
     display: flex;
     font-size: 2.25rem;
@@ -401,17 +425,16 @@ footer {
     border-left-width: 1.5px;
     border-bottom: none;
     text-align: center;
+    font-family: "Anton";
+    letter-spacing: .1rem;
     background: var(--clr-pri);
-    cursor: pointer;
     color: var(--clr-sec);
+    cursor: pointer;
     transition: .15s all;
-}
-.footer-tab:active {
-    background: var(--clr-sec);
 }
 @media (hover:hover) {
     .footer-tab:hover {
-        background: var(--clr-sec-light);
+        background: var(--clr-sec);
         color: var(--clr-pri);
     }
 }

@@ -3,15 +3,13 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- decide on style
+- decide how to handle past due indicator
+- add my name
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
 ##### Style
-- adjust for desktop
-- add my name
-- make New Task box have translucent placeholder text
 - fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 ##### Other
 ##### Maybe
@@ -19,8 +17,17 @@ If you need a free place to keep track of your to-do list, look no further.
 - sort completed projects according to last one completed
 - make completed tasks / projects collapsible
 - make list dividers only show if there are incomplete ones AND complete ones?
+- make New Task box have translucent placeholder text
 
 #### DONE
+- *0.14.5*
+- change fonts
+- adjust footer tab borders
+- make the red a nicer shade
+- change project progress bar color to clr-pri
+- adjust width for desktop
+- adjust font size with media query
+- make General and Projects page headers equal in height
 - *0.14.4*
 - add hover colors for buttons
 - *0.14.3*

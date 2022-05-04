@@ -144,7 +144,15 @@ header:not(.tf-header) {
 /* --- HEADER END --- */
 
 /* --- TASKS START --- */
-.incomplete-task-list {
+.task-list {
+    min-height: 42.5vh;
+}
+@media only screen and (min-width: 500px) {
+    .task-list {
+        min-height: 30vh;
+    }
+}
+.incomplete-task-list-border {
     border-bottom: 1px solid var(--clr-sec);
 }
 .task-container {
@@ -156,7 +164,6 @@ header:not(.tf-header) {
     font-size: 2rem;
     transition: all .2s;
     white-space: pre-wrap;
-    /* color: var(--clr-sec); */
 }
 .priority-high {
     background: var(--clr-red-dark);
@@ -360,7 +367,7 @@ select {
 /* --- TASK FORM END --- */
 
 /* --- PROJECTS START --- */
-.incomplete-project-list {
+.incomplete-project-list-border {
     border-bottom: 1px solid var(--clr-sec);
 }
 .project-container {

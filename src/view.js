@@ -205,8 +205,8 @@ const _toggleDeleteBtns = () => {
     taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
     deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
     if (document.querySelector(".demo-btn")) {
-        document.querySelector(".demo-btn").classList.toggle("invisible");
         document.querySelector(".clear-all-btn").classList.toggle("invisible");
+        document.querySelector(".demo-btn").classList.toggle("invisible");
     }
 }
 
@@ -223,6 +223,11 @@ const _updateTaskList = (project) => {
         if (project.incompleteTasks > 0) {
             const incompleteTasks = document.createElement("section");
             incompleteTasks.classList.add("task-list", "incomplete-task-list");
+            if (project.completeTasks > 0) {
+                incompleteTasks.classList.add("incomplete-task-list-border");
+            } else {
+                incompleteTasks.classList.remove("incomplete-task-list-border");
+            }
             taskListDiv.append(incompleteTasks);
             controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
         }
@@ -429,9 +434,9 @@ const _createNewItemButton = (project) => {
     _contentDiv.append(newItemBtn);
 
     const footer = document.querySelector("footer");
-    const displacementAmount = 15;
-    newItemBtn.style.right = displacementAmount + "px";
-    newItemBtn.style.bottom = footer.offsetHeight + displacementAmount + "px";
+    const displacementAmount = 1.5;
+    newItemBtn.style.right = displacementAmount + "rem";
+    newItemBtn.style.bottom = (footer.offsetHeight / 10) + displacementAmount + "rem";
 
     newItemBtn.addEventListener("click", (e) => {
         _insertNewItemInput(e, project);
@@ -547,6 +552,11 @@ const _updateProjectList = () => {
         || (project.incompleteTasks === 0 && project.completeTasks === 0 && project !== model.projectArray[0])))) {
         const incompleteProjects = document.createElement("section");
         incompleteProjects.classList.add("project-list", "incomplete-project-list");
+        if (controller.sortCompleteProjects().length > 0) {
+            incompleteProjects.classList.add("incomplete-project-list-border");
+        } else {
+            incompleteProjects.classList.remove("incomplete-project-list-border");
+        }
         projectListDiv.append(incompleteProjects);
         controller.sortIncompleteProjects().forEach(project => {
             if (project !== model.projectArray[0]) {

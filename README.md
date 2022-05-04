@@ -3,21 +3,25 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
+- make sample projects better, like add a grocery list
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
 ##### Style
-- fix placement of checkboxes relative to first line of task (maybe make height of checkbox match height of font?)
 ##### Other
 ##### Maybe
 - add checklist capability to task form page?
 - sort completed projects according to last one completed
 - make completed tasks / projects collapsible
-- make list dividers only show if there are incomplete ones AND complete ones?
 - make New Task box have translucent placeholder text
 
 #### DONE
+- *0.14.7*
+- switch demo buttons' displacement units to rem for consistency across scaling font sizes based on screen width
+- fix task list divider to only show up if there are incomplete tasks AND complete tasks
+- fix divider for projects, too
+- add min-height for .task-lists so credit isn't too high up on empty projects
 - *0.14.6*
 - decide how to handle past due indicator
 - add my name

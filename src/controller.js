@@ -118,7 +118,7 @@ const sortMethod = (() => {
         }
     }
     const sortByCreationTime = (x, y) => {
-        return y.creationDateTime - x.creationDateTime;
+        return x.creationDateTime - y.creationDateTime;
     }
     const sortByAlphabet = (x, y) => {
         return x.name.localeCompare(y.name);

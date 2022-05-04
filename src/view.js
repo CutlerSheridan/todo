@@ -232,6 +232,7 @@ const _updateTaskList = (project) => {
     taskListDiv.append(completeTasks);
     controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
     taskListDiv.append(_createEmptySpaceForBottomOfPage());
+    taskListDiv.append(_createCredit());
 
     _contentDiv.append(taskListDiv);
 }
@@ -491,6 +492,16 @@ const _createEmptySpaceForBottomOfPage = () => {
     const space = document.createElement("div");
     space.classList.add("empty-space");
     return space;
+}
+const _createCredit = () => {
+    const creditElement = document.createElement("div");
+    creditElement.classList.add("credit");
+    creditElement.textContent = "Made by ";
+    const creditLink = document.createElement("a");
+    creditLink.href = "https://cutlersheridan.github.io/portfolio/";
+    creditLink.textContent = "Cutler Sheridan";
+    creditElement.append(creditLink);
+    return creditElement;
 }
 
 // ALL PROJECTS PAGE START

@@ -3,8 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- decide how to handle past due indicator
-- add my name
 
 #### TO-DO LATER
 ##### Features
@@ -20,6 +18,9 @@ If you need a free place to keep track of your to-do list, look no further.
 - make New Task box have translucent placeholder text
 
 #### DONE
+- *0.14.6*
+- decide how to handle past due indicator
+- add my name
 - *0.14.5*
 - change fonts
 - adjust footer tab borders

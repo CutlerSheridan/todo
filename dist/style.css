@@ -1,17 +1,8 @@
 :root {
-    /* --clr-pri: white; */
-    /* --clr-pri: rgb(221,0,18); */
-    /* --clr-pri: rgb(43, 79, 208); */
-    /* --clr-pri: rgb(240,240,240); */
     --clr-pri: rgb(34,34,34);
     --clr-pri-light: rgb(80,80,80);
-    /* --clr-sec: rgb(34,34,34); */
-    /* --clr-sec: rgb(206,216,247); */
-    /* --clr-sec: rgb(34,34,34); */
-    /* --clr-sec-light: rgb(80,80,80); */
     --clr-sec: rgb(240,240,240);
-    --clr-sec-light: rgb(180,180,180);
-    /* --clr-ter: rgb(1, 28, 108); */
+    --clr-sec-dark: rgb(180,180,180);
     --clr-ter: pink;
     --clr-red: red;
     --clr-red-dark: crimson;
@@ -134,7 +125,7 @@ header:not(.tf-header) {
     .back-btn:hover,
     .refresh:hover,
     .progress-toggles-toggle:hover {
-        background: var(--clr-sec-light);
+        background: var(--clr-sec-dark);
     }
 }
 .back-btn {
@@ -201,7 +192,7 @@ input[type="checkbox"] + .task-label::after {
 }
 @media (hover: hover) {
     input[type="checkbox"] + .task-label:hover::after {
-        background: var(--clr-sec-light);
+        background: var(--clr-sec-dark);
     }
 }
 input[type="checkbox"]:checked + .task-label::after {
@@ -240,7 +231,7 @@ input[type="checkbox"]:checked + .task-label::after {
     color: var(--clr-pri);
 }
 .complete-task .task-form-btn {
-    background: var(--clr-sec-light);
+    background: var(--clr-sec-dark);
 }
 .delete-btn {
     background: var(--clr-red-dark);
@@ -248,7 +239,7 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 @media (hover: hover) {
     .task-form-btn:hover {
-        background: var(--clr-sec-light);
+        background: var(--clr-sec-dark);
     }
     .delete-btn:hover {
         background: var(--clr-red);
@@ -264,17 +255,17 @@ input[type="checkbox"]:checked + .task-label::after {
 
 .complete-task {
     font-style: italic;
-    color: var(--clr-sec-light);
+    color: var(--clr-sec-dark);
     background: transparent;
 }
 .complete-task-list input[type="checkbox"]:checked + .task-label {
-    background: var(--clr-sec-light);
+    background: var(--clr-sec-dark);
 }
 .complete-task-list input[type="checkbox"]:checked + .task-label::after {
-    background: var(--clr-sec-light);
+    background: var(--clr-sec-dark);
 }
 .complete-task > .due-date {
-    color: var(--clr-sec-light);
+    color: var(--clr-sec-dark);
 }
 .empty-space {
     height: 8rem;
@@ -312,7 +303,7 @@ input[type="checkbox"]:checked + .task-label::after {
 @media (hover: hover) {
     .demo-btn:hover,
     .new-item-btn:hover {
-        background: var(--clr-sec-light);
+        background: var(--clr-sec-dark);
     }
     .clear-all-btn:hover {
         background: var(--clr-red);
@@ -361,7 +352,7 @@ select {
     width: 100%;
     text-align: center;
     font-size: 1.7rem;
-    color: var(--clr-sec-light);
+    color: var(--clr-sec-dark);
 }
 .invisible {
     display: none;
@@ -406,6 +397,15 @@ select {
 /* --- PROJECTS END --- */
 
 /* --- FOOTER START --- */
+.credit {
+    margin: 2rem 2.7rem;
+    font-size: 1.5rem;
+    font-family: "Manrope", sans-serif;
+    color: var(--clr-sec-dark);
+}
+.credit > a {
+    color: var(--clr-sec-dark);
+}
 footer {
     position: fixed;
     bottom: 0rem;

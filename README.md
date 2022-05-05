@@ -2,12 +2,20 @@
 ## A website for keeping track of what you need to do
 If you need a free place to keep track of your to-do list, look no further.
 
+If you click the delete toggle on the General page, in addition to toggling the delete buttons for each individual task, two other buttons will also appear:  "Demo" and "Clear All."
+
+The "Demo" button simply adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To get rid of all the sample data, click "Clear all," and you'll have a clean slate once again.
+
 #### TO-DO NEXT
+- fix credit placement
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
+- make new project text highlightable (new task text already works fine)
 ##### Style
+- should the progress bar and number of incomplete tasks both always show?  or maybe number of tasks always shows but the progress bar is toggle-able?
+- should i change progress icon?
 ##### Other
 ##### Maybe
 - add checklist capability to task form page?
@@ -16,6 +24,12 @@ If you need a free place to keep track of your to-do list, look no further.
 - make New Task box have translucent placeholder text
 
 #### DONE
+- *0.14.9*
+- rephrase placeholder text
+- make my name only appear in General
+- change delete toggle icon for more clear symbol
+- fix progress bar width scaling
+- add visual indicator that project name is editable
 - *0.14.8*
 - further adjust credit placement
 - make sample projects better, like add a grocery list

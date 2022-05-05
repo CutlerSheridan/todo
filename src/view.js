@@ -26,8 +26,8 @@ const createProjectPage = (e) => {
     clearContent();
     _createHeader(project);
     _updateTaskList(project);
-    _contentDiv.append(_createCredit());
     if (project === model.projectArray[0]) {
+        _contentDiv.append(_createCredit());
         test.createClearAllButton();
         test.createDemoButton();
     }
@@ -72,7 +72,12 @@ const _createHeader = (project) => {
     if (typeof(project) !== "string"
         && project !== model.projectArray[0]) {
             headerContainer.append(createBackBtn("allProjects"));
-            headerContainer.append(createEditBox(project, "name", "header-project"));
+            const headerProjectName = createEditBox(project, "name", "header-project")
+            const editIcon = document.createElement("span");
+            editIcon.classList.add("edit-icon", "material-symbols-outlined", "translucent");
+            editIcon.textContent = "edit";
+            headerProjectName.append(editIcon);
+            headerContainer.append(headerProjectName);
     } else {
         const heading = document.createElement("div");
         heading.classList.add("header-project-name");
@@ -179,7 +184,7 @@ const _createDeleteToggle = () => {
         deleteToggle.dataset.isInactive = -1;
 
     } else {
-        _addIcon(deleteToggle, "close");
+        _addIcon(deleteToggle, "delete_sweep");
         deleteToggle.dataset.isInactive = 1;
     }
 
@@ -193,7 +198,7 @@ const _toggleDeleteBtns = () => {
     isInactive *= -1;
     deleteToggle.dataset.isInactive = isInactive;
     if (isInactive > 0) {
-        _addIcon(deleteToggle, "close");
+        _addIcon(deleteToggle, "delete_sweep");
     } else {
         _addIcon(deleteToggle, "remove");
         const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
@@ -366,7 +371,7 @@ const createEditBox = (obj, property, classPrefix) => {
     if (obj[property]) {
         propEditBox.textContent = obj[property];
     } else {
-        propEditBox.textContent = `Enter ${property} here`;
+        propEditBox.textContent = `(Enter ${property} here)`;
     }
     let objectIndex = model.taskArray.indexOf(obj);
     if (objectIndex === -1) {
@@ -400,19 +405,22 @@ const _submitTextValue = (e, domElement, obj, property) => {
             e.preventDefault();
             domElement.blur();
             if (domElement.textContent === "") {
-                domElement.textContent = `Enter ${property} here`;
+                if (domElement.classList.contains("project-name")) {
+                    domElement.textContent = "(New project name)";
+                } else {
+                    domElement.textContent = `(Enter ${property} here)`;
+                }
             }
             controller.changeProperty(obj, property, domElement.textContent);
             document.removeEventListener("mousedown", _inputHandlers[1]);
             document.removeEventListener("keydown", _inputHandlers[1]);
             document.removeEventListener("focusout", _inputHandlers[1]);
 
-
             if (document.querySelector(".project-list")) {
                 _updateProjectList();
             }
         } else if (e.type === "keydown"
-            && (domElement.textContent === `Enter ${property} here` || domElement.textContent === `New project name?`)) {
+            && (domElement.textContent === `(Enter ${property} here)` || domElement.textContent === `(New project name)`)) {
             domElement.textContent = "";
         }
     }
@@ -454,7 +462,7 @@ const _insertNewItemInput = (e, project) => {
             } else {
                 incompleteTaskList = document.querySelector(".incomplete-task-list");
             }
-            const newTask = controller.addNewTask("Enter name here", project);
+            const newTask = controller.addNewTask("(Enter name here)", project);
             incompleteTaskList.append(_createTaskElement(newTask));
 
             const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
@@ -472,7 +480,7 @@ const _insertNewItemInput = (e, project) => {
                 incompleteProjects = document.querySelector(".incomplete-project-list");
             }
             
-            const newProject = controller.addNewProject("New project name?");
+            const newProject = controller.addNewProject("(New project name)");
             const projectIndex = model.projectArray.indexOf(newProject);
             incompleteProjects.append(_createProjectElement(newProject));
             
@@ -608,7 +616,6 @@ const _createProgressBar = (project) => {
     progressBarInner.classList.add("progress-bar-inner");
     progressBarOuter.append(progressBarInner);
 
-    progressBarOuter.style.width = "35vw";
     const totalTasks = project.incompleteTasks + project.completeTasks;
     const percentComplete = project.completeTasks * 100 / totalTasks;
     progressBarInner.style.width = `${percentComplete}%`;

@@ -356,9 +356,6 @@ select {
     font-size: 1.7rem;
     color: var(--clr-sec-dark);
 }
-.invisible {
-    display: none;
-}
 /* --- TASK FORM END --- */
 
 /* --- PROJECTS START --- */
@@ -377,12 +374,20 @@ select {
 .project-info-container {
     width: 100%;
 }
+.project-name:focus {
+    cursor: text;
+}
+.edit-icon {
+    margin-left: .5rem;
+}
 .project-progress {
     margin-top: .5rem;
     height: 2rem;
 }
 .progress-bar-outer {
     padding: .2rem;
+    width: 35vw;
+    max-width: 20rem;
     display: flex;
     align-items: center;
     background: var(--clr-pri);
@@ -449,3 +454,12 @@ footer {
     color: var(--clr-pri);
 }
 /* --- FOOTER END --- */
+
+/* --- OTHER START --- */
+.invisible {
+    display: none;
+}
+.translucent {
+    opacity: 40%;
+}
+/* --- OTHER END --- */

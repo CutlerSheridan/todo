@@ -79,7 +79,6 @@ const _addSampleData = () => {
     controller.addNewTask("Find a time to get lunch with Ivana");
     controller.addNewTask("Call Sarah back");
 
-    controller.addNewProject("An empty project", false);
     controller.addNewProject("grocery list", false);
 
     const groceryArray = [];

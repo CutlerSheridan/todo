@@ -447,6 +447,12 @@ const _createNewItemButton = (project) => {
     newItemBtn.style.bottom = (footer.offsetHeight / 10) + displacementAmount + "rem";
 
     newItemBtn.addEventListener("click", (e) => {
+        if (project === "allProjects") {
+            const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
+            if (progressTogglesToggle.dataset.isInactive < 0) {
+                _toggleProgressToggles();
+            }
+        }
         _insertNewItemInput(e, project);
     })
 }
@@ -591,11 +597,13 @@ const _createProjectElement = (project, isComplete = false) => {
     const projectNameElement = createEditBox(project, "name", "project");
     nameAndProgressContainer.append(projectNameElement);
     if (!isComplete) {
+        const progressContainer = document.createElement("div");
+        progressContainer.classList.add("progress-container");
+        progressContainer.append(_createRemainingTasksNum(project));
         if (project.showProgress) {
-            nameAndProgressContainer.append(_createProgressBar(project));
-        } else {
-            nameAndProgressContainer.append(_createRemainingTasksNum(project));
+            progressContainer.append(_createProgressBar(project));
         }
+        nameAndProgressContainer.append(progressContainer);
     } else {
         projectContainer.classList.add("complete-project");
     }
@@ -610,7 +618,7 @@ const _createProjectElement = (project, isComplete = false) => {
 }
 const _createProgressBar = (project) => {
     const progressBarOuter = document.createElement("div");
-    progressBarOuter.classList.add("progress-bar-outer", "project-progress");
+    progressBarOuter.classList.add("progress-bar-outer", "project-progress-element");
     progressBarOuter.dataset.project = model.projectArray.indexOf(project);
     const progressBarInner = document.createElement("div");
     progressBarInner.classList.add("progress-bar-inner");
@@ -624,10 +632,10 @@ const _createProgressBar = (project) => {
 }
 const _createRemainingTasksNum = (project) => {
     const remainingTasksNum = document.createElement("div");
-    remainingTasksNum.classList.add("remaining-tasks-num", "project-progress");
+    remainingTasksNum.classList.add("remaining-tasks-num", "project-progress-element");
     remainingTasksNum.dataset.project = model.projectArray.indexOf(project);
     const numOfTasks = project.incompleteTasks;
-    remainingTasksNum.textContent = `${numOfTasks} task${numOfTasks === 1 ? "" : "s"}`;
+    remainingTasksNum.textContent = `${numOfTasks} item${numOfTasks === 1 ? "" : "s"}`;
     return remainingTasksNum;
 }
 const _createProgressToggle = (project) => {
@@ -643,17 +651,13 @@ const _createProgressToggle = (project) => {
 const _toggleProgressStyle = (e) => {
     const projectIndex = e.target.dataset.project;
     const project = model.projectArray[projectIndex];
-    const nameAndProgressContainer = document.querySelector(`.project-info-container[data-project="${projectIndex}"]`);
-    const progressElement = document.querySelector(`.project-progress[data-project="${projectIndex}"]`);
-
-    let newProgressElement;
-    if (progressElement.classList.contains("remaining-tasks-num")) {
-        newProgressElement = _createProgressBar(project);
-    } else if (progressElement.classList.contains("progress-bar-outer")) {
-        newProgressElement = _createRemainingTasksNum(project);
+    const progressContainer = document.querySelector(`.project-info-container[data-project="${projectIndex}"] .progress-container`);
+    const progressBar = document.querySelector(`.progress-bar-outer[data-project="${projectIndex}"]`);
+    if (progressBar) {
+        progressBar.remove();
+    } else {
+        progressContainer.append(_createProgressBar(project));
     }
-    progressElement.remove();
-    nameAndProgressContainer.append(newProgressElement);
     controller.changeProperty(project, "showProgress", !project.showProgress);
 }
 const _addListenersToProjects = () => {

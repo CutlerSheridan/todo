@@ -7,14 +7,14 @@ If you click the delete toggle on the General page, in addition to toggling the 
 The "Demo" button simply adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To get rid of all the sample data, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- fix credit placement
+- replace logbook with something
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
 - make new project text highlightable (new task text already works fine)
 ##### Style
-- should the progress bar and number of incomplete tasks both always show?  or maybe number of tasks always shows but the progress bar is toggle-able?
+- fix credit placement
 - should i change progress icon?
 ##### Other
 ##### Maybe
@@ -24,6 +24,10 @@ The "Demo" button simply adds a bunch of sample tasks and projects so you can se
 - make New Task box have translucent placeholder text
 
 #### DONE
+- *0.14.10*
+- make number of tasks always shows but the progress bar is toggle-able
+- fix progress toggles toggle fucking up if it's active and you click "new project"
+- fix how, if Progress Toggles Toggle is active and you click New Project, one toggle  remains next to the focused project name
 - *0.14.9*
 - rephrase placeholder text
 - make my name only appear in General

@@ -380,9 +380,10 @@ select {
 .edit-icon {
     margin-left: .5rem;
 }
-.project-progress {
+.progress-container {
     margin-top: .5rem;
     height: 2rem;
+    display: flex;
 }
 .progress-bar-outer {
     padding: .2rem;
@@ -391,16 +392,17 @@ select {
     display: flex;
     align-items: center;
     background: var(--clr-pri);
-    border: 3px solid var(--clr-sec);
+    border: 2px solid var(--clr-sec);
     border-radius: 1rem;
 }
 .progress-bar-inner {
     height: 100%;
     background: var(--clr-sec);
-    border-radius: .5rem;
+    border-radius: .6rem;
 }
 .remaining-tasks-num {
     font-size: 1.5rem;
+    width: 7rem;
 }
 .complete-project {
     font-style: italic;

@@ -144,13 +144,8 @@ header:not(.tf-header) {
 /* --- HEADER END --- */
 
 /* --- TASKS START --- */
-.task-list {
-    min-height: 42.5vh;
-}
-@media only screen and (min-width: 500px) {
-    .task-list {
-        min-height: 30vh;
-    }
+.task-list-container {
+    min-height: 60vh;
 }
 .incomplete-task-list-border {
     border-bottom: 1px solid var(--clr-sec);
@@ -368,6 +363,7 @@ select {
 
 /* --- PROJECTS START --- */
 .incomplete-project-list-border {
+    padding-bottom: 1rem;
     border-bottom: 1px solid var(--clr-sec);
 }
 .project-container {
@@ -400,6 +396,9 @@ select {
 }
 .remaining-tasks-num {
     font-size: 1.5rem;
+}
+.complete-project {
+    font-style: italic;
 }
 /* --- PROJECTS END --- */
 

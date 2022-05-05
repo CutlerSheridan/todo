@@ -26,6 +26,7 @@ const createProjectPage = (e) => {
     clearContent();
     _createHeader(project);
     _updateTaskList(project);
+    _contentDiv.append(_createCredit());
     if (project === model.projectArray[0]) {
         test.createClearAllButton();
         test.createDemoButton();
@@ -237,7 +238,6 @@ const _updateTaskList = (project) => {
     taskListDiv.append(completeTasks);
     controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
     taskListDiv.append(_createEmptySpaceForBottomOfPage());
-    taskListDiv.append(_createCredit());
 
     _contentDiv.append(taskListDiv);
 }
@@ -588,6 +588,8 @@ const _createProjectElement = (project, isComplete = false) => {
         } else {
             nameAndProgressContainer.append(_createRemainingTasksNum(project));
         }
+    } else {
+        projectContainer.classList.add("complete-project");
     }
     projectContainer.append(
         nameAndProgressContainer,

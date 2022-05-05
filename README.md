@@ -3,7 +3,6 @@
 If you need a free place to keep track of your to-do list, look no further.
 
 #### TO-DO NEXT
-- make sample projects better, like add a grocery list
 
 #### TO-DO LATER
 ##### Features
@@ -17,6 +16,10 @@ If you need a free place to keep track of your to-do list, look no further.
 - make New Task box have translucent placeholder text
 
 #### DONE
+- *0.14.8*
+- further adjust credit placement
+- make sample projects better, like add a grocery list
+- fix task lists and credit placement; min-height won't work because it leaves a huge space before completed tasks start
 - *0.14.7*
 - switch demo buttons' displacement units to rem for consistency across scaling font sizes based on screen width
 - fix task list divider to only show up if there are incomplete tasks AND complete tasks

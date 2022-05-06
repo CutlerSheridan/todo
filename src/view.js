@@ -27,7 +27,6 @@ const createProjectPage = (e) => {
     _createHeader(project);
     _updateTaskList(project);
     if (project === model.projectArray[0]) {
-        _contentDiv.append(_createCredit());
         test.createClearAllButton();
         test.createDemoButton();
     }
@@ -72,10 +71,6 @@ const _createHeader = (project) => {
         && project !== model.projectArray[0]) {
             headerContainer.append(createBackBtn("allProjects"));
             const headerProjectName = createEditBox(project, "name", "header-project")
-            const editIcon = document.createElement("span");
-            editIcon.classList.add("edit-icon", "material-symbols-outlined", "translucent");
-            editIcon.textContent = "edit";
-            headerProjectName.append(editIcon);
             headerContainer.append(headerProjectName);
     } else {
         const heading = document.createElement("div");
@@ -243,7 +238,9 @@ const _updateTaskList = (project) => {
         controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
     }
     taskListDiv.append(_createEmptySpaceForBottomOfPage());
-
+    if (project === model.projectArray[0]) {
+        taskListDiv.append(_createCredit());
+    }
     _contentDiv.append(taskListDiv);
 }
 const _createTaskElement = (task) => {

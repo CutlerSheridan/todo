@@ -7,13 +7,13 @@ If you click the delete toggle on the General page, in addition to toggling the 
 The "Demo" button simply adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To get rid of all the sample data, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
+- try reformatting footer buttons so they all return a container div and use that for placement
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
 - make new project text highlightable (new task text already works fine)
 ##### Style
-- fix credit placement
 - should i change progress icon?
 ##### Other
 ##### Maybe
@@ -24,6 +24,10 @@ The "Demo" button simply adds a bunch of sample tasks and projects so you can se
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *0.15.1*
+- make project name edit icon an ::after pseudo-element to prevent it from being deletable
+- prevent edit icon from disappearing on mobile if project names are a certain length
+- fix credit placement (again)
 - *0.15.0*
 - fix sortByCreationTime()
 - replace logbook with Incomplete tab

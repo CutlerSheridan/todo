@@ -17,6 +17,16 @@
         font-size: 72%;
     }
 }
+@media only screen and (min-width: 1200px) {
+    :root {
+        font-size: 90%;
+    }
+}
+@media only screen and (min-width: 2000px) {
+    :root {
+        font-size: 110%;
+    }
+}
 .material-symbols-outlined {
     overflow: hidden;
     font-variation-settings:
@@ -70,6 +80,19 @@ header:not(.tf-header) {
     hyphens: auto;
     font-family: "Anton", sans-serif;
     letter-spacing: .1rem;
+}
+.header-project-name:not(.preset-name)::after {
+    margin-left: .5rem;
+    content: "edit";
+    font-family: "Material Symbols Outlined";
+    -webkit-font-feature-settings: 'liga';
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 300,
+    'GRAD' 0,
+    'opsz' 40;
+    white-space: nowrap;
+    opacity: 40%;
 }
 .preset-name {
     line-height: .9;
@@ -145,7 +168,14 @@ header:not(.tf-header) {
 
 /* --- TASKS START --- */
 .task-list-container {
-    min-height: 60vh;
+    min-height: 65vh;
+    display: flex;
+    flex-direction: column;
+}
+@media only screen and (min-width: 600px) {
+    .task-list-container {
+        min-height: 75vh;
+    }
 }
 .incomplete-task-list-border {
     border-bottom: 1px solid var(--clr-sec);
@@ -377,9 +407,6 @@ select {
 .project-name:focus {
     cursor: text;
 }
-.edit-icon {
-    margin-left: .5rem;
-}
 .progress-container {
     margin-top: .5rem;
     height: 2rem;
@@ -411,7 +438,7 @@ select {
 
 /* --- FOOTER START --- */
 .credit {
-    margin: 2rem 2.7rem;
+    margin: auto 2.7rem 0 2.7rem;
     font-size: 1.5rem;
     font-family: "Manrope", sans-serif;
     color: var(--clr-sec-dark);
@@ -460,8 +487,5 @@ footer {
 /* --- OTHER START --- */
 .invisible {
     display: none;
-}
-.translucent {
-    opacity: 40%;
 }
 /* --- OTHER END --- */

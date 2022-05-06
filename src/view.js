@@ -38,27 +38,26 @@ const createAllProjectsPage = () => {
     if (header && header.textContent.toLowerCase() !== "projects") {
         deleteBtnsAreShowing = false;
     }
-    _makeActiveTab("allProjects");
+    _makeActiveTab("projects");
     clearContent();
     _createHeader("allProjects");
     _updateProjectList();
     _createNewItemButton("allProjects");
 }
-const createLogbookPage = () => {
+const createIncompletePage = () => {
     const header = document.querySelector(".header-project-name");
-    if (header && header.textContent.toLowerCase() !== "logbook") {
+    if (header && header.textContent.toLowerCase() !== "incomplete") {
         deleteBtnsAreShowing = false;
     }
-    _makeActiveTab("logbook");
+    _makeActiveTab("incomplete");
     clearContent();
-    _createHeader("logbook");
-    _updateTaskList("logbook");
+    _createHeader("allIncompleteTasks");
+    _updateTaskList("allIncompleteTasks");
 }
 const _makeActiveTab = (project) => {
     const tabs = document.querySelectorAll(".footer-tab");
     tabs.forEach(tab => {
         if (tab.textContent.toLowerCase() === project
-        || (tab.textContent.toLowerCase() === "projects" && project === "allProjects")
         || (project.name && tab.textContent.toLowerCase() === project.name.toLowerCase())) {
             tab.classList.add("active-tab");
         } else {
@@ -84,8 +83,8 @@ const _createHeader = (project) => {
         heading.classList.add("preset-name");
         heading.textContent = (() => {
             switch (project) {
-                case "logbook":
-                    return project;
+                case "allIncompleteTasks":
+                    return "Incomplete";
                 case "allProjects":
                     return "Projects";
                 default:
@@ -97,7 +96,7 @@ const _createHeader = (project) => {
     const headerBtnsContainer = document.createElement("div");
     headerBtnsContainer.classList.add("header-btns-container");
     if (project !== "allProjects") {
-        if (project !== "logbook") {
+        if (project !== "allIncompleteTasks") {
             headerBtnsContainer.append(_createSortButton(project));
         }
         headerBtnsContainer.append(_createRefreshTasksButton(project));
@@ -151,8 +150,8 @@ const createBackBtn = (project) => {
             case "allProjects":
                 createAllProjectsPage();
                 break;
-            case "logbook":
-                createLogbookPage();
+            case "allIncompleteTasks":
+                createIncompletePage();
                 break;
             default:
                 createProjectPage(e);
@@ -168,10 +167,10 @@ const _createRefreshTasksButton = (project) => {
     refreshTasks.dataset.project = model.projectArray.indexOf(project);
 
     refreshTasks.addEventListener("click", (e) => {
-        if (project !== "logbook") {
+        if (project !== "allIncompleteTasks") {
             createProjectPage(e);
         } else {
-            createLogbookPage();
+            createIncompletePage();
         }
     });
     return refreshTasks;
@@ -225,23 +224,24 @@ const _updateTaskList = (project) => {
         taskListDiv.classList.add("task-list-container");
     }
 
-    if (project !== "logbook") {
-        if (project.incompleteTasks > 0) {
-            const incompleteTasks = document.createElement("section");
-            incompleteTasks.classList.add("task-list", "incomplete-task-list");
-            if (project.completeTasks > 0) {
-                incompleteTasks.classList.add("incomplete-task-list-border");
-            } else {
-                incompleteTasks.classList.remove("incomplete-task-list-border");
-            }
-            taskListDiv.append(incompleteTasks);
-            controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
+    if (project.incompleteTasks > 0
+        || (project === "allIncompleteTasks" && model.taskArray.length > 0)) {
+        const incompleteTasks = document.createElement("section");
+        incompleteTasks.classList.add("task-list", "incomplete-task-list");
+        if (project !== "allIncompleteTasks" && project.completeTasks > 0) {
+            incompleteTasks.classList.add("incomplete-task-list-border");
+        } else {
+            incompleteTasks.classList.remove("incomplete-task-list-border");
         }
+        taskListDiv.append(incompleteTasks);
+        controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
     }
-    const completeTasks = document.createElement("section");
-    completeTasks.classList.add("task-list", "complete-task-list");
-    taskListDiv.append(completeTasks);
-    controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
+    if (project !== "allIncompleteTasks") {
+        const completeTasks = document.createElement("section");
+        completeTasks.classList.add("task-list", "complete-task-list");
+        taskListDiv.append(completeTasks);
+        controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
+    }
     taskListDiv.append(_createEmptySpaceForBottomOfPage());
 
     _contentDiv.append(taskListDiv);
@@ -314,8 +314,8 @@ const _createTaskFormButton = (task) => {
     }
     _addIcon(taskFormBtn, "chevron_right");
     taskFormBtn.dataset.task = model.taskArray.indexOf(task);
-    if (document.querySelector(".header-project-name").textContent === "logbook") {
-        taskFormBtn.dataset.projectName = "logbook";
+    if (document.querySelector(".header-project-name").textContent.toLowerCase() === "incomplete") {
+        taskFormBtn.dataset.projectName = "allIncompleteTasks";
     }
 
     taskFormBtn.addEventListener("click", (e) => {
@@ -343,9 +343,9 @@ const _createDeleteBtn = (taskOrProject) => {
         _deleteTaskOrProject(e);
         if (taskIndex !== -1) {
             const header = document.querySelector(".header-project-name");
-            const isLogbook = header.textContent.toLowerCase() === "logbook";
+            const isLogbook = header.textContent.toLowerCase() === "incomplete";
             if (isLogbook) {
-                createLogbookPage();
+                createIncompletePage();
             } else {
                 createProjectPage(e);
             }
@@ -682,7 +682,7 @@ export {
     createProjectPage,
     createBackBtn,
     createEditBox,
-    createLogbookPage,
+    createIncompletePage,
     createAllProjectsPage,
     createCheckbox,
     clearContent,

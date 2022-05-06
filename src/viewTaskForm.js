@@ -9,7 +9,7 @@ const createTaskForm = (e) => {
     view.clearContent();
     const task = model.taskArray[e.target.dataset.task];
 
-    if (e.target.dataset.projectName === "logbook") {
+    if (e.target.dataset.projectName === "allIncompleteTasks") {
         _contentDiv.append(_createHeader(task, true));
     } else {
         _contentDiv.append(_createHeader(task));
@@ -44,7 +44,7 @@ const _createHeader = (task, arrivedFromLogbook = false) => {
     header.classList.add("tf-header");
 
     if (arrivedFromLogbook) {
-        header.append(view.createBackBtn("logbook"));
+        header.append(view.createBackBtn("allIncompleteTasks"));
     } else {
         header.append(view.createBackBtn(task.project));
     }

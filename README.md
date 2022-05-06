@@ -7,7 +7,6 @@ If you click the delete toggle on the General page, in addition to toggling the 
 The "Demo" button simply adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To get rid of all the sample data, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- replace logbook with something
 
 #### TO-DO LATER
 ##### Features
@@ -22,8 +21,13 @@ The "Demo" button simply adds a bunch of sample tasks and projects so you can se
 - sort completed projects according to last one completed
 - make completed tasks / projects collapsible
 - make New Task box have translucent placeholder text
+- figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *0.15.0*
+- fix sortByCreationTime()
+- replace logbook with Incomplete tab
+- fix back buttons of task forms arrived at from Incomplete
 - *0.14.10*
 - make number of tasks always shows but the progress bar is toggle-able
 - fix progress toggles toggle fucking up if it's active and you click "new project"

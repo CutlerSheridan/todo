@@ -14,5 +14,5 @@ const setup = (() => {
     const projectsTab = document.querySelector("#tab-projects");
     projectsTab.addEventListener("click", view.createAllProjectsPage);
     const logbookTab = document.querySelector("#tab-logbook");
-    logbookTab.addEventListener("click", view.createLogbookPage);
+    logbookTab.addEventListener("click", view.createIncompletePage);
 })();

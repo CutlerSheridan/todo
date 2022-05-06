@@ -83,17 +83,28 @@ const _subtractTaskFromProject = (task) => {
     }
 }
 const sortIncompleteTasks = (project) => {
+    let sortFuncName;
+    if (project === "allIncompleteTasks") {
+        sortFuncName = model.sortMethods[0];
+    } else {
+        sortFuncName = project.sortMethod;
+    }
     const sortedArray = model.taskArray
-        .filter(task => task.project === project)
-        .filter(task => !task.isComplete)
+        .filter(task => {
+            if (project !== "allIncompleteTasks") {
+                return task.project === project;
+            } else {
+                return true;
+            }
+        }).filter(task => !task.isComplete)
         .sort((x, y) => {
             let result = 0;
-            result = sortMethod[project.sortMethod](x, y);
+            result = sortMethod[sortFuncName](x, y);
             if (result !== 0) {
                 return result;
             }
             for (let func in sortMethod) {
-                if (func !== project.sortMethod) {
+                if (func !== sortFuncName) {
                     result = sortMethod[func](x, y);
                     if (result !== 0) {
                         return result;
@@ -118,7 +129,7 @@ const sortMethod = (() => {
         }
     }
     const sortByCreationTime = (x, y) => {
-        return x.creationDateTime - y.creationDateTime;
+        return y.creationDateTime - x.creationDateTime;
     }
     const sortByAlphabet = (x, y) => {
         return x.name.localeCompare(y.name);
@@ -142,7 +153,7 @@ const swapSortMethod = (project) => {
 }
 const sortCompleteTasks = (project) => {
     let sortedArray = model.taskArray.filter(task => task.isComplete);
-    if (project !== "logbook") {
+    if (project !== "allIncompleteTasks") {
         sortedArray = sortedArray.filter(task => task.project === project);
     }
     sortedArray.sort((x, y) => y.completionDateTime - x.completionDateTime);

@@ -402,7 +402,7 @@ select {
 .footer-btn-container {
     margin-right: 2rem;
     margin-bottom: 2rem;
-    position: absolute;
+    position: fixed;
     right: 3%;
     display: flex;
     gap: 2rem;

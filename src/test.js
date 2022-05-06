@@ -15,12 +15,8 @@ const createClearAllButton = () => {
         _clearAll();
         view.createProjectPage();
     });
-    _contentDiv.append(btn);
 
-    const footer = document.querySelector("footer");
-    const displacementAmount = 1.5;
-    btn.style.right = displacementAmount * 2 + 6 + "rem";
-    btn.style.bottom = (footer.offsetHeight / 10) + displacementAmount + "rem";
+    return btn;
 }
 const _clearAll = () => {
     model.taskArray.splice(0, model.taskArray.length);
@@ -42,12 +38,8 @@ const createDemoButton = () => {
         view.deleteBtnsAreShowing = false;
         view.createProjectPage();
     });
-    _contentDiv.append(btn);
 
-    const footer = document.querySelector("footer");
-    const displacementAmount = 1.5;
-    btn.style.right = displacementAmount * 3 + 8 + 6 + "rem";
-    btn.style.bottom = (footer.offsetHeight / 10) + displacementAmount + "rem";
+    return btn;
 }
 const _addTasksToProject = (project, ...tasks) => {
     for (let i = 0; i < tasks.length; i++) {

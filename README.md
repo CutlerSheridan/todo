@@ -2,17 +2,17 @@
 ## A website for keeping track of what you need to do
 If you need a free place to keep track of your to-do list, look no further.
 
-If you click the delete toggle on the General page, in addition to toggling the delete buttons for each individual task, two other buttons will also appear:  "Demo" and "Clear All."
+If you click the trash can toggle on the General page, in addition to toggling the delete buttons for each individual task, two other buttons will also appear:  "Demo" and "Clear All."
 
-The "Demo" button simply adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To get rid of all the sample data, click "Clear all," and you'll have a clean slate once again.
+The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- try reformatting footer buttons so they all return a container div and use that for placement
 
 #### TO-DO LATER
 ##### Features
 ##### Behavior
 - make new project text highlightable (new task text already works fine)
+- change Notes edit box in task form to allow line breaks from pressing enter
 ##### Style
 - should i change progress icon?
 ##### Other
@@ -24,6 +24,8 @@ The "Demo" button simply adds a bunch of sample tasks and projects so you can se
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.0*
+- restructure footer buttons so they all return a container div and use that for placement
 - *0.15.1*
 - make project name edit icon an ::after pseudo-element to prevent it from being deletable
 - prevent edit icon from disappearing on mobile if project names are a certain length

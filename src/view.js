@@ -26,11 +26,7 @@ const createProjectPage = (e) => {
     clearContent();
     _createHeader(project);
     _updateTaskList(project);
-    if (project === model.projectArray[0]) {
-        test.createClearAllButton();
-        test.createDemoButton();
-    }
-    _createNewItemButton(project);
+    _contentDiv.append(_createFooterButtons(project));
 }
 const createAllProjectsPage = () => {
     const header = document.querySelector(".header-project-name");
@@ -41,7 +37,7 @@ const createAllProjectsPage = () => {
     clearContent();
     _createHeader("allProjects");
     _updateProjectList();
-    _createNewItemButton("allProjects");
+    _contentDiv.append(_createFooterButtons("allProjects"));
 }
 const createIncompletePage = () => {
     const header = document.querySelector(".header-project-name");
@@ -431,17 +427,21 @@ const _toggleCompleteClass = (e) => {
     }
     controller.toggleTaskCompletion(model.taskArray[taskIndex]);
 }
-
+const _createFooterButtons = (project) => {
+    const footerBtnContainer = document.createElement("div");
+    footerBtnContainer.classList.add("footer-btn-container");
+    if (project === model.projectArray[0]) {
+        footerBtnContainer.append(test.createClearAllButton(), test.createDemoButton());
+    }
+    footerBtnContainer.append(_createNewItemButton(project));
+    const footer = document.querySelector("footer");
+    footerBtnContainer.style.bottom = (footer.offsetHeight / 10) + "rem";
+    return footerBtnContainer;
+}
 const _createNewItemButton = (project) => {
     const newItemBtn = document.createElement("button");
     newItemBtn.classList.add("new-item-btn");
     _addIcon(newItemBtn, "add");
-    _contentDiv.append(newItemBtn);
-
-    const footer = document.querySelector("footer");
-    const displacementAmount = 1.5;
-    newItemBtn.style.right = displacementAmount + "rem";
-    newItemBtn.style.bottom = (footer.offsetHeight / 10) + displacementAmount + "rem";
 
     newItemBtn.addEventListener("click", (e) => {
         if (project === "allProjects") {
@@ -452,6 +452,7 @@ const _createNewItemButton = (project) => {
         }
         _insertNewItemInput(e, project);
     })
+    return newItemBtn;
 }
 
 const _insertNewItemInput = (e, project) => {

@@ -24,6 +24,8 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.1*
+- make footer buttons sticky again
 - *1.0.0*
 - restructure footer buttons so they all return a container div and use that for placement
 - *0.15.1*

@@ -305,44 +305,6 @@ input[type="checkbox"]:checked + .task-label::after {
 }
 /* --- TASKS END --- */
 
-/* --- NEW ITEM BUTTON START --- */
-.demo-btn,
-.clear-all-btn,
-.new-item-btn {
-    position: fixed;
-    height: 6rem;
-    width: 6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* border: 2px solid var(--clr-sec); */
-    border: none;
-    border-radius: 5rem;
-    background: var(--clr-sec);
-    color: var(--clr-pri);
-    font-size: 2.7rem;
-    box-shadow: 2px 2px 5px 1px var(--clr-pri-light);
-}
-.demo-btn {
-    font-size: 1.8rem;
-}
-.clear-all-btn {
-    width: 8rem;
-    font-size: 1.8rem;
-    background: var(--clr-red-dark);
-    color: var(--clr-sec);
-}
-@media (hover: hover) {
-    .demo-btn:hover,
-    .new-item-btn:hover {
-        background: var(--clr-sec-dark);
-    }
-    .clear-all-btn:hover {
-        background: var(--clr-red);
-    }
-}
-/* --- NEW ITEM BUTTON END --- */
-
 /* --- TASK FORM START --- */
 .tf-header {
     padding: 2rem 2rem;
@@ -435,6 +397,50 @@ select {
     font-style: italic;
 }
 /* --- PROJECTS END --- */
+
+/* --- FOOTER BUTTONS START --- */
+.footer-btn-container {
+    margin-right: 2rem;
+    margin-bottom: 2rem;
+    position: absolute;
+    right: 3%;
+    display: flex;
+    gap: 2rem;
+}
+.demo-btn,
+.clear-all-btn,
+.new-item-btn {
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 5rem;
+    background: var(--clr-sec);
+    color: var(--clr-pri);
+    font-size: 2.7rem;
+    box-shadow: 2px 2px 5px 1px var(--clr-pri-light);
+}
+.demo-btn {
+    font-size: 1.8rem;
+}
+.clear-all-btn {
+    width: 8rem;
+    font-size: 1.8rem;
+    background: var(--clr-red-dark);
+    color: var(--clr-sec);
+}
+@media (hover: hover) {
+    .demo-btn:hover,
+    .new-item-btn:hover {
+        background: var(--clr-sec-dark);
+    }
+    .clear-all-btn:hover {
+        background: var(--clr-red);
+    }
+}
+/* --- FOOTER BUTTONS END --- */
 
 /* --- FOOTER START --- */
 .credit {

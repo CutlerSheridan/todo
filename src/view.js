@@ -14,7 +14,10 @@ const createProjectPage = (e) => {
         const clickedElement = e.currentTarget;
         project = model.projectArray[clickedElement.dataset.project];
         const header = document.querySelector(".header-project-name");
-        if (header && header.textContent.toLowerCase() !== project.name.toLowerCase()) {
+        if (
+            header &&
+            header.textContent.toLowerCase() !== project.name.toLowerCase()
+        ) {
             deleteBtnsAreShowing = false;
         }
     } else {
@@ -27,7 +30,7 @@ const createProjectPage = (e) => {
     _createHeader(project);
     _updateTaskList(project);
     _contentDiv.append(_createFooterButtons(project));
-}
+};
 const createAllProjectsPage = () => {
     const header = document.querySelector(".header-project-name");
     if (header && header.textContent.toLowerCase() !== "projects") {
@@ -38,7 +41,7 @@ const createAllProjectsPage = () => {
     _createHeader("allProjects");
     _updateProjectList();
     _contentDiv.append(_createFooterButtons("allProjects"));
-}
+};
 const createIncompletePage = () => {
     const header = document.querySelector(".header-project-name");
     if (header && header.textContent.toLowerCase() !== "incomplete") {
@@ -48,26 +51,32 @@ const createIncompletePage = () => {
     clearContent();
     _createHeader("allIncompleteTasks");
     _updateTaskList("allIncompleteTasks");
-}
+};
 const _makeActiveTab = (project) => {
     const tabs = document.querySelectorAll(".footer-tab");
-    tabs.forEach(tab => {
-        if (tab.textContent.toLowerCase() === project
-        || (project.name && tab.textContent.toLowerCase() === project.name.toLowerCase())) {
+    tabs.forEach((tab) => {
+        if (
+            tab.textContent.toLowerCase() === project ||
+            (project.name &&
+                tab.textContent.toLowerCase() === project.name.toLowerCase())
+        ) {
             tab.classList.add("active-tab");
         } else {
             tab.classList.remove("active-tab");
         }
-    })
-}
+    });
+};
 
 const _createHeader = (project) => {
     const headerContainer = document.createElement("header");
-    if (typeof(project) !== "string"
-        && project !== model.projectArray[0]) {
-            headerContainer.append(createBackBtn("allProjects"));
-            const headerProjectName = createEditBox(project, "name", "header-project")
-            headerContainer.append(headerProjectName);
+    if (typeof project !== "string" && project !== model.projectArray[0]) {
+        headerContainer.append(createBackBtn("allProjects"));
+        const headerProjectName = createEditBox(
+            project,
+            "name",
+            "header-project"
+        );
+        headerContainer.append(headerProjectName);
     } else {
         const heading = document.createElement("div");
         heading.classList.add("header-project-name");
@@ -80,7 +89,7 @@ const _createHeader = (project) => {
                     return "Projects";
                 default:
                     return project.name;
-            };
+            }
         })();
         headerContainer.append(heading);
     }
@@ -98,7 +107,7 @@ const _createHeader = (project) => {
     headerBtnsContainer.append(_createDeleteToggle());
     headerContainer.append(headerBtnsContainer);
     _contentDiv.append(headerContainer);
-}
+};
 const _createSortButton = (project) => {
     const sortContainer = document.createElement("div");
     sortContainer.classList.add("sort-container");
@@ -108,7 +117,7 @@ const _createSortButton = (project) => {
     sortBtn.classList.add("sort-button");
     sortBtn.dataset.project = model.projectArray.indexOf(project);
     sortBtn.textContent = (() => {
-        switch(project.sortMethod) {
+        switch (project.sortMethod) {
             case "sortByPriority":
                 return "Priority";
             case "sortByDueDate":
@@ -120,18 +129,18 @@ const _createSortButton = (project) => {
     sortBtn.addEventListener("click", _changeSortAndUpdate);
     sortContainer.append(sortLabel, sortBtn);
     return sortContainer;
-}
+};
 const _changeSortAndUpdate = (e) => {
     const projectIndex = e.target.dataset.project;
     const project = model.projectArray[projectIndex];
     controller.swapSortMethod(project);
     createProjectPage(e);
-}
+};
 const createBackBtn = (project) => {
     const backBtn = document.createElement("button");
     backBtn.classList.add("back-btn");
     _addIcon(backBtn, "chevron_left");
-    if (typeof(project) === "object") {
+    if (typeof project === "object") {
         backBtn.dataset.project = model.projectArray.indexOf(project);
     } else {
         backBtn.dataset.project = project;
@@ -150,7 +159,7 @@ const createBackBtn = (project) => {
         }
     });
     return backBtn;
-}
+};
 const _createRefreshTasksButton = (project) => {
     const refreshTasks = document.createElement("button");
     refreshTasks.classList.add("refresh");
@@ -165,22 +174,21 @@ const _createRefreshTasksButton = (project) => {
         }
     });
     return refreshTasks;
-}
+};
 const _createDeleteToggle = () => {
     const deleteToggle = document.createElement("button");
     deleteToggle.classList.add("delete-toggle");
     if (deleteBtnsAreShowing) {
         _addIcon(deleteToggle, "remove");
         deleteToggle.dataset.isInactive = -1;
-
     } else {
         _addIcon(deleteToggle, "delete_sweep");
         deleteToggle.dataset.isInactive = 1;
     }
 
-    deleteToggle.addEventListener("mousedown", _toggleDeleteBtns)
+    deleteToggle.addEventListener("mousedown", _toggleDeleteBtns);
     return deleteToggle;
-}
+};
 const _toggleDeleteBtns = () => {
     const deleteToggle = document.querySelector(".delete-toggle");
     let isInactive = deleteToggle.dataset.isInactive;
@@ -191,20 +199,25 @@ const _toggleDeleteBtns = () => {
         _addIcon(deleteToggle, "delete_sweep");
     } else {
         _addIcon(deleteToggle, "remove");
-        const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
-        if (progressTogglesToggle && progressTogglesToggle.dataset.isInactive < 0) {
+        const progressTogglesToggle = document.querySelector(
+            ".progress-toggles-toggle"
+        );
+        if (
+            progressTogglesToggle &&
+            progressTogglesToggle.dataset.isInactive < 0
+        ) {
             _toggleProgressToggles();
         }
     }
     const taskFormBtns = document.querySelectorAll(".task-form-btn");
     const deleteBtns = document.querySelectorAll(".delete-btn");
-    taskFormBtns.forEach(btn => btn.classList.toggle("invisible"));
-    deleteBtns.forEach(btn => btn.classList.toggle("invisible"));
+    taskFormBtns.forEach((btn) => btn.classList.toggle("invisible"));
+    deleteBtns.forEach((btn) => btn.classList.toggle("invisible"));
     if (document.querySelector(".demo-btn")) {
         document.querySelector(".clear-all-btn").classList.toggle("invisible");
         document.querySelector(".demo-btn").classList.toggle("invisible");
     }
-}
+};
 
 const _updateTaskList = (project) => {
     let taskListDiv = document.querySelector(".task-list-container");
@@ -215,8 +228,10 @@ const _updateTaskList = (project) => {
         taskListDiv.classList.add("task-list-container");
     }
 
-    if (project.incompleteTasks > 0
-        || (project === "allIncompleteTasks" && model.taskArray.length > 0)) {
+    if (
+        project.incompleteTasks > 0 ||
+        (project === "allIncompleteTasks" && model.taskArray.length > 0)
+    ) {
         const incompleteTasks = document.createElement("section");
         incompleteTasks.classList.add("task-list", "incomplete-task-list");
         if (project !== "allIncompleteTasks" && project.completeTasks > 0) {
@@ -225,20 +240,26 @@ const _updateTaskList = (project) => {
             incompleteTasks.classList.remove("incomplete-task-list-border");
         }
         taskListDiv.append(incompleteTasks);
-        controller.sortIncompleteTasks(project).forEach(task => incompleteTasks.append(_createTaskElement(task)));
+        controller
+            .sortIncompleteTasks(project)
+            .forEach((task) =>
+                incompleteTasks.append(_createTaskElement(task))
+            );
     }
     if (project !== "allIncompleteTasks") {
         const completeTasks = document.createElement("section");
         completeTasks.classList.add("task-list", "complete-task-list");
         taskListDiv.append(completeTasks);
-        controller.sortCompleteTasks(project).forEach(task => completeTasks.append(_createTaskElement(task)));
+        controller
+            .sortCompleteTasks(project)
+            .forEach((task) => completeTasks.append(_createTaskElement(task)));
     }
     taskListDiv.append(_createEmptySpaceForBottomOfPage());
     if (project === model.projectArray[0]) {
         taskListDiv.append(_createCredit());
     }
     _contentDiv.append(taskListDiv);
-}
+};
 const _createTaskElement = (task) => {
     const taskIndex = model.taskArray.indexOf(task);
 
@@ -265,11 +286,15 @@ const _createTaskElement = (task) => {
     taskContainer.append(_createDeleteBtn(task));
 
     if (task.isHighPriority) {
-        taskContainer.classList.add(`priority-high`);
+        taskContainer.classList.add("priority-high");
     }
     return taskContainer;
-}
-const createCheckbox = (task, isChecked = task.isComplete, func = _toggleCompleteClass) => {
+};
+const createCheckbox = (
+    task,
+    isChecked = task.isComplete,
+    func = _toggleCompleteClass
+) => {
     const checkboxContainer = document.createElement("div");
     checkboxContainer.classList.add("checkbox-container");
     const taskIndex = model.taskArray.indexOf(task);
@@ -289,7 +314,7 @@ const createCheckbox = (task, isChecked = task.isComplete, func = _toggleComplet
     checkboxContainer.append(checkbox, taskLabel);
     _numOfCheckboxes++;
     return checkboxContainer;
-}
+};
 const _createDueDateElement = (task) => {
     const dueDateElement = document.createElement("p");
     dueDateElement.classList.add("due-date");
@@ -298,7 +323,7 @@ const _createDueDateElement = (task) => {
         dueDateElement.classList.add("past-due");
     }
     return dueDateElement;
-}
+};
 const _createTaskFormButton = (task) => {
     const taskFormBtn = document.createElement("button");
     taskFormBtn.classList.add("task-form-btn");
@@ -307,15 +332,21 @@ const _createTaskFormButton = (task) => {
     }
     _addIcon(taskFormBtn, "chevron_right");
     taskFormBtn.dataset.task = model.taskArray.indexOf(task);
-    if (document.querySelector(".header-project-name").textContent.toLowerCase() === "incomplete") {
+    if (
+        document
+            .querySelector(".header-project-name")
+            .textContent.toLowerCase() === "incomplete"
+    ) {
         taskFormBtn.dataset.projectName = "allIncompleteTasks";
     }
 
     taskFormBtn.addEventListener("click", (e) => {
-        setTimeout(() => {viewTaskForm.createTaskForm(e)}, 10);
-    })
+        setTimeout(() => {
+            viewTaskForm.createTaskForm(e);
+        }, 10);
+    });
     return taskFormBtn;
-}
+};
 const _createDeleteBtn = (taskOrProject) => {
     const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete-btn");
@@ -327,7 +358,9 @@ const _createDeleteBtn = (taskOrProject) => {
     const taskIndex = model.taskArray.indexOf(taskOrProject);
     if (taskIndex !== -1) {
         deleteBtn.dataset.task = taskIndex;
-        deleteBtn.dataset.project = model.projectArray.indexOf(taskOrProject.project);
+        deleteBtn.dataset.project = model.projectArray.indexOf(
+            taskOrProject.project
+        );
     } else {
         deleteBtn.dataset.project = model.projectArray.indexOf(taskOrProject);
     }
@@ -347,7 +380,7 @@ const _createDeleteBtn = (taskOrProject) => {
         }
     });
     return deleteBtn;
-}
+};
 const _deleteTaskOrProject = (e) => {
     if (e.target.dataset.task) {
         const taskIndex = e.target.dataset.task;
@@ -355,7 +388,7 @@ const _deleteTaskOrProject = (e) => {
     } else {
         controller.deleteProject(e.target.dataset.project);
     }
-}
+};
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
 const _inputHandlers = [];
 const createEditBox = (obj, property, classPrefix) => {
@@ -375,26 +408,34 @@ const createEditBox = (obj, property, classPrefix) => {
     }
     propEditBox.contentEditable = true;
     propEditBox.autocapitalize = "sentences";
-    propEditBox.addEventListener("focus", _inputHandlers[0] = _handleEditBoxFocus(obj, property));
+    propEditBox.addEventListener(
+        "focus",
+        (_inputHandlers[0] = _handleEditBoxFocus(obj, property))
+    );
     if (classPrefix === "project") {
         propEditBox.addEventListener("mousedown", (e) => e.preventDefault());
     }
     return propEditBox;
-}
+};
 
 const _handleEditBoxFocus = (obj, property) => {
     return function realHandleEditBoxFocus(e) {
         const domElement = e.target;
-        document.addEventListener("mousedown", _inputHandlers[1] = _submitTextValue(e, domElement, obj, property));
+        document.addEventListener(
+            "mousedown",
+            (_inputHandlers[1] = _submitTextValue(e, domElement, obj, property))
+        );
         document.addEventListener("keydown", _inputHandlers[1]);
         document.addEventListener("focusout", _inputHandlers[1]);
-    }
-}
+    };
+};
 const _submitTextValue = (e, domElement, obj, property) => {
     return function realSubmitTextValueFunction(e) {
-        if ((e.type === "mousedown" && e.target !== domElement)
-            || (e.type === "keydown" && e.key === "Enter")
-            || e.type === "focusout") {
+        if (
+            (e.type === "mousedown" && e.target !== domElement) ||
+            (e.type === "keydown" && e.key === "Enter") ||
+            e.type === "focusout"
+        ) {
             e.preventDefault();
             domElement.blur();
             if (domElement.textContent === "") {
@@ -412,32 +453,40 @@ const _submitTextValue = (e, domElement, obj, property) => {
             if (document.querySelector(".project-list")) {
                 _updateProjectList();
             }
-        } else if (e.type === "keydown"
-            && (domElement.textContent === `(Enter ${property} here)` || domElement.textContent === `(New project name)`)) {
+        } else if (
+            e.type === "keydown" &&
+            (domElement.textContent === `(Enter ${property} here)` ||
+                domElement.textContent === "(New project name)")
+        ) {
             domElement.textContent = "";
         }
-    }
-}
+    };
+};
 
 const _toggleCompleteClass = (e) => {
     const taskIndex = e.target.dataset.task;
-    const taskContainer = document.querySelector(`.task-container[data-task="${taskIndex}"]`);
+    const taskContainer = document.querySelector(
+        `.task-container[data-task="${taskIndex}"]`
+    );
     if (taskContainer) {
         taskContainer.classList.toggle("complete-task");
     }
     controller.toggleTaskCompletion(model.taskArray[taskIndex]);
-}
+};
 const _createFooterButtons = (project) => {
     const footerBtnContainer = document.createElement("div");
     footerBtnContainer.classList.add("footer-btn-container");
     if (project === model.projectArray[0]) {
-        footerBtnContainer.append(test.createClearAllButton(), test.createDemoButton());
+        footerBtnContainer.append(
+            test.createClearAllButton(),
+            test.createDemoButton()
+        );
     }
     footerBtnContainer.append(_createNewItemButton(project));
     const footer = document.querySelector("footer");
-    footerBtnContainer.style.bottom = (footer.offsetHeight / 10) + "rem";
+    footerBtnContainer.style.bottom = footer.offsetHeight / 10 + "rem";
     return footerBtnContainer;
-}
+};
 const _createNewItemButton = (project) => {
     const newItemBtn = document.createElement("button");
     newItemBtn.classList.add("new-item-btn");
@@ -445,53 +494,71 @@ const _createNewItemButton = (project) => {
 
     newItemBtn.addEventListener("click", (e) => {
         if (project === "allProjects") {
-            const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
+            const progressTogglesToggle = document.querySelector(
+                ".progress-toggles-toggle"
+            );
             if (progressTogglesToggle.dataset.isInactive < 0) {
                 _toggleProgressToggles();
             }
         }
         _insertNewItemInput(e, project);
-    })
+    });
     return newItemBtn;
-}
+};
 
 const _insertNewItemInput = (e, project) => {
-        if (project !== "allProjects") {
-            let incompleteTaskList;
-            if (!document.querySelector(".incomplete-task-list")) {
-                const taskListDiv = document.querySelector(".task-list-container")
-                incompleteTaskList = document.createElement("section");
-                incompleteTaskList.classList.add("task-list", "incomplete-task-list");
-                taskListDiv.prepend(incompleteTaskList);
-            } else {
-                incompleteTaskList = document.querySelector(".incomplete-task-list");
-            }
-            const newTask = controller.addNewTask("(Enter name here)", project);
-            incompleteTaskList.append(_createTaskElement(newTask));
-
-            const taskNameDiv = document.querySelector(`.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`);
-            _moveCaretToEnd(taskNameDiv)
+    if (project !== "allProjects") {
+        let incompleteTaskList;
+        if (!document.querySelector(".incomplete-task-list")) {
+            const taskListDiv = document.querySelector(".task-list-container");
+            incompleteTaskList = document.createElement("section");
+            incompleteTaskList.classList.add(
+                "task-list",
+                "incomplete-task-list"
+            );
+            taskListDiv.prepend(incompleteTaskList);
         } else {
-            _removeListenersFromProjects();
-
-            let incompleteProjects;
-            if (!document.querySelector(".incomplete-project-list")) {
-                const projectListDiv = document.querySelector(".project-list-container");
-                incompleteProjects = document.createElement("section");
-                incompleteProjects.classList.add("project-list", "incomplete-project-list");
-                projectListDiv.prepend(incompleteProjects);
-            } else {
-                incompleteProjects = document.querySelector(".incomplete-project-list");
-            }
-            
-            const newProject = controller.addNewProject("(New project name)");
-            const projectIndex = model.projectArray.indexOf(newProject);
-            incompleteProjects.append(_createProjectElement(newProject));
-            
-            const projectNameDiv = document.querySelector(`.project-info-container[data-project="${projectIndex}"] .project-name`);
-            _moveCaretToEnd(projectNameDiv);
+            incompleteTaskList = document.querySelector(
+                ".incomplete-task-list"
+            );
         }
-}
+        const newTask = controller.addNewTask("(Enter name here)", project);
+        incompleteTaskList.append(_createTaskElement(newTask));
+
+        const taskNameDiv = document.querySelector(
+            `.task-name[data-task="${model.taskArray.indexOf(newTask)}"]`
+        );
+        _moveCaretToEnd(taskNameDiv);
+    } else {
+        _removeListenersFromProjects();
+
+        let incompleteProjects;
+        if (!document.querySelector(".incomplete-project-list")) {
+            const projectListDiv = document.querySelector(
+                ".project-list-container"
+            );
+            incompleteProjects = document.createElement("section");
+            incompleteProjects.classList.add(
+                "project-list",
+                "incomplete-project-list"
+            );
+            projectListDiv.prepend(incompleteProjects);
+        } else {
+            incompleteProjects = document.querySelector(
+                ".incomplete-project-list"
+            );
+        }
+
+        const newProject = controller.addNewProject("(New project name)");
+        const projectIndex = model.projectArray.indexOf(newProject);
+        incompleteProjects.append(_createProjectElement(newProject));
+
+        const projectNameDiv = document.querySelector(
+            `.project-info-container[data-project="${projectIndex}"] .project-name`
+        );
+        _moveCaretToEnd(projectNameDiv);
+    }
+};
 const _moveCaretToEnd = (element) => {
     const range = document.createRange();
     const selection = window.getSelection();
@@ -500,16 +567,16 @@ const _moveCaretToEnd = (element) => {
     selection.removeAllRanges();
     selection.addRange(range);
     element.focus();
-}
+};
 const _addIcon = (element, iconCode) => {
     element.textContent = iconCode;
     element.classList.add("material-symbols-outlined");
-}
+};
 const _createEmptySpaceForBottomOfPage = () => {
     const space = document.createElement("div");
     space.classList.add("empty-space");
     return space;
-}
+};
 const _createCredit = () => {
     const creditElement = document.createElement("div");
     creditElement.classList.add("credit");
@@ -519,7 +586,7 @@ const _createCredit = () => {
     creditLink.textContent = "Cutler Sheridan";
     creditElement.append(creditLink);
     return creditElement;
-}
+};
 
 // ALL PROJECTS PAGE START
 const _createProgressTogglesToggle = () => {
@@ -530,9 +597,11 @@ const _createProgressTogglesToggle = () => {
 
     toggle.addEventListener("click", _toggleProgressToggles);
     return toggle;
-}
+};
 const _toggleProgressToggles = () => {
-    const progressTogglesToggle = document.querySelector(".progress-toggles-toggle");
+    const progressTogglesToggle = document.querySelector(
+        ".progress-toggles-toggle"
+    );
     let isInactive = progressTogglesToggle.dataset.isInactive;
     isInactive *= -1;
     progressTogglesToggle.dataset.isInactive = isInactive;
@@ -547,9 +616,11 @@ const _toggleProgressToggles = () => {
     }
     const allProgressToggles = document.querySelectorAll(".progress-toggle");
     if (allProgressToggles.length > 0) {
-        allProgressToggles.forEach(toggle => toggle.classList.toggle("invisible"));
+        allProgressToggles.forEach((toggle) =>
+            toggle.classList.toggle("invisible")
+        );
     }
-}
+};
 const _updateProjectList = () => {
     let projectListDiv = document.querySelector(".project-list-container");
     if (projectListDiv) {
@@ -559,20 +630,32 @@ const _updateProjectList = () => {
         projectListDiv.classList.add("project-list-container");
     }
 
-    if (model.projectArray.some(project => 
-        (project.incompleteTasks > 0 && project !== model.projectArray[0]
-        || (project.incompleteTasks === 0 && project.completeTasks === 0 && project !== model.projectArray[0])))) {
+    if (
+        model.projectArray.some(
+            (project) =>
+                (project.incompleteTasks > 0 &&
+                    project !== model.projectArray[0]) ||
+                (project.incompleteTasks === 0 &&
+                    project.completeTasks === 0 &&
+                    project !== model.projectArray[0])
+        )
+    ) {
         const incompleteProjects = document.createElement("section");
-        incompleteProjects.classList.add("project-list", "incomplete-project-list");
+        incompleteProjects.classList.add(
+            "project-list",
+            "incomplete-project-list"
+        );
         if (controller.sortCompleteProjects().length > 0) {
             incompleteProjects.classList.add("incomplete-project-list-border");
         } else {
-            incompleteProjects.classList.remove("incomplete-project-list-border");
+            incompleteProjects.classList.remove(
+                "incomplete-project-list-border"
+            );
         }
         projectListDiv.append(incompleteProjects);
-        controller.sortIncompleteProjects().forEach(project => {
+        controller.sortIncompleteProjects().forEach((project) => {
             if (project !== model.projectArray[0]) {
-                incompleteProjects.append(_createProjectElement(project))
+                incompleteProjects.append(_createProjectElement(project));
             }
         });
     }
@@ -580,17 +663,22 @@ const _updateProjectList = () => {
     const completeProjects = document.createElement("section");
     completeProjects.classList.add("project-list");
     projectListDiv.append(completeProjects);
-    controller.sortCompleteProjects().forEach(project => completeProjects.append(_createProjectElement(project, true)));
+    controller
+        .sortCompleteProjects()
+        .forEach((project) =>
+            completeProjects.append(_createProjectElement(project, true))
+        );
 
     _contentDiv.append(projectListDiv);
     _addListenersToProjects();
-}
+};
 const _createProjectElement = (project, isComplete = false) => {
     const projectContainer = document.createElement("div");
     projectContainer.classList.add("project-container");
-    
+
     const nameAndProgressContainer = document.createElement("div");
-    nameAndProgressContainer.dataset.project = model.projectArray.indexOf(project);
+    nameAndProgressContainer.dataset.project =
+        model.projectArray.indexOf(project);
     nameAndProgressContainer.classList.add("project-info-container");
     const projectNameElement = createEditBox(project, "name", "project");
     nameAndProgressContainer.append(projectNameElement);
@@ -608,34 +696,42 @@ const _createProjectElement = (project, isComplete = false) => {
     projectContainer.append(
         nameAndProgressContainer,
         _createDeleteBtn(project)
-        );
+    );
     if (!isComplete) {
         projectContainer.append(_createProgressToggle(project));
     }
     return projectContainer;
-}
+};
 const _createProgressBar = (project) => {
     const progressBarOuter = document.createElement("div");
-    progressBarOuter.classList.add("progress-bar-outer", "project-progress-element");
+    progressBarOuter.classList.add(
+        "progress-bar-outer",
+        "project-progress-element"
+    );
     progressBarOuter.dataset.project = model.projectArray.indexOf(project);
     const progressBarInner = document.createElement("div");
     progressBarInner.classList.add("progress-bar-inner");
     progressBarOuter.append(progressBarInner);
 
     const totalTasks = project.incompleteTasks + project.completeTasks;
-    const percentComplete = project.completeTasks * 100 / totalTasks;
+    const percentComplete = (project.completeTasks * 100) / totalTasks;
     progressBarInner.style.width = `${percentComplete}%`;
 
     return progressBarOuter;
-}
+};
 const _createRemainingTasksNum = (project) => {
     const remainingTasksNum = document.createElement("div");
-    remainingTasksNum.classList.add("remaining-tasks-num", "project-progress-element");
+    remainingTasksNum.classList.add(
+        "remaining-tasks-num",
+        "project-progress-element"
+    );
     remainingTasksNum.dataset.project = model.projectArray.indexOf(project);
     const numOfTasks = project.incompleteTasks;
-    remainingTasksNum.textContent = `${numOfTasks} item${numOfTasks === 1 ? "" : "s"}`;
+    remainingTasksNum.textContent = `${numOfTasks} item${
+        numOfTasks === 1 ? "" : "s"
+    }`;
     return remainingTasksNum;
-}
+};
 const _createProgressToggle = (project) => {
     const toggle = document.createElement("button");
     toggle.classList.add("progress-toggle");
@@ -645,27 +741,35 @@ const _createProgressToggle = (project) => {
 
     toggle.addEventListener("click", _toggleProgressStyle);
     return toggle;
-}
+};
 const _toggleProgressStyle = (e) => {
     const projectIndex = e.target.dataset.project;
     const project = model.projectArray[projectIndex];
-    const progressContainer = document.querySelector(`.project-info-container[data-project="${projectIndex}"] .progress-container`);
-    const progressBar = document.querySelector(`.progress-bar-outer[data-project="${projectIndex}"]`);
+    const progressContainer = document.querySelector(
+        `.project-info-container[data-project="${projectIndex}"] .progress-container`
+    );
+    const progressBar = document.querySelector(
+        `.progress-bar-outer[data-project="${projectIndex}"]`
+    );
     if (progressBar) {
         progressBar.remove();
     } else {
         progressContainer.append(_createProgressBar(project));
     }
     controller.changeProperty(project, "showProgress", !project.showProgress);
-}
+};
 const _addListenersToProjects = () => {
     const allProjects = document.querySelectorAll(".project-info-container");
-    allProjects.forEach(projectElement => projectElement.addEventListener("click", createProjectPage));
-}
+    allProjects.forEach((projectElement) =>
+        projectElement.addEventListener("click", createProjectPage)
+    );
+};
 const _removeListenersFromProjects = () => {
     const allProjects = document.querySelectorAll(".project-info-container");
-    allProjects.forEach(projectElement => projectElement.removeEventListener("click", createProjectPage));
-}
+    allProjects.forEach((projectElement) =>
+        projectElement.removeEventListener("click", createProjectPage)
+    );
+};
 // ALL PROJECTS PAGE END
 
 const clearContent = (node = _contentDiv) => {
@@ -673,7 +777,7 @@ const clearContent = (node = _contentDiv) => {
     contentContainer.selectNodeContents(node);
     contentContainer.deleteContents();
     _numOfCheckboxes = 0;
-}
+};
 
 export {
     deleteBtnsAreShowing,
@@ -684,4 +788,4 @@ export {
     createAllProjectsPage,
     createCheckbox,
     clearContent,
-}
+};

@@ -24,6 +24,8 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.1.3*
+- adjust .gitattributes
 - *1.0.1.2*
 - adjust .gitattributes
 - *1.0.1.1*

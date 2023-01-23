@@ -7,12 +7,9 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- decide how to structure database
-  - maybe have taskArray and projectArray use indices as ids?
-- make task name changes change the appropriate task in the database
-- prevent new tasks from being added if they have default text
-- add tasks and projects to firebase instead of localStorage
-
+- get tasks to show up
+- get task details screen to work
+- figure out why new task no longer auto-focuses on the input box to rename it
 #### TO-DO LATER
 ##### Features
 ##### Behavior
@@ -30,6 +27,14 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.3*
+- add ids to tasks
+- add ids to projects
+- prevent page initialization from adding a new project
+- get changeProperty to change the database entries
+- figure out why renaming project upon initial creation doesn't work
+- make sure main project is always General
+
 - *1.0.2*
 - import and initialize firebase
 - figure out why identical tasks aren't registering as such in checkIfTaskExists()

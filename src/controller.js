@@ -6,6 +6,11 @@ import {
   collection,
   getDocs,
   addDoc,
+  query,
+  setDoc,
+  where,
+  orderBy,
+  doc,
 } from 'firebase/firestore/lite';
 import { check, resolveConfig } from 'prettier';
 
@@ -17,80 +22,78 @@ const _firebaseConfig = {
   messagingSenderId: '224157153436',
   appId: '1:224157153436:web:16702d301e30de556e9559',
 };
-
 const app = initializeApp(_firebaseConfig);
 const db = getFirestore(app);
 
-const checkAndAddTaskToDatabase = (task) => {
-  console.log('STEP 1');
-  checkIfTaskExists(task)
+const checkAndAddToDatabase = async (obj, collectionName) => {
+  //   console.log('in checkAndAdd');
+  //   console.log(obj);
+  await checkIfDocExists(obj, collectionName)
     .then((result) => {
-      console.log('STEP 5');
-      console.log(`in promise chain result:`);
-      console.log(result);
       if (!result) {
-        return addTaskToDatabase(task);
+        if (collectionName === 'tasks') {
+          return addTaskToDatabase(obj);
+        }
+        return addProjectToDatabase(obj);
+      } else {
+        if (collectionName === 'tasks') {
+          return overwriteDoc(obj, 'task');
+        }
+        return overwriteDoc(obj, 'projects');
       }
     })
     .catch((err) => console.error(err));
 };
-const checkIfTaskExists = async (task) => {
-  console.log('STEP 2');
-  //   console.log(`task.name: ${task.name}\ntask time: ${task.creationDateTime}`);
-  const querySnapshot = await getDocs(collection(db, 'taskTest'));
-  let taskExists = false;
+const checkIfDocExists = async (obj, collectionName) => {
+  const querySnapshot = await getDocs(collection(db, collectionName));
+  let docExists = false;
+  //   console.log('in checkIfDocExists');
+  //   console.log(obj);
   querySnapshot.forEach((doc) => {
-    const t = doc.data();
-    // console.log(`dbT.name: ${t.name}\ndbT time: ${t.creationDateTime}`);
-    console.log('STEP 3');
-    // logAllComparisons(t, task, [
-    //   'name',
-    //   'dueDate',
-    //   'notes',
-    //   'isComplete',
-    //   'project.name',
-    // ]);
-    if (
-      t.name === task.name &&
-      t.dueDate === task.dueDate &&
-      t.notes === task.notes &&
-      t.isComplete === task.isComplete &&
-      t.project.name == task.project.name
-    ) {
-      console.log('TRUE');
-      taskExists = true;
+    const d = doc.data();
+    if (d.name === obj.name && d.id === obj.id) {
+      docExists = true;
     }
   });
-  return taskExists;
+  return docExists;
 };
 const addTaskToDatabase = async (task) => {
-  //   const taskExists = await checkIfTaskExists(task);
-  //   console.log(`taskExists? - ${taskExists}`);
-  //   if (!taskExists) {
   try {
-    console.log('STEP 7');
-    const docRef = await addDoc(collection(db, 'taskTest'), task);
-    console.log('document written with id: ' + docRef.id);
+    // const docRef = await setDoc(doc(db, 'tasks', task.id));
+    const docRef = doc(db, 'tasks', task.id);
+    await setDoc(docRef, task);
+    console.log('task document written with id: ' + docRef.id);
   } catch (e) {
-    console.error('Error adding doucment: ', e);
+    console.error('Error adding task doucment: ', e);
   }
-  //   }
 };
-const logAllComparisons = (task1, task2, props) => {
-  console.log('STEP 4');
-
-  console.log('--------------------');
-  console.log('~~~ TASK 1 VS. TASK 2: ~~~');
-  props.forEach((p) => {
-    console.log(`  -${p.toUpperCase()}-`);
-    console.log(`Task 1: ${task1.p}`);
-    console.log(`Task 2: ${task2.p}`);
-  });
-  console.log('--------------------');
+const addProjectToDatabase = async (project) => {
+  try {
+    // console.log('in addProjectToDatabase');
+    // console.log(project);
+    // const docRef = await setDoc(doc(db, 'projects', project.id));
+    const docRef = doc(db, 'projects', project.id);
+    await setDoc(docRef, project);
+    console.log('project document written with id: ' + docRef.id);
+  } catch (e) {
+    console.error('Error adding project document ', e);
+  }
 };
+// const logAllComparisons = (task1, task2, props) => {
+//   console.log('STEP 4');
 
-const addNewTask = (name, project = model.projectArray[0]) => {
-  const task = _createTask(name, project);
+//   console.log('--------------------');
+//   console.log('~~~ TASK 1 VS. TASK 2: ~~~');
+//   props.forEach((p) => {
+//     console.log(`  -${p.toUpperCase()}-`);
+//     console.log(`Task 1: ${task1[p]}`);
+//     console.log(`Task 2: ${task2[p]}`);
+//   });
+//   console.log('--------------------');
+// };
+
+const addNewTask = async (name, project = model.projectArray[0], id = null) => {
+  const task = _createTask(name, project, id);
   _addTaskToArray(task);
   _addTaskToProject(task);
 
@@ -99,13 +102,11 @@ const addNewTask = (name, project = model.projectArray[0]) => {
     'storedProjectArray',
     JSON.stringify(model.projectArray)
   );
-  console.log('ADDING NEW TASK');
-  checkAndAddTaskToDatabase(task);
-  console.log('STEP 8');
+  await checkAndAddToDatabase(task, 'tasks');
   return task;
 };
-const _createTask = (name, project) => {
-  return model.Task(name, project);
+const _createTask = (name, project, id) => {
+  return model.Task(name, project, id);
 };
 const _addTaskToArray = (task) => {
   model.taskArray.push(task);
@@ -121,17 +122,15 @@ const deleteTask = (taskIndex) => {
     JSON.stringify(model.projectArray)
   );
 };
-const addNewProject = (name, showProgress = true) => {
-  const project = _createProject(name, showProgress);
+const addNewProject = async (name, id = null, showProgress = true) => {
+  const project = _createProject(name, id, showProgress);
   _addProjectToArray(project);
-  localStorage.setItem(
-    'storedProjectArray',
-    JSON.stringify(model.projectArray)
-  );
+  await checkAndAddToDatabase(project, 'projects');
+
   return project;
 };
-const _createProject = (name, showProgress) => {
-  return model.Project(name, showProgress);
+const _createProject = (name, id, showProgress) => {
+  return model.Project(name, id, showProgress);
 };
 const _addProjectToArray = (project) => {
   model.projectArray.push(project);
@@ -161,22 +160,30 @@ const _deleteTasksFromProject = (projectIndex) => {
     deleteTask(taskIndicesToDelete[i]);
   }
 };
-const changeProperty = (object, property, newValue) => {
-  if (property === 'project') {
-    _subtractTaskFromProject(object);
-  }
-  object[property] = newValue;
-  if (property === 'project') {
-    _addTaskToProject(object);
-  }
-  if (model.projectArray.length > 0) {
-    localStorage.setItem(
-      'storedProjectArray',
-      JSON.stringify(model.projectArray)
-    );
-    if (model.taskArray.length > 0) {
-      localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
+const changeProperty = async (obj, property, newValue) => {
+  obj = await obj;
+  console.log('task object in changeProperty outer');
+  console.log(obj);
+  try {
+    let currentDoc;
+
+    if (property === 'project') {
+      _subtractTaskFromProject(obj);
     }
+    if (obj.showProgress === undefined) {
+      console.log('task object in changeProperty inner');
+      console.log(obj);
+      currentDoc = doc(db, 'tasks', obj.id);
+    } else {
+      currentDoc = doc(db, 'projects', obj.id);
+    }
+    obj[property] = newValue;
+    await setDoc(currentDoc, obj);
+    if (property === 'project') {
+      _addTaskToProject(obj);
+    }
+  } catch (e) {
+    console.error(e);
   }
 };
 const _addTaskToProject = (task) => {
@@ -291,7 +298,7 @@ const sortCompleteProjects = () => {
     (project) => project.incompleteTasks === 0 && project.completeTasks > 0
   );
 };
-const toggleTaskCompletion = (task) => {
+const toggleTaskCompletion = async (task) => {
   _subtractTaskFromProject(task);
   task.isComplete = !task.isComplete;
   _addTaskToProject(task);
@@ -301,70 +308,80 @@ const toggleTaskCompletion = (task) => {
   } else {
     task.completionDateTime = null;
   }
-
-  localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
-  localStorage.setItem(
-    'storedProjectArray',
-    JSON.stringify(model.projectArray)
+  await overwriteTaskAndItsProject(task);
+};
+const overwriteDoc = async (obj, taskOrProject) => {
+  if (taskOrProject === 'task') {
+    const taskDoc = doc(db, 'tasks', obj.id);
+    await setDoc(taskDoc, obj);
+  } else {
+    const projectDoc = doc(db, 'projects', obj.id);
+    await setDoc(projectDoc, obj);
+  }
+};
+const overwriteTaskAndItsProject = async (task) => {
+  await overwriteDoc(task, 'task');
+  await overwriteDoc(
+    model.projectArray.find((x) => x.id === task.project.id),
+    'project'
   );
 };
-const repopulateDataFromLocalStorage = () => {
-  if (localStorage.length > 0) {
-    _repopulateProjects();
-    _repopulateTasks();
-  } else {
-    return;
-  }
+const repopulateDataFromLocalStorage = async () => {
+  await _repopulateProjects()
+    .then(() => _repopulateTasks)
+    .catch((e) => console.error(e));
 };
-const _repopulateProjects = () => {
-  if (localStorage.getItem('storedProjectArray')) {
-    const storedProjectArray = JSON.parse(
-      localStorage.getItem('storedProjectArray')
+const _repopulateProjects = async () => {
+  try {
+    const querySnapshot = await getDocs(
+      query(collection(db, 'projects'), orderBy('timeCreated'))
     );
-    localStorage.removeItem('storedProjectArray');
-    storedProjectArray.forEach((project) => {
-      const newProj = addNewProject(project.name);
+    querySnapshot.forEach(async (doc) => {
+      const project = doc.data();
+      const newProj = await addNewProject(project.name, project.id);
       for (let prop in project) {
-        if (prop === 'timeCreated') {
-          changeProperty(newProj, prop, parseJSON(project[prop]));
-        } else if (prop !== 'incompleteTasks' && prop !== 'completeTasks') {
-          changeProperty(newProj, prop, project[prop]);
+        if (
+          prop !== 'incompleteTasks' &&
+          prop !== 'completeTasks' &&
+          prop !== 'id' &&
+          newProj[prop] !== project[prop]
+        ) {
+          console.log('newProj right before change property');
+          console.log(newProj);
+          console.log('project right before change property');
+          console.log(project);
+          await changeProperty(newProj, prop, project[prop]);
+          console.log('project right after change property');
+          console.log(project);
         }
       }
     });
+  } catch (e) {
+    console.error(e);
   }
 };
-const _repopulateTasks = () => {
-  if (localStorage.getItem('storedTaskArray')) {
-    const storedTaskArray = JSON.parse(localStorage.getItem('storedTaskArray'));
-    localStorage.removeItem('storedTaskArray');
-    storedTaskArray.forEach((task) => {
-      const projectIndex = model.projectArray.findIndex((project) => {
-        return (
-          project.name === task.project.name &&
-          project.showProgress === task.project.showProgress &&
-          project.sortMethod === task.project.sortMethod
-        );
-      });
-      const newTask = addNewTask(task.name, model.projectArray[projectIndex]);
+const _repopulateTasks = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'tasks'));
+    querySnapshot.forEach(async (doc) => {
+      const task = doc.data();
+      const newTask = addNewTask(
+        task.name,
+        model.projectArray.find((p) => p.id === task.project.id),
+        task.id
+      );
       for (let prop in task) {
-        if (
-          prop === 'dueDate' ||
-          prop === 'completionDateTime' ||
-          prop === 'creationDateTime'
-        ) {
-          if (task[prop] !== null) {
-            changeProperty(newTask, prop, parseJSON(task[prop]));
-          }
-        } else if (prop === 'isComplete') {
+        if (prop === 'isComplete') {
           if (task[prop] === true) {
             toggleTaskCompletion(newTask);
+          } else if (prop !== 'project') {
+            await changeProperty(newTask, prop, task[prop]);
           }
-        } else if (prop !== 'isPastDue' && prop !== 'project') {
-          changeProperty(newTask, prop, task[prop]);
         }
       }
     });
+  } catch (e) {
+    console.error(e);
   }
 };
 

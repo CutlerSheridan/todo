@@ -7,9 +7,9 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- get tasks to show up
-- get task details screen to work
-- figure out why new task no longer auto-focuses on the input box to rename it
+- make tasks retain details (like if high priority) immediately upon refresh; currently happens too late (a high priority general task will not load as such, but if you tab away and tab back, it will be shown properly)
+- fix the progress display on new Projects upon creation
+- add ability to delete tasks
 #### TO-DO LATER
 ##### Features
 ##### Behavior
@@ -27,6 +27,13 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.4*
+- make _addTaskToProject add task to DB as well
+- refactor _subtract... as well
+- figure out why new task no longer auto-focuses on the input box to rename it (fixed by making _insertNewItemInput async in view.js and awaiting addNewTask)
+- get tasks to show up by fixing syntax of repopulateDataFromLocalStorage
+- get task details screen to work
+
 - *1.0.3*
 - add ids to tasks
 - add ids to projects

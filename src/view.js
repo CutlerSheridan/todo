@@ -23,7 +23,7 @@ const createProjectPage = (e) => {
   } else {
     project = model.projectArray[0];
   }
-  if (project === model.projectArray[0]) {
+  if (project.id === model.projectArray[0].id) {
     _makeActiveTab(project);
   }
   clearContent();
@@ -213,6 +213,8 @@ const _toggleDeleteBtns = () => {
 };
 
 const _updateTaskList = (project) => {
+  console.log('project in _updateTaskList');
+  console.log(project);
   let taskListDiv = document.querySelector('.task-list-container');
   if (taskListDiv) {
     clearContent(taskListDiv);
@@ -220,7 +222,8 @@ const _updateTaskList = (project) => {
     taskListDiv = document.createElement('section');
     taskListDiv.classList.add('task-list-container');
   }
-
+  console.log('tasks array');
+  console.log(model.taskArray);
   if (
     project.incompleteTasks > 0 ||
     (project === 'allIncompleteTasks' && model.taskArray.length > 0)
@@ -246,7 +249,7 @@ const _updateTaskList = (project) => {
       .forEach((task) => completeTasks.append(_createTaskElement(task)));
   }
   taskListDiv.append(_createEmptySpaceForBottomOfPage());
-  if (project === model.projectArray[0]) {
+  if (project.id === model.projectArray[0].id) {
     taskListDiv.append(_createCredit());
   }
   _contentDiv.append(taskListDiv);
@@ -466,7 +469,7 @@ const _toggleCompleteClass = (e) => {
 const _createFooterButtons = (project) => {
   const footerBtnContainer = document.createElement('div');
   footerBtnContainer.classList.add('footer-btn-container');
-  if (project === model.projectArray[0]) {
+  if (project.id === model.projectArray[0].id) {
     footerBtnContainer.append(
       test.createClearAllButton(),
       test.createDemoButton()
@@ -496,7 +499,7 @@ const _createNewItemButton = (project) => {
   return newItemBtn;
 };
 
-const _insertNewItemInput = (e, project) => {
+const _insertNewItemInput = async (e, project) => {
   if (project !== 'allProjects') {
     let incompleteTaskList;
     if (!document.querySelector('.incomplete-task-list')) {
@@ -507,7 +510,7 @@ const _insertNewItemInput = (e, project) => {
     } else {
       incompleteTaskList = document.querySelector('.incomplete-task-list');
     }
-    const newTask = controller.addNewTask('(Enter name here)', project);
+    const newTask = await controller.addNewTask('(Enter name here)', project);
     incompleteTaskList.append(_createTaskElement(newTask));
 
     const taskNameDiv = document.querySelector(

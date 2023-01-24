@@ -3,7 +3,7 @@ import * as view from './view';
 import * as controller from './controller';
 
 const setup = (() => {
-  controller.repopulateDataFromLocalStorage().then(() => {
+  controller.repopulateDataFromDatabase().then(() => {
     if (!model.projectArray.length > 0) {
       controller.addNewProject('general');
     }

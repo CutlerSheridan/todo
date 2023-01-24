@@ -1,19 +1,16 @@
 import * as model from './model';
-import { parseJSON } from 'date-fns';
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
   collection,
   getDoc,
   getDocs,
-  addDoc,
   query,
   setDoc,
-  where,
   orderBy,
   doc,
+  deleteDoc,
 } from 'firebase/firestore/lite';
-import { check, resolveConfig } from 'prettier';
 
 const _firebaseConfig = {
   apiKey: 'AIzaSyAJzf9KFyABDAnqVoEJIF-4AJNdfR7HV9w',
@@ -26,35 +23,7 @@ const _firebaseConfig = {
 const app = initializeApp(_firebaseConfig);
 const db = getFirestore(app);
 
-const checkAndAddToDatabase = async (obj, collectionName) => {
-  await checkIfDocExists(obj, collectionName)
-    .then((result) => {
-      if (!result) {
-        if (collectionName === 'tasks') {
-          return addTaskToDatabase(obj);
-        }
-        return addProjectToDatabase(obj);
-      } else {
-        if (collectionName === 'tasks') {
-          return overwriteDoc(obj, 'task');
-        }
-        return overwriteDoc(obj, 'projects');
-      }
-    })
-    .catch((err) => console.error(err));
-};
-const checkIfDocExists = async (obj, collectionName) => {
-  const querySnapshot = await getDocs(collection(db, collectionName));
-  let docExists = false;
-  querySnapshot.forEach((doc) => {
-    const d = doc.data();
-    if (d.name === obj.name && d.id === obj.id) {
-      docExists = true;
-    }
-  });
-  return docExists;
-};
-const addTaskToDatabase = async (task) => {
+const _addTaskToDatabase = async (task) => {
   try {
     const docRef = doc(db, 'tasks', task.id);
     await setDoc(docRef, task);
@@ -63,7 +32,7 @@ const addTaskToDatabase = async (task) => {
     console.error('Error adding task doucment: ', e);
   }
 };
-const addProjectToDatabase = async (project) => {
+const _addProjectToDatabase = async (project) => {
   try {
     const docRef = doc(db, 'projects', project.id);
     await setDoc(docRef, project);
@@ -72,31 +41,13 @@ const addProjectToDatabase = async (project) => {
     console.error('Error adding project document ', e);
   }
 };
-// const logAllComparisons = (task1, task2, props) => {
-//   console.log('STEP 4');
-
-//   console.log('--------------------');
-//   console.log('~~~ TASK 1 VS. TASK 2: ~~~');
-//   props.forEach((p) => {
-//     console.log(`  -${p.toUpperCase()}-`);
-//     console.log(`Task 1: ${task1[p]}`);
-//     console.log(`Task 2: ${task2[p]}`);
-//   });
-//   console.log('--------------------');
-// };
 
 const addNewTask = async (name, project = model.projectArray[0], id = null) => {
   const task = _createTask(name, project, id);
   _addTaskToArray(task);
   await _addTaskToProject(task);
 
-  localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
-  localStorage.setItem(
-    'storedProjectArray',
-    JSON.stringify(model.projectArray)
-  );
-  //   await checkAndAddToDatabase(task, 'tasks');
-  await addTaskToDatabase(task);
+  await _addTaskToDatabase(task);
   return task;
 };
 const _createTask = (name, project, id) => {
@@ -105,21 +56,16 @@ const _createTask = (name, project, id) => {
 const _addTaskToArray = (task) => {
   model.taskArray.push(task);
 };
-const deleteTask = (taskIndex) => {
+const deleteTask = async (taskIndex) => {
   const task = model.taskArray[taskIndex];
-  _subtractTaskFromProject(task);
+  await _subtractTaskFromProject(task);
   model.taskArray.splice(taskIndex, 1);
-
-  localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
-  localStorage.setItem(
-    'storedProjectArray',
-    JSON.stringify(model.projectArray)
-  );
+  await deleteDoc(doc(db, 'tasks', task.id));
 };
 const addNewProject = async (name, id = null, showProgress = true) => {
   const project = _createProject(name, id, showProgress);
   _addProjectToArray(project);
-  await checkAndAddToDatabase(project, 'projects');
+  await _addProjectToDatabase(project);
 
   return project;
 };
@@ -129,17 +75,13 @@ const _createProject = (name, id, showProgress) => {
 const _addProjectToArray = (project) => {
   model.projectArray.push(project);
 };
-const deleteProject = (projectIndex) => {
-  _deleteTasksFromProject(projectIndex);
+const deleteProject = async (projectIndex) => {
+  await _deleteTasksFromProject(projectIndex);
+  const projectId = model.projectArray[projectIndex].id;
   model.projectArray.splice(projectIndex, 1);
-
-  localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
-  localStorage.setItem(
-    'storedProjectArray',
-    JSON.stringify(model.projectArray)
-  );
+  await deleteDoc(doc(db, 'projects', projectId));
 };
-const _deleteTasksFromProject = (projectIndex) => {
+const _deleteTasksFromProject = async (projectIndex) => {
   const filteredTasks = model.taskArray.filter(
     (task) => task.project.id === model.projectArray[projectIndex].id
   );
@@ -151,8 +93,9 @@ const _deleteTasksFromProject = (projectIndex) => {
     .filter((task) => task.project.id === model.projectArray[projectIndex].id)
     .map((task) => model.taskArray.indexOf(task));
   for (let i = taskIndicesToDelete.length - 1; i >= 0; i--) {
-    deleteTask(taskIndicesToDelete[i]);
+    await deleteTask(taskIndicesToDelete[i]);
   }
+  return Promise.resolve();
 };
 const changeProperty = async (obj, property, newValue) => {
   obj = await obj;
@@ -258,19 +201,24 @@ const sortMethod = (() => {
     sortByAlphabet,
   };
 })();
-const swapSortMethod = (project) => {
-  const projectIndex = model.projectArray.indexOf(project);
+const swapSortMethod = async (project) => {
+  //   const projectIndex = model.projectArray.indexOf(project);
   const sortMethodIndex = model.sortMethods.indexOf(project.sortMethod);
   project.sortMethod =
     model.sortMethods[(sortMethodIndex + 1) % model.sortMethods.length];
-
-  localStorage.setItem(
-    'storedProjectArray',
-    JSON.stringify(model.projectArray)
+  await setDoc(
+    doc(db, 'projects', project.id),
+    { sortMethod: project.sortMethod },
+    { merge: true }
   );
-  if (model.taskArray.length > 0) {
-    localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
-  }
+
+  //   localStorage.setItem(
+  //     'storedProjectArray',
+  //     JSON.stringify(model.projectArray)
+  //   );
+  //   if (model.taskArray.length > 0) {
+  //     localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
+  //   }
 };
 const sortCompleteTasks = (project) => {
   let sortedArray = model.taskArray.filter((task) => task.isComplete);
@@ -324,7 +272,7 @@ const overwriteTaskAndItsProject = async (task) => {
     'project'
   );
 };
-const repopulateDataFromLocalStorage = async () => {
+const repopulateDataFromDatabase = async () => {
   try {
     await _repopulateProjects();
     await _repopulateTasks();
@@ -372,5 +320,5 @@ export {
   sortCompleteTasks,
   sortIncompleteProjects,
   sortCompleteProjects,
-  repopulateDataFromLocalStorage,
+  repopulateDataFromDatabase,
 };

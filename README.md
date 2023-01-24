@@ -7,15 +7,13 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- replace all localStorage uses with server calls
-- add ability to delete tasks
+- get demo content working
 
 #### TO-DO LATER
 ##### Features
 - ? make account-specific
 
 ##### Behavior
-- get demo content working
 - ? get new tasks/projects to show up faster
 - ? fix .gitattributes lol
 - ? make new project text highlightable (new task text already works fine)
@@ -31,6 +29,10 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.7*
+- add ability to delete tasks
+- add ability to delete projects
+- integrate Sort Method swaps into database
 - *1.0.6*
 - make tasks retain details (like if high priority) immediately upon refresh; currently happens too late (a high priority general task will not load as such, but if you tab away and tab back, it will be shown properly)
   - incidentally fixed the progress display on new Projects upon creation

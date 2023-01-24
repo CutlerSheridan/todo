@@ -13,6 +13,8 @@ const createProjectPage = (e) => {
   let project;
   if (e) {
     const clickedElement = e.currentTarget;
+    console.log('clicked element');
+    console.log(clickedElement);
     project = model.projectArray[clickedElement.dataset.project];
     const header = document.querySelector('.header-project-name');
     if (
@@ -130,8 +132,11 @@ const _createSortButton = (project) => {
 const _changeSortAndUpdate = (e) => {
   const projectIndex = e.target.dataset.project;
   const project = model.projectArray[projectIndex];
-  controller.swapSortMethod(project);
-  createProjectPage(e);
+  const alteredEvent = { ...e };
+  alteredEvent.currentTarget = e.target;
+  controller.swapSortMethod(project).then(() => {
+    createProjectPage(alteredEvent);
+  });
 };
 const createBackBtn = (project) => {
   const backBtn = document.createElement('button');
@@ -362,15 +367,22 @@ const _createDeleteBtn = (taskOrProject) => {
     deleteBtn.dataset.project = model.projectArray.indexOf(taskOrProject);
   }
 
-  deleteBtn.addEventListener('click', (e) => {
-    _deleteTaskOrProject(e);
+  deleteBtn.addEventListener('click', async (e) => {
+    console.log('e at start of Delete listener');
+    console.log(e);
+    await _deleteTaskOrProject(e);
+    console.log('received response from _deleteTOrP');
     if (taskIndex !== -1) {
       const header = document.querySelector('.header-project-name');
       const isLogbook = header.textContent.toLowerCase() === 'incomplete';
       if (isLogbook) {
         createIncompletePage();
       } else {
-        createProjectPage(e);
+        console.log('e before createProjectPage');
+        console.log(e);
+        const alteredEvent = { ...e };
+        alteredEvent.currentTarget = e.target;
+        createProjectPage(alteredEvent);
       }
     } else {
       createAllProjectsPage();
@@ -378,13 +390,13 @@ const _createDeleteBtn = (taskOrProject) => {
   });
   return deleteBtn;
 };
-const _deleteTaskOrProject = (e) => {
+const _deleteTaskOrProject = async (e) => {
   if (e.target.dataset.task) {
-    const taskIndex = e.target.dataset.task;
-    controller.deleteTask(taskIndex);
+    await controller.deleteTask(e.target.dataset.task);
   } else {
-    controller.deleteProject(e.target.dataset.project);
+    await controller.deleteProject(e.target.dataset.project);
   }
+  console.log('deleted task or project');
 };
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
 const _inputHandlers = [];

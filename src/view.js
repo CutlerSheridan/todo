@@ -9,6 +9,7 @@ let _numOfCheckboxes = 0;
 let deleteBtnsAreShowing = false;
 
 const createProjectPage = (e) => {
+  console.log('creating project page');
   let project;
   if (e) {
     const clickedElement = e.currentTarget;
@@ -310,10 +311,13 @@ const createCheckbox = (
   return checkboxContainer;
 };
 const _createDueDateElement = (task) => {
+  const taskDueDate = task.dueDate.seconds
+    ? task.dueDate.toDate()
+    : task.dueDate;
   const dueDateElement = document.createElement('p');
   dueDateElement.classList.add('due-date');
-  dueDateElement.textContent = format(task.dueDate, 'M/d');
-  if (task.dueDate < new Date()) {
+  dueDateElement.textContent = format(taskDueDate, 'M/d');
+  if (taskDueDate < new Date()) {
     dueDateElement.classList.add('past-due');
   }
   return dueDateElement;
@@ -456,7 +460,7 @@ const _submitTextValue = (e, domElement, obj, property) => {
   };
 };
 
-const _toggleCompleteClass = (e) => {
+const _toggleCompleteClass = async (e) => {
   const taskIndex = e.target.dataset.task;
   const taskContainer = document.querySelector(
     `.task-container[data-task="${taskIndex}"]`
@@ -464,7 +468,7 @@ const _toggleCompleteClass = (e) => {
   if (taskContainer) {
     taskContainer.classList.toggle('complete-task');
   }
-  controller.toggleTaskCompletion(model.taskArray[taskIndex]);
+  await controller.toggleTaskCompletion(model.taskArray[taskIndex]);
 };
 const _createFooterButtons = (project) => {
   const footerBtnContainer = document.createElement('div');
@@ -533,7 +537,7 @@ const _insertNewItemInput = async (e, project) => {
       incompleteProjects = document.querySelector('.incomplete-project-list');
     }
 
-    const newProject = controller.addNewProject('(New project name)');
+    const newProject = await controller.addNewProject('(New project name)');
     const projectIndex = model.projectArray.indexOf(newProject);
     incompleteProjects.append(_createProjectElement(newProject));
 
@@ -617,10 +621,11 @@ const _updateProjectList = () => {
   if (
     model.projectArray.some(
       (project) =>
-        (project.incompleteTasks > 0 && project !== model.projectArray[0]) ||
+        (project.incompleteTasks > 0 &&
+          project.id !== model.projectArray[0].id) ||
         (project.incompleteTasks === 0 &&
           project.completeTasks === 0 &&
-          project !== model.projectArray[0])
+          project.id !== model.projectArray[0].id)
     )
   ) {
     const incompleteProjects = document.createElement('section');
@@ -632,7 +637,7 @@ const _updateProjectList = () => {
     }
     projectListDiv.append(incompleteProjects);
     controller.sortIncompleteProjects().forEach((project) => {
-      if (project !== model.projectArray[0]) {
+      if (project.id !== model.projectArray[0].id) {
         incompleteProjects.append(_createProjectElement(project));
       }
     });

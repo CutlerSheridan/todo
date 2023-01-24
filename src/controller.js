@@ -328,6 +328,7 @@ const repopulateDataFromLocalStorage = async () => {
   try {
     await _repopulateProjects();
     await _repopulateTasks();
+    console.log('done repopulating all');
   } catch (err) {
     console.error(err);
   }
@@ -375,6 +376,7 @@ const _repopulateTasks = async () => {
         }
       }
     });
+    console.log('done repopulatingTasks');
   } catch (e) {
     console.error(e);
   }

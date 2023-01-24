@@ -9,13 +9,18 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 #### TO-DO NEXT
 - make tasks retain details (like if high priority) immediately upon refresh; currently happens too late (a high priority general task will not load as such, but if you tab away and tab back, it will be shown properly)
 - fix the progress display on new Projects upon creation
-- add ability to delete tasks
+
 #### TO-DO LATER
 ##### Features
+- ? make account-specific
+
 ##### Behavior
-- fix .gitattributes lol
-- make new project text highlightable (new task text already works fine)
-- change Notes edit box in task form to allow line breaks from pressing enter
+- add ability to delete tasks
+- replace all localStorage uses with server calls
+- get demo content working
+- ? fix .gitattributes lol
+- ? make new project text highlightable (new task text already works fine)
+- ? change Notes edit box in task form to allow line breaks from pressing enter
 ##### Style
 - should i change progress icon?
 ##### Other
@@ -27,6 +32,10 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.5*
+- fix date object type errors for due dates
+- fix due dates claiming to be past due even when not upon first loading
+
 - *1.0.4*
 - make _addTaskToProject add task to DB as well
 - refactor _subtract... as well

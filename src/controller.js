@@ -338,19 +338,9 @@ const _repopulateProjects = async () => {
     const querySnapshot = await getDocs(
       query(collection(db, 'projects'), orderBy('timeCreated'))
     );
-    querySnapshot.forEach(async (doc) => {
+    querySnapshot.forEach((doc) => {
       const project = doc.data();
-      const newProj = await addNewProject(project.name, project.id);
-      for (let prop in project) {
-        if (
-          prop !== 'incompleteTasks' &&
-          prop !== 'completeTasks' &&
-          prop !== 'id' &&
-          newProj[prop] !== project[prop]
-        ) {
-          await changeProperty(newProj, prop, project[prop]);
-        }
-      }
+      _addProjectToArray(project);
     });
   } catch (e) {
     console.error(e);
@@ -359,22 +349,10 @@ const _repopulateProjects = async () => {
 const _repopulateTasks = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, 'tasks'));
-    querySnapshot.forEach(async (doc) => {
+    querySnapshot.forEach((doc) => {
       const task = doc.data();
-      const newTask = await addNewTask(
-        task.name,
-        model.projectArray.find((p) => p.id === task.project.id),
-        task.id
-      );
-      for (let prop in task) {
-        if (prop === 'isComplete') {
-          if (task[prop] === true) {
-            await toggleTaskCompletion(newTask);
-          }
-        } else if (prop !== 'project') {
-          await changeProperty(newTask, prop, task[prop]);
-        }
-      }
+      task.project = model.projectArray.find((p) => p.id === task.project.id);
+      _addTaskToArray(task);
     });
     console.log('done repopulatingTasks');
   } catch (e) {

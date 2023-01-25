@@ -42,16 +42,15 @@ const _addProjectToDatabase = async (project) => {
   }
 };
 
-const addNewTask = async (name, project = model.projectArray[0], id = null) => {
-  const task = _createTask(name, project, id);
+const addNewTask = async (name, optionsObj) => {
+  const task = _createTask(name, optionsObj);
   _addTaskToArray(task);
   await _addTaskToProject(task);
-
   await _addTaskToDatabase(task);
   return task;
 };
-const _createTask = (name, project, id) => {
-  return model.Task(name, project, id);
+const _createTask = (name, optionsObj) => {
+  return model.Task(name, optionsObj);
 };
 const _addTaskToArray = (task) => {
   model.taskArray.push(task);
@@ -196,7 +195,6 @@ const sortMethod = (() => {
   };
 })();
 const swapSortMethod = async (project) => {
-  //   const projectIndex = model.projectArray.indexOf(project);
   const sortMethodIndex = model.sortMethods.indexOf(project.sortMethod);
   project.sortMethod =
     model.sortMethods[(sortMethodIndex + 1) % model.sortMethods.length];

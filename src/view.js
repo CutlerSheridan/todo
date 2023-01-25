@@ -513,7 +513,9 @@ const _insertNewItemInput = async (e, project) => {
     } else {
       incompleteTaskList = document.querySelector('.incomplete-task-list');
     }
-    const newTask = await controller.addNewTask('(Enter name here)', project);
+    const newTask = await controller.addNewTask('(Enter name here)', {
+      project,
+    });
     incompleteTaskList.append(_createTaskElement(newTask));
 
     const taskNameDiv = document.querySelector(

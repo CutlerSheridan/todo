@@ -93,11 +93,9 @@ const _addSampleData = async () => {
     'Amber ale',
   ];
   groceries.forEach(async (name) => {
-    groceryArray.push(await controller.addNewTask(name, groceryProject));
+    let groceryTask = await controller.addNewTask(name, groceryProject);
     if (name[0].toLowerCase() === 'b' || name[0].toLowerCase() === 'a') {
-      await controller.toggleTaskCompletion(
-        groceryArray[groceryArray.length - 1]
-      );
+      await controller.toggleTaskCompletion(groceryTask);
     }
   });
 

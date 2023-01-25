@@ -76,12 +76,12 @@ const _addProjectToArray = (project) => {
   model.projectArray.push(project);
 };
 const deleteProject = async (projectIndex) => {
-  await _deleteTasksFromProject(projectIndex);
+  await deleteTasksFromProject(projectIndex);
   const projectId = model.projectArray[projectIndex].id;
   model.projectArray.splice(projectIndex, 1);
   await deleteDoc(doc(db, 'projects', projectId));
 };
-const _deleteTasksFromProject = async (projectIndex) => {
+const deleteTasksFromProject = async (projectIndex) => {
   const filteredTasks = model.taskArray.filter(
     (task) => task.project.id === model.projectArray[projectIndex].id
   );
@@ -125,11 +125,7 @@ const _addTaskToProject = async (task) => {
   } else {
     task.project.incompleteTasks++;
   }
-  console.log('db project before:');
-  console.log((await getDoc(doc(db, 'projects', task.project.id))).data());
   await setDoc(doc(db, 'projects', task.project.id), task.project);
-  console.log('altered db project:');
-  console.log((await getDoc(doc(db, 'projects', task.project.id))).data());
 };
 const _subtractTaskFromProject = async (task) => {
   if (task.isComplete) {
@@ -171,8 +167,6 @@ const sortIncompleteTasks = (project) => {
       }
       return result;
     });
-  console.log('sortedArray');
-  console.log(sortedArray);
   return sortedArray;
 };
 const sortMethod = (() => {
@@ -211,14 +205,6 @@ const swapSortMethod = async (project) => {
     { sortMethod: project.sortMethod },
     { merge: true }
   );
-
-  //   localStorage.setItem(
-  //     'storedProjectArray',
-  //     JSON.stringify(model.projectArray)
-  //   );
-  //   if (model.taskArray.length > 0) {
-  //     localStorage.setItem('storedTaskArray', JSON.stringify(model.taskArray));
-  //   }
 };
 const sortCompleteTasks = (project) => {
   let sortedArray = model.taskArray.filter((task) => task.isComplete);
@@ -276,7 +262,6 @@ const repopulateDataFromDatabase = async () => {
   try {
     await _repopulateProjects();
     await _repopulateTasks();
-    console.log('done repopulating all');
   } catch (err) {
     console.error(err);
   }
@@ -302,7 +287,6 @@ const _repopulateTasks = async () => {
       task.project = model.projectArray.find((p) => p.id === task.project.id);
       _addTaskToArray(task);
     });
-    console.log('done repopulatingTasks');
   } catch (e) {
     console.error(e);
   }
@@ -313,6 +297,7 @@ export {
   deleteTask,
   addNewProject,
   deleteProject,
+  deleteTasksFromProject,
   changeProperty,
   toggleTaskCompletion,
   swapSortMethod,

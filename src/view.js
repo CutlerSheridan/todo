@@ -9,12 +9,9 @@ let _numOfCheckboxes = 0;
 let deleteBtnsAreShowing = false;
 
 const createProjectPage = (e) => {
-  console.log('creating project page');
   let project;
   if (e) {
     const clickedElement = e.currentTarget;
-    console.log('clicked element');
-    console.log(clickedElement);
     project = model.projectArray[clickedElement.dataset.project];
     const header = document.querySelector('.header-project-name');
     if (
@@ -219,8 +216,6 @@ const _toggleDeleteBtns = () => {
 };
 
 const _updateTaskList = (project) => {
-  console.log('project in _updateTaskList');
-  console.log(project);
   let taskListDiv = document.querySelector('.task-list-container');
   if (taskListDiv) {
     clearContent(taskListDiv);
@@ -228,8 +223,6 @@ const _updateTaskList = (project) => {
     taskListDiv = document.createElement('section');
     taskListDiv.classList.add('task-list-container');
   }
-  console.log('tasks array');
-  console.log(model.taskArray);
   if (
     project.incompleteTasks > 0 ||
     (project === 'allIncompleteTasks' && model.taskArray.length > 0)
@@ -368,18 +361,13 @@ const _createDeleteBtn = (taskOrProject) => {
   }
 
   deleteBtn.addEventListener('click', async (e) => {
-    console.log('e at start of Delete listener');
-    console.log(e);
     await _deleteTaskOrProject(e);
-    console.log('received response from _deleteTOrP');
     if (taskIndex !== -1) {
       const header = document.querySelector('.header-project-name');
       const isLogbook = header.textContent.toLowerCase() === 'incomplete';
       if (isLogbook) {
         createIncompletePage();
       } else {
-        console.log('e before createProjectPage');
-        console.log(e);
         const alteredEvent = { ...e };
         alteredEvent.currentTarget = e.target;
         createProjectPage(alteredEvent);
@@ -396,7 +384,6 @@ const _deleteTaskOrProject = async (e) => {
   } else {
     await controller.deleteProject(e.target.dataset.project);
   }
-  console.log('deleted task or project');
 };
 // this is currying to be able to pass arguments to the callback below and still be able to remove it
 const _inputHandlers = [];

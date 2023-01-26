@@ -11,10 +11,16 @@ const createClearAllButton = () => {
     btn.classList.add('invisible');
   }
   btn.textContent = 'Clear all';
-  btn.addEventListener('click', async () => {
-    await _clearAll();
-    view.createProjectPage();
-  });
+  btn.addEventListener(
+    'click',
+    async () => {
+      btn.textContent = 'Working...';
+      await _clearAll();
+      btn.textContent = 'Clear all';
+      view.createProjectPage();
+    },
+    { once: true }
+  );
 
   return btn;
 };
@@ -33,45 +39,94 @@ const createDemoButton = () => {
   }
   btn.textContent = 'Demo';
   btn.addEventListener('click', async () => {
+    btn.textContent = 'Loading...';
     await _addSampleData();
+    btn.textContent = 'Demo';
     view.deleteBtnsAreShowing = false;
     view.createProjectPage();
   });
 
   return btn;
 };
+const _getRandomInt = (exclusiveMax) => {
+  return Math.floor(Math.random() * exclusiveMax);
+};
+const _createTask = async (name, optionsObj = {}) => {
+  const task = model.Task(name, optionsObj);
+  model.taskArray.push(task);
+  await controller.addTaskToDatabase(task);
+  return task;
+};
+const _updateTasksInProject = async (
+  tempComplete,
+  tempIncomplete,
+  currentProject
+) => {
+  let newComplete = currentProject.completeTasks + tempComplete;
+  let newIncomplete = currentProject.incompleteTasks + tempIncomplete;
+  currentProject.completeTasks = newComplete;
+  await controller.changeProperty(currentProject, 'completeTasks', newComplete);
+  currentProject.incompleteTasks = newIncomplete;
+  await controller.changeProperty(
+    currentProject,
+    'incompleteTasks',
+    newIncomplete
+  );
+};
+
 const _addSampleData = async () => {
-  let tempTask = await controller.addNewTask('Book my flight for Paris');
-  await controller.changeProperty(tempTask, 'dueDate', new Date(2023, 6, 14));
-  await controller.changeProperty(tempTask, 'isHighPriority', true);
-  tempTask = await controller.addNewTask('Give that book back to Will');
-  await controller.changeProperty(tempTask, 'isHighPriority', true);
-
-  tempTask = await controller.addNewTask(
-    'Finish Poisonwood Bible for book club'
+  let tempComplete = 0;
+  let tempIncomplete = 0;
+  let tempTask = await _createTask('Book my flight for Paris', {
+    dueDate: new Date(2023, 6, 14),
+    isHighPriority: true,
+  });
+  tempIncomplete++;
+  tempTask = await _createTask('Give that book back to Will', {
+    isHighPriority: true,
+  });
+  tempIncomplete++;
+  tempTask = await _createTask('Finish Poisonwood Bible for book club', {
+    dueDate: new Date(2023, 5, 16),
+    isHighPriority: true,
+    isComplete: true,
+    completionDateTime: new Date(),
+  });
+  tempComplete++;
+  tempTask = await _createTask('Get car serviced', {
+    dueDate: new Date(2023, 4, 15),
+  });
+  tempIncomplete++;
+  await _createTask('See if that apartment in Santa Monica is still available');
+  tempIncomplete++;
+  tempTask = await _createTask('Send thank you note to Grandma', {
+    dueDate: new Date(2023, 1, 15),
+  });
+  tempIncomplete++;
+  tempTask = await _createTask('Check on party timing for Mom', {
+    isComplete: true,
+    completionDateTime: new Date(),
+  });
+  tempComplete++;
+  tempTask = await _createTask('Cancel gym membership', {
+    dueDate: new Date(2023, 1, 20),
+  });
+  tempIncomplete++;
+  await _createTask('Find a time to get lunch with Ivana');
+  tempIncomplete++;
+  await _createTask('Call Sarah back');
+  tempIncomplete++;
+  await _updateTasksInProject(
+    tempComplete,
+    tempIncomplete,
+    model.projectArray[0]
   );
-  await controller.changeProperty(tempTask, 'dueDate', new Date(2023, 5, 16));
-  await controller.toggleTaskCompletion(tempTask);
-  await controller.changeProperty(tempTask, 'isHighPriority', true);
-  tempTask = await controller.addNewTask('Get car serviced');
-  await controller.changeProperty(tempTask, 'dueDate', new Date(2023, 4, 15));
 
-  await controller.addNewTask(
-    'See if that apartment in Santa Monica is still available'
-  );
-  tempTask = await controller.addNewTask('Send thank you note to Grandma');
-  await controller.changeProperty(tempTask, 'dueDate', new Date(2023, 1, 15));
-
-  tempTask = await controller.addNewTask('Check on party timing for Mom');
-  await controller.toggleTaskCompletion(tempTask);
-
-  tempTask = await controller.addNewTask('Cancel gym membership');
-  await controller.changeProperty(tempTask, 'dueDate', new Date(2023, 1, 20));
-  await controller.addNewTask('Find a time to get lunch with Ivana');
-  await controller.addNewTask('Call Sarah back');
-
-  const groceryProject = await controller.addNewProject('grocery list');
-  await controller.changeProperty(groceryProject, 'showProgress', false);
+  const groceryProject = await controller.addNewProject('grocery list', {
+    showProgress: false,
+  });
+  tempComplete = 0;
+  tempIncomplete = 0;
 
   const groceryArray = [];
   const groceries = [
@@ -92,14 +147,24 @@ const _addSampleData = async () => {
     'Oregano',
     'Amber ale',
   ];
-  groceries.forEach(async (name) => {
-    let groceryTask = await controller.addNewTask(name, groceryProject);
-    if (name[0].toLowerCase() === 'b' || name[0].toLowerCase() === 'a') {
-      await controller.toggleTaskCompletion(groceryTask);
+  for (let i = 0; i < groceries.length; i++) {
+    const isComplete = /a|b/i.test(groceries[i].charAt(0));
+    await _createTask(groceries[i], {
+      project: groceryProject,
+      isComplete,
+      completionDateTime: isComplete ? new Date() : null,
+    });
+    if (isComplete) {
+      tempComplete++;
+    } else {
+      tempIncomplete++;
     }
-  });
+  }
+  await _updateTasksInProject(tempComplete, tempIncomplete, groceryProject);
 
   const partyProject = await controller.addNewProject('Party checklist');
+  tempComplete = 0;
+  tempIncomplete = 0;
   const partyTaskArray = [];
   const partyTasks = [
     'Get alcohol',
@@ -109,17 +174,18 @@ const _addSampleData = async () => {
     'Make snacks',
   ];
   for (let i = 0; i < partyTasks.length; i++) {
-    partyTaskArray[i] = await controller.addNewTask(
-      partyTasks[i],
-      partyProject
-    );
-    await controller.toggleTaskCompletion(partyTaskArray[i]);
+    await _createTask(partyTasks[i], {
+      project: partyProject,
+      isComplete: true,
+      completionDateTime: new Date(),
+    });
+    tempComplete++;
   }
+  await _updateTasksInProject(tempComplete, tempIncomplete, partyProject);
 
-  const _getRandomInt = (max) => {
-    return Math.floor(Math.random() * max);
-  };
   const schoolProject = await controller.addNewProject('school stuff');
+  tempComplete = 0;
+  tempIncomplete = 0;
   const schoolStuffArray = [];
   const schoolTasks = [
     'Finish Gatsby essay',
@@ -135,56 +201,60 @@ const _addSampleData = async () => {
     'Decorate poster for lit presentation',
   ];
   for (let i = 0; i < schoolTasks.length; i++) {
-    schoolStuffArray[i] = await controller.addNewTask(
-      schoolTasks[i],
-      schoolProject
-    );
-    if (i > (schoolTasks.length / 4) * 3) {
-      await controller.changeProperty(
-        schoolStuffArray[i],
-        'isHighPriority',
-        true
-      );
+    const isComplete = i % 3 === 0;
+    await _createTask(schoolTasks[i], {
+      project: schoolProject,
+      isHighPriority: i > (schoolTasks.length / 4) * 3 ? true : false,
+      dueDate: new Date(2023, _getRandomInt(12), _getRandomInt(27) + 1),
+      isComplete,
+      completionDateTime: isComplete ? new Date() : null,
+    });
+    if (isComplete) {
+      tempComplete++;
+    } else {
+      tempIncomplete++;
     }
-    if (i % 3 === 0) {
-      await controller.toggleTaskCompletion(schoolStuffArray[i]);
-    }
-    await controller.changeProperty(
-      schoolStuffArray[i],
-      'dueDate',
-      new Date(2023, _getRandomInt(11) + 1, _getRandomInt(27) + 1)
-    );
   }
+  await _updateTasksInProject(tempComplete, tempIncomplete, schoolProject);
 
-  const choresProject = await controller.addNewProject('Household chores');
-  const choreArray = [];
-  const chores = [
-    'Do the dishes',
-    'Put clean clothes away',
-    'Scrub stick spot on kitchen floor',
-    'Clean shower grout',
-    'Vacuum living room',
-    'Find extra charging cable',
-    'See if that new needle will work with the record player',
-    'Get the guest room ready',
-    'Get screw for that outlet extender',
-    'Hang tree art in the living room',
-    'Finish tidying bedroom',
-    'Dust the entertainment console',
-    'Find new art for the wall over the bar cart',
-    'Fix the printer',
-    'Put the fire alarm back up',
-    'Water the cactus',
-  ];
-  for (let i = 0; i < chores.length; i++) {
-    choreArray[i] = await controller.addNewTask(chores[i], choresProject);
-    if (i > (chores.length / 3) * 2) {
-      await controller.changeProperty(choreArray[i], 'isHighPriority', true);
-    }
-    if (i > (chores.length / 4) * 3) {
-      await controller.toggleTaskCompletion(choreArray[i]);
-    }
-  }
+  //   const choresProject = await controller.addNewProject('Household chores');
+  //   tempComplete = 0;
+  //   tempIncomplete = 0;
+  //   const choreArray = [];
+  //   const chores = [
+  //     'Do the dishes',
+  //     'Put clean clothes away',
+  //     'Scrub stick spot on kitchen floor',
+  //     'Clean shower grout',
+  //     'Vacuum living room',
+  //     'Find extra charging cable',
+  //     'See if that new needle will work with the record player',
+  //     'Get the guest room ready',
+  //     'Get screw for that outlet extender',
+  //     'Hang tree art in the living room',
+  //     'Finish tidying bedroom',
+  //     'Dust the entertainment console',
+  //     'Find new art for the wall over the bar cart',
+  //     'Fix the printer',
+  //     'Put the fire alarm back up',
+  //     'Water the cactus',
+  //   ];
+  //   for (let i = 0; i < chores.length; i++) {
+  //     const isComplete = i > (chores.length / 4) * 3;
+  //     await _createTask(chores[i], {
+  //       project: choresProject,
+  //       isHighPriority: i > (chores.length / 3) * 2 ? true : false,
+  //       isComplete,
+  //       completionDateTime: isComplete ? new Date() : null,
+  //     });
+  //     if (isComplete) {
+  //       tempComplete++;
+  //     } else {
+  //       tempIncomplete++;
+  //     }
+  //   }
+  //   await _updateTasksInProject(tempComplete, tempIncomplete, choresProject);
+  console.log('done');
 };
 
 export { createClearAllButton, createDemoButton };

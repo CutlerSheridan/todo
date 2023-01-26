@@ -23,7 +23,7 @@ const _firebaseConfig = {
 const app = initializeApp(_firebaseConfig);
 const db = getFirestore(app);
 
-const _addTaskToDatabase = async (task) => {
+const addTaskToDatabase = async (task) => {
   try {
     const docRef = doc(db, 'tasks', task.id);
     await setDoc(docRef, task);
@@ -42,11 +42,11 @@ const _addProjectToDatabase = async (project) => {
   }
 };
 
-const addNewTask = async (name, optionsObj) => {
+const addNewTask = async (name, optionsObj = {}) => {
   const task = _createTask(name, optionsObj);
   _addTaskToArray(task);
   await _addTaskToProject(task);
-  await _addTaskToDatabase(task);
+  await addTaskToDatabase(task);
   return task;
 };
 const _createTask = (name, optionsObj) => {
@@ -61,15 +61,15 @@ const deleteTask = async (taskIndex) => {
   model.taskArray.splice(taskIndex, 1);
   await deleteDoc(doc(db, 'tasks', task.id));
 };
-const addNewProject = async (name, id = null, showProgress = true) => {
-  const project = _createProject(name, id, showProgress);
+const addNewProject = async (name, optionsObj = {}) => {
+  const project = _createProject(name, optionsObj);
   _addProjectToArray(project);
   await _addProjectToDatabase(project);
 
   return project;
 };
-const _createProject = (name, id, showProgress) => {
-  return model.Project(name, id, showProgress);
+const _createProject = (name, optionsObj) => {
+  return model.Project(name, optionsObj);
 };
 const _addProjectToArray = (project) => {
   model.projectArray.push(project);
@@ -229,31 +229,32 @@ const sortCompleteProjects = () => {
   );
 };
 const toggleTaskCompletion = async (task) => {
-  await _subtractTaskFromProject(task);
+  const project = model.projectArray.find((p) => p.id === task.project.id);
   task.isComplete = !task.isComplete;
-  await _addTaskToProject(task);
-
   if (task.isComplete) {
     task.completionDateTime = new Date();
+    project.completeTasks++;
+    project.incompleteTasks--;
   } else {
     task.completionDateTime = null;
+    project.completeTasks--;
+    project.incompleteTasks++;
   }
-  await overwriteTaskAndItsProject(task);
-};
-const overwriteDoc = async (obj, taskOrProject) => {
-  if (taskOrProject === 'task') {
-    const taskDoc = doc(db, 'tasks', obj.id);
-    await setDoc(taskDoc, obj);
-  } else {
-    const projectDoc = doc(db, 'projects', obj.id);
-    await setDoc(projectDoc, obj);
-  }
-};
-const overwriteTaskAndItsProject = async (task) => {
-  await overwriteDoc(task, 'task');
-  await overwriteDoc(
-    model.projectArray.find((x) => x.id === task.project.id),
-    'project'
+  await setDoc(
+    doc(db, 'tasks', task.id),
+    {
+      isComplete: task.isComplete,
+      completionDateTime: task.completionDateTime,
+    },
+    { merge: true }
+  );
+  await setDoc(
+    doc(db, 'projects', project.id),
+    {
+      completeTasks: project.completeTasks,
+      incompleteTasks: project.incompleteTasks,
+    },
+    { merge: true }
   );
 };
 const repopulateDataFromDatabase = async () => {
@@ -304,4 +305,5 @@ export {
   sortIncompleteProjects,
   sortCompleteProjects,
   repopulateDataFromDatabase,
+  addTaskToDatabase,
 };

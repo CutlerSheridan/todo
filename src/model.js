@@ -29,20 +29,23 @@ const Task = (name, optionsObj) => {
     creationDateTime,
   };
 };
-const Project = (name, prevId, showProgress = true) => {
-  let timeCreated = new Date();
-  let sortMethod = sortMethods[0];
-  let incompleteTasks = 0;
-  let completeTasks = 0;
-  const id = prevId === null ? `${Math.random()}` : prevId;
+const Project = (name, optionsObj) => {
+  let {
+    id = `${Math.random()}`,
+    showProgress = true,
+    timeCreated = new Date(),
+    sortMethod = sortMethods[0],
+    incompleteTasks = 0,
+    completeTasks = 0,
+  } = optionsObj;
   return {
     name,
+    id,
     showProgress,
     timeCreated,
     sortMethod,
     incompleteTasks,
     completeTasks,
-    id,
   };
 };
 

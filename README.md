@@ -7,8 +7,8 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- optimize loading demo content
-  - maybe upload all of it in a demo part of the server and move it when needed?
+- optimize Clear All
+- write safeguards for when demo or clear all is pressed while the other one is working
 
 #### TO-DO LATER
 ##### Features
@@ -30,6 +30,16 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.0.10*
+- optimize loading demo content (25s)
+  - refactor model.Project to accept options object as parameter
+  - refactor test.js so each task/project is created with all parameters immediately except completion status (21s, 19s)
+- refactor toggleTaskCompletion to use three database calls instead of four
+  - reduce that to two calls (20s, 16s)
+- create test.js-specific _createTask() which allows new tasks to be created without updating project number of tasks, allowing batch updates after each project data population finishes (12s, 10s, 8s)
+  - fix groceries sample data appearing incorrectly
+  - remove Household Chores from demo (8s, 7s)
+  
 - *1.0.9*
 - refactor model.Task to accept options object as parameter
 - *1.0.8*

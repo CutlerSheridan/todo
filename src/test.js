@@ -15,7 +15,11 @@ const createClearAllButton = () => {
     'click',
     async () => {
       btn.textContent = 'Working...';
+      const clickBlocker = document.createElement('div');
+      clickBlocker.classList.add('click-blocker');
+      document.body.append(clickBlocker);
       await _clearAll();
+      clickBlocker.remove();
       btn.textContent = 'Clear all';
       view.createProjectPage();
     },
@@ -38,13 +42,21 @@ const createDemoButton = () => {
     btn.classList.add('invisible');
   }
   btn.textContent = 'Demo';
-  btn.addEventListener('click', async () => {
-    btn.textContent = 'Loading...';
-    await _addSampleData();
-    btn.textContent = 'Demo';
-    view.deleteBtnsAreShowing = false;
-    view.createProjectPage();
-  });
+  btn.addEventListener(
+    'click',
+    async () => {
+      btn.textContent = 'Loading...';
+      const clickBlocker = document.createElement('div');
+      clickBlocker.classList.add('click-blocker');
+      document.body.append(clickBlocker);
+      await _addSampleData();
+      clickBlocker.remove();
+      btn.textContent = 'Demo';
+      view.deleteBtnsAreShowing = false;
+      view.createProjectPage();
+    },
+    { once: true }
+  );
 
   return btn;
 };

@@ -156,17 +156,66 @@ header:not(.tf-header) {
     background: var(--clr-red);
   }
 }
+.signIn-container {
+  margin-top: -1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0 2rem;
+  height: 4rem;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  margin-right: 0;
+  font-size: 1.6rem;
+  color: var(--clr-sec);
+}
+.userInfo-container {
+  display: flex;
+  align-items: flex-end;
+}
+.user-pic {
+  width: 40px;
+  height: 40px;
+  background-size: 40px;
+  border-radius: 5rem;
+}
+.user-name {
+  margin-left: 0.5rem;
+  margin-bottom: 0.3rem;
+}
+.user-button {
+  margin-left: 1rem;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  color: var(--clr-pri);
+}
+.signIn-button {
+  padding: 0.3rem 0.5rem;
+  font-size: 1.3rem;
+}
+.signIn-button > span {
+  margin-left: 0.3rem;
+}
+.signOut-button {
+  margin-left: 1rem;
+  padding: 0 0.5rem;
+  height: 2.6rem;
+  font-size: 1.3rem;
+}
+.userElements-hidden {
+  display: none;
+}
 /* --- HEADER END --- */
 
 /* --- TASKS START --- */
 .task-list-container {
-  min-height: 65vh;
+  min-height: 59vh;
   display: flex;
   flex-direction: column;
 }
 @media only screen and (min-width: 600px) {
   .task-list-container {
-    min-height: 75vh;
+    min-height: 72vh;
   }
 }
 .incomplete-task-list-border {

@@ -7,7 +7,7 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- ? make account-specific
+- make tasks account-specific
 
 #### TO-DO LATER
 ##### Features
@@ -29,6 +29,10 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.1.0*
+- implement sign-in/-out functionality
+- get sign-in/-out UI looking decent
+
 - *1.0.11*
 - write safeguards for when demo or clear all is pressed so nothing else can interrupt
 

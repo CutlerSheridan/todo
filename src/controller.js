@@ -1,6 +1,13 @@
 import * as model from './model';
 import { initializeApp } from 'firebase/app';
 import {
+  getAuth,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from 'firebase/auth';
+import {
   getFirestore,
   collection,
   getDoc,
@@ -11,36 +18,6 @@ import {
   doc,
   deleteDoc,
 } from 'firebase/firestore/lite';
-
-const _firebaseConfig = {
-  apiKey: 'AIzaSyAJzf9KFyABDAnqVoEJIF-4AJNdfR7HV9w',
-  authDomain: 'todo-8d621.firebaseapp.com',
-  projectId: 'todo-8d621',
-  storageBucket: 'todo-8d621.appspot.com',
-  messagingSenderId: '224157153436',
-  appId: '1:224157153436:web:16702d301e30de556e9559',
-};
-const app = initializeApp(_firebaseConfig);
-const db = getFirestore(app);
-
-const addTaskToDatabase = async (task) => {
-  try {
-    const docRef = doc(db, 'tasks', task.id);
-    await setDoc(docRef, task);
-    console.log('task document written with id: ' + docRef.id);
-  } catch (e) {
-    console.error('Error adding task doucment: ', e);
-  }
-};
-const _addProjectToDatabase = async (project) => {
-  try {
-    const docRef = doc(db, 'projects', project.id);
-    await setDoc(docRef, project);
-    console.log('project document written with id: ' + docRef.id);
-  } catch (e) {
-    console.error('Error adding project document ', e);
-  }
-};
 
 const addNewTask = async (name, optionsObj = {}) => {
   const task = _createTask(name, optionsObj);
@@ -291,6 +268,125 @@ const _repopulateTasks = async () => {
   }
 };
 
+// DATABASE LOGIC START
+let userPicElement;
+let userNameElement;
+let signInButtonElement;
+let signOutButtonElement;
+
+const addTaskToDatabase = async (task) => {
+  try {
+    const docRef = doc(db, 'tasks', task.id);
+    await setDoc(docRef, task);
+    console.log('task document written with id: ' + docRef.id);
+  } catch (e) {
+    console.error('Error adding task doucment: ', e);
+  }
+};
+const _addProjectToDatabase = async (project) => {
+  try {
+    const docRef = doc(db, 'projects', project.id);
+    await setDoc(docRef, project);
+    console.log('project document written with id: ' + docRef.id);
+  } catch (e) {
+    console.error('Error adding project document ', e);
+  }
+};
+// getting all below code from https://firebase.google.com/codelabs/firebase-web#6
+const signIn = async () => {
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider);
+};
+const signOutUser = () => {
+  signOut(auth);
+};
+const initFirebaseAuth = () => {
+  onAuthStateChanged(auth, authStateObserver);
+};
+const initSignInLogic = () => {
+  userPicElement = document.querySelector('.user-pic');
+  userNameElement = document.querySelector('.user-name');
+  signInButtonElement = document.querySelector('.signIn-button');
+  signOutButtonElement = document.querySelector('.signOut-button');
+  signOutButtonElement.addEventListener('click', signOutUser);
+  signInButtonElement.addEventListener('click', signIn);
+  initFirebaseAuth();
+};
+const getProfilePicUrl = () => {
+  return auth.currentUser.photoURL || '/images/profile_placeholder.png';
+};
+const getUserName = () => {
+  return auth.currentUser.displayName;
+};
+const isUserSignedIn = () => {
+  return !!auth.currentUser;
+};
+// Triggers when the auth state change for instance when the user signs-in or signs-out.
+function authStateObserver(user) {
+  if (user) {
+    // User is signed in!
+    // Get the signed-in user's profile pic and name.
+    const profilePicUrl = getProfilePicUrl();
+    const userName = getUserName();
+
+    // Set the user's profile pic and name.
+    userPicElement.style.backgroundImage =
+      'url(' + addSizeToGoogleProfilePic(profilePicUrl) + ')';
+    userNameElement.textContent = userName;
+
+    // Show user's profile and sign-out button.
+    userNameElement.classList.remove('userElements-hidden');
+    userPicElement.classList.remove('userElements-hidden');
+    signOutButtonElement.classList.remove('userElements-hidden');
+
+    // Hide sign-in button.
+    signInButtonElement.classList.add('userElements-hidden');
+  } else {
+    // User is signed out!
+    // Hide user's profile and sign-out button.
+    userNameElement.classList.add('userElements-hidden');
+    userPicElement.classList.add('userElements-hidden');
+    signOutButtonElement.classList.add('userElements-hidden');
+
+    // Show sign-in button.
+    signInButtonElement.classList.remove('userElements-hidden');
+  }
+}
+// Returns true if user is signed-in. Otherwise false and displays a message.
+function checkSignedInWithMessage() {
+  // Return true if the user is signed in Firebase
+  if (isUserSignedIn()) {
+    return true;
+  }
+
+  // Display a message to the user using a Toast.
+  const data = {
+    message: 'You must sign-in first',
+    timeout: 2000,
+  };
+  // ADD SOMETHING HERE TO DISPLAY THINGS
+  return false;
+}
+const addSizeToGoogleProfilePic = (url) => {
+  if (url.indexOf('googleusercontent.com') !== -1 && url.indexOf('?') === -1) {
+    return url + '?sz=150';
+  }
+  return url;
+};
+
+const _firebaseConfig = {
+  apiKey: 'AIzaSyAJzf9KFyABDAnqVoEJIF-4AJNdfR7HV9w',
+  authDomain: 'todo-8d621.firebaseapp.com',
+  projectId: 'todo-8d621',
+  storageBucket: 'todo-8d621.appspot.com',
+  messagingSenderId: '224157153436',
+  appId: '1:224157153436:web:16702d301e30de556e9559',
+};
+const app = initializeApp(_firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+initFirebaseAuth();
+
 export {
   addNewTask,
   deleteTask,
@@ -306,4 +402,5 @@ export {
   sortCompleteProjects,
   repopulateDataFromDatabase,
   addTaskToDatabase,
+  initSignInLogic,
 };

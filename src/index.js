@@ -6,6 +6,7 @@ const setup = (() => {
   controller.repopulateDataFromDatabase().then(() => {
     if (!model.projectArray.length > 0) {
       controller.addNewProject('general', { id: 'tempId' });
+      controller.addNewTask('Sign in to start your own Todo list');
     }
     console.log(model.projectArray[0].id);
     view.createProjectPage();

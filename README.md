@@ -7,8 +7,6 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- program what happens when signing out
-- program what happens when loading signed out
 - write logic to prevent signed-out user from adding tasks, etc
 
 #### TO-DO LATER
@@ -30,6 +28,12 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.1.4*
+- make sign-in option only appear on General page
+- make projects and tasks disappear upon sign-out
+- make placeholder project and task if not signed in
+- make sure brand new user works
+
 - *1.1.3*
 - make sample data apply the current year for due dates
 - optimize Clear All (from 15s to 8s using sample data)

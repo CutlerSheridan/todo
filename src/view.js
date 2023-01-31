@@ -105,32 +105,34 @@ const _createHeader = (project) => {
   _contentDiv.append(headerContainer);
 
   // SIGN-IN ELEMENTS BELOW
-  const signInContainer = document.createElement('div');
-  signInContainer.classList.add('signIn-container');
-  const userInfoContainer = document.createElement('div');
-  userInfoContainer.classList.add('userInfo-container');
-  const userPic = document.createElement('div');
-  userPic.classList.add('user-pic', 'userElements-hidden');
-  userPic.setAttribute('referrerpolicy', 'no-referrer');
-  const userName = document.createElement('div');
-  userName.classList.add('user-name', 'userElements-hidden');
-  userInfoContainer.append(userPic, userName);
-  const signOutButton = document.createElement('button');
-  signOutButton.classList.add(
-    'signOut-button',
-    'user-button',
-    'userElements-hidden'
-  );
-  signOutButton.textContent = 'Sign-out';
-  const signInButton = document.createElement('button');
-  signInButton.classList.add('signIn-button', 'user-button');
-  signInButton.textContent = 'Sign-in with Google';
-  const accountCircle = document.createElement('span');
-  _addIcon(accountCircle, 'account_circle');
-  signInButton.append(accountCircle);
-  signInContainer.append(userInfoContainer, signOutButton, signInButton);
-  _contentDiv.append(signInContainer);
-  controller.initSignInLogic();
+  if (project === model.projectArray[0]) {
+    const signInContainer = document.createElement('div');
+    signInContainer.classList.add('signIn-container');
+    const userInfoContainer = document.createElement('div');
+    userInfoContainer.classList.add('userInfo-container');
+    const userPic = document.createElement('div');
+    userPic.classList.add('user-pic', 'userElements-hidden');
+    userPic.setAttribute('referrerpolicy', 'no-referrer');
+    const userName = document.createElement('div');
+    userName.classList.add('user-name', 'userElements-hidden');
+    userInfoContainer.append(userPic, userName);
+    const signOutButton = document.createElement('button');
+    signOutButton.classList.add(
+      'signOut-button',
+      'user-button',
+      'userElements-hidden'
+    );
+    signOutButton.textContent = 'Sign-out';
+    const signInButton = document.createElement('button');
+    signInButton.classList.add('signIn-button', 'user-button');
+    signInButton.textContent = 'Sign in with Google';
+    const accountCircle = document.createElement('span');
+    _addIcon(accountCircle, 'account_circle');
+    signInButton.append(accountCircle);
+    signInContainer.append(userInfoContainer, signOutButton, signInButton);
+    _contentDiv.append(signInContainer);
+    controller.initSignInLogic();
+  }
 };
 const _createSortButton = (project) => {
   const sortContainer = document.createElement('div');
@@ -531,6 +533,9 @@ const _createNewItemButton = (project) => {
 };
 
 const _insertNewItemInput = async (e, project) => {
+  if (typeof project === 'object' && project.id === 'tempId') {
+    project = model.projectArray[0];
+  }
   if (project !== 'allProjects') {
     let incompleteTaskList;
     if (!document.querySelector('.incomplete-task-list')) {
@@ -541,6 +546,10 @@ const _insertNewItemInput = async (e, project) => {
     } else {
       incompleteTaskList = document.querySelector('.incomplete-task-list');
     }
+    console.log('project');
+    console.log(project);
+    console.log('project array');
+    console.log(model.projectArray);
     const newTask = await controller.addNewTask('(Enter name here)', {
       project,
     });

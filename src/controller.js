@@ -1,6 +1,6 @@
 import * as model from './model';
 import { initializeApp } from 'firebase/app';
-import { _updateTaskList } from './view';
+import { _updateTaskList, createProjectPage } from './view';
 import {
   getAuth,
   onAuthStateChanged,
@@ -107,10 +107,12 @@ const _addTaskToProject = async (task) => {
   } else {
     task.project.incompleteTasks++;
   }
-  await setDoc(
-    doc(db, 'users', userId, 'projects', task.project.id),
-    task.project
-  );
+  if (isUserSignedIn()) {
+    await setDoc(
+      doc(db, 'users', userId, 'projects', task.project.id),
+      task.project
+    );
+  }
 };
 const _subtractTaskFromProject = async (task) => {
   if (task.isComplete) {
@@ -266,6 +268,11 @@ const _repopulateProjects = async () => {
     const querySnapshot = await getDocs(
       query(collection(db, 'users', userId, 'projects'), orderBy('timeCreated'))
     );
+    if (querySnapshot.empty) {
+      await addNewProject('general');
+      console.log('empty snapshot.  new array:');
+      console.log(model.projectArray);
+    }
     querySnapshot.forEach((doc) => {
       const project = doc.data();
       _addProjectToArray(project);
@@ -321,13 +328,22 @@ const _addProjectToDatabase = async (project) => {
     }
   }
 };
-// getting all below code from https://firebase.google.com/codelabs/firebase-web#6
+// getting some of below code from https://firebase.google.com/codelabs/firebase-web#6
 const signIn = async () => {
   const provider = new GoogleAuthProvider();
   await signInWithPopup(auth, provider);
 };
-const signOutUser = () => {
-  signOut(auth);
+const signOutUser = async () => {
+  await signOut(auth);
+  while (model.projectArray.length > 0) {
+    model.projectArray.pop();
+  }
+  while (model.taskArray.length > 0) {
+    model.taskArray.pop();
+  }
+  await addNewProject('general', { id: 'tempId' });
+  await addNewTask('Sign in to start your own Todo list');
+  createProjectPage();
 };
 const initFirebaseAuth = () => {
   onAuthStateChanged(auth, authStateObserver);

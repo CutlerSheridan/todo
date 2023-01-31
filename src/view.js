@@ -803,4 +803,5 @@ export {
   createAllProjectsPage,
   createCheckbox,
   clearContent,
+  _updateTaskList,
 };

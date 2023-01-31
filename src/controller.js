@@ -1,5 +1,6 @@
 import * as model from './model';
 import { initializeApp } from 'firebase/app';
+import { _updateTaskList } from './view';
 import {
   getAuth,
   onAuthStateChanged,
@@ -246,6 +247,7 @@ const repopulateDataFromDatabase = async () => {
     try {
       await _repopulateProjects();
       await _repopulateTasks();
+      _updateTaskList(model.projectArray[0]);
     } catch (err) {
       console.error(err);
     }

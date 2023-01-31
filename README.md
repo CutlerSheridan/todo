@@ -7,7 +7,6 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- make user's tasks populate upon initial load instead of only when tabbing away and tabbing back
 - program what happens when signing out
 - program what happens when loading signed out
 
@@ -31,6 +30,9 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.1.2*
+- make user's tasks populate upon initial load instead of only when tabbing away and tabbing back
+
 - *1.1.1*
 - make tasks and projects account-specific
 - get tasks/projects not to duplicate upon populating

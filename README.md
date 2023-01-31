@@ -9,12 +9,12 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 #### TO-DO NEXT
 - program what happens when signing out
 - program what happens when loading signed out
+- write logic to prevent signed-out user from adding tasks, etc
 
 #### TO-DO LATER
 ##### Features
 
 ##### Behavior
-- optimize Clear All
 - ? get new tasks/projects to show up faster
 - ? fix .gitattributes lol
 - ? make new project text highlightable (new task text already works fine)
@@ -30,6 +30,10 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.1.3*
+- make sample data apply the current year for due dates
+- optimize Clear All (from 15s to 8s using sample data)
+
 - *1.1.2*
 - make user's tasks populate upon initial load instead of only when tabbing away and tabbing back
 

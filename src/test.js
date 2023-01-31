@@ -30,6 +30,8 @@ const createClearAllButton = () => {
 };
 const _clearAll = async () => {
   await controller.deleteTasksFromProject(0);
+  await controller.changeProperty(model.projectArray[0], 'completeTasks', 0);
+  await controller.changeProperty(model.projectArray[0], 'incompleteTasks', 0);
   for (let i = model.projectArray.length - 1; i > 0; i--) {
     await controller.deleteProject(i);
   }
@@ -63,6 +65,9 @@ const createDemoButton = () => {
 const _getRandomInt = (exclusiveMax) => {
   return Math.floor(Math.random() * exclusiveMax);
 };
+// using a separate createTask method here that doesn't increment
+// the task count of the respective project so the sample data
+// can change the counts of each project's tasks in batches
 const _createTask = async (name, optionsObj = {}) => {
   const task = model.Task(name, optionsObj);
   model.taskArray.push(task);
@@ -87,10 +92,12 @@ const _updateTasksInProject = async (
 };
 
 const _addSampleData = async () => {
+  const currentYear = new Date().getFullYear();
+
   let tempComplete = 0;
   let tempIncomplete = 0;
   let tempTask = await _createTask('Book my flight for Paris', {
-    dueDate: new Date(2023, 6, 14),
+    dueDate: new Date(currentYear, 6, 14),
     isHighPriority: true,
   });
   tempIncomplete++;
@@ -99,20 +106,20 @@ const _addSampleData = async () => {
   });
   tempIncomplete++;
   tempTask = await _createTask('Finish Poisonwood Bible for book club', {
-    dueDate: new Date(2023, 5, 16),
+    dueDate: new Date(currentYear, 5, 16),
     isHighPriority: true,
     isComplete: true,
     completionDateTime: new Date(),
   });
   tempComplete++;
   tempTask = await _createTask('Get car serviced', {
-    dueDate: new Date(2023, 4, 15),
+    dueDate: new Date(currentYear, 4, 15),
   });
   tempIncomplete++;
   await _createTask('See if that apartment in Santa Monica is still available');
   tempIncomplete++;
   tempTask = await _createTask('Send thank you note to Grandma', {
-    dueDate: new Date(2023, 1, 15),
+    dueDate: new Date(currentYear, 1, 15),
   });
   tempIncomplete++;
   tempTask = await _createTask('Check on party timing for Mom', {
@@ -121,7 +128,7 @@ const _addSampleData = async () => {
   });
   tempComplete++;
   tempTask = await _createTask('Cancel gym membership', {
-    dueDate: new Date(2023, 1, 20),
+    dueDate: new Date(currentYear, 1, 20),
   });
   tempIncomplete++;
   await _createTask('Find a time to get lunch with Ivana');
@@ -217,7 +224,7 @@ const _addSampleData = async () => {
     await _createTask(schoolTasks[i], {
       project: schoolProject,
       isHighPriority: i > (schoolTasks.length / 4) * 3 ? true : false,
-      dueDate: new Date(2023, _getRandomInt(12), _getRandomInt(27) + 1),
+      dueDate: new Date(currentYear, _getRandomInt(12), _getRandomInt(27) + 1),
       isComplete,
       completionDateTime: isComplete ? new Date() : null,
     });

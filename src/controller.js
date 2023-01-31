@@ -39,6 +39,11 @@ const deleteTask = async (taskIndex) => {
   model.taskArray.splice(taskIndex, 1);
   await deleteDoc(doc(db, 'users', userId, 'tasks', task.id));
 };
+const deleteTaskWithoutSubtractingFromProject = async (taskIndex) => {
+  const task = model.taskArray[taskIndex];
+  model.taskArray.splice(taskIndex, 1);
+  await deleteDoc(doc(db, 'users', userId, 'tasks', task.id));
+};
 const addNewProject = async (name, optionsObj = {}) => {
   const project = _createProject(name, optionsObj);
   _addProjectToArray(project);
@@ -70,7 +75,7 @@ const deleteTasksFromProject = async (projectIndex) => {
     .filter((task) => task.project.id === model.projectArray[projectIndex].id)
     .map((task) => model.taskArray.indexOf(task));
   for (let i = taskIndicesToDelete.length - 1; i >= 0; i--) {
-    await deleteTask(taskIndicesToDelete[i]);
+    await deleteTaskWithoutSubtractingFromProject(taskIndicesToDelete[i]);
   }
   return Promise.resolve();
 };

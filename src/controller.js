@@ -36,7 +36,7 @@ const deleteTask = async (taskIndex) => {
   const task = model.taskArray[taskIndex];
   await _subtractTaskFromProject(task);
   model.taskArray.splice(taskIndex, 1);
-  await deleteDoc(doc(db, 'tasks', task.id));
+  await deleteDoc(doc(db, 'users', userId, 'tasks', task.id));
 };
 const addNewProject = async (name, optionsObj = {}) => {
   const project = _createProject(name, optionsObj);
@@ -55,7 +55,7 @@ const deleteProject = async (projectIndex) => {
   await deleteTasksFromProject(projectIndex);
   const projectId = model.projectArray[projectIndex].id;
   model.projectArray.splice(projectIndex, 1);
-  await deleteDoc(doc(db, 'projects', projectId));
+  await deleteDoc(doc(db, 'users', userId, 'projects', projectId));
 };
 const deleteTasksFromProject = async (projectIndex) => {
   const filteredTasks = model.taskArray.filter(
@@ -82,9 +82,9 @@ const changeProperty = async (obj, property, newValue) => {
       _subtractTaskFromProject(obj);
     }
     if (obj.showProgress === undefined) {
-      currentDoc = doc(db, 'tasks', obj.id);
+      currentDoc = doc(db, 'users', userId, 'tasks', obj.id);
     } else {
-      currentDoc = doc(db, 'projects', obj.id);
+      currentDoc = doc(db, 'users', userId, 'projects', obj.id);
     }
     obj[property] = newValue;
     await setDoc(currentDoc, obj);
@@ -101,7 +101,10 @@ const _addTaskToProject = async (task) => {
   } else {
     task.project.incompleteTasks++;
   }
-  await setDoc(doc(db, 'projects', task.project.id), task.project);
+  await setDoc(
+    doc(db, 'users', userId, 'projects', task.project.id),
+    task.project
+  );
 };
 const _subtractTaskFromProject = async (task) => {
   if (task.isComplete) {
@@ -109,7 +112,10 @@ const _subtractTaskFromProject = async (task) => {
   } else {
     task.project.incompleteTasks--;
   }
-  await setDoc(doc(db, 'projects', task.project.id), task.project);
+  await setDoc(
+    doc(db, 'users', userId, 'projects', task.project.id),
+    task.project
+  );
 };
 const sortIncompleteTasks = (project) => {
   let sortFuncName;
@@ -176,7 +182,7 @@ const swapSortMethod = async (project) => {
   project.sortMethod =
     model.sortMethods[(sortMethodIndex + 1) % model.sortMethods.length];
   await setDoc(
-    doc(db, 'projects', project.id),
+    doc(db, 'users', userId, 'projects', project.id),
     { sortMethod: project.sortMethod },
     { merge: true }
   );
@@ -218,7 +224,7 @@ const toggleTaskCompletion = async (task) => {
     project.incompleteTasks++;
   }
   await setDoc(
-    doc(db, 'tasks', task.id),
+    doc(db, 'users', userId, 'tasks', task.id),
     {
       isComplete: task.isComplete,
       completionDateTime: task.completionDateTime,
@@ -226,7 +232,7 @@ const toggleTaskCompletion = async (task) => {
     { merge: true }
   );
   await setDoc(
-    doc(db, 'projects', project.id),
+    doc(db, 'users', userId, 'projects', project.id),
     {
       completeTasks: project.completeTasks,
       incompleteTasks: project.incompleteTasks,
@@ -235,29 +241,41 @@ const toggleTaskCompletion = async (task) => {
   );
 };
 const repopulateDataFromDatabase = async () => {
-  try {
-    await _repopulateProjects();
-    await _repopulateTasks();
-  } catch (err) {
-    console.error(err);
+  console.log(isUserSignedIn());
+  if (isUserSignedIn()) {
+    try {
+      await _repopulateProjects();
+      await _repopulateTasks();
+    } catch (err) {
+      console.error(err);
+    }
   }
 };
 const _repopulateProjects = async () => {
   try {
+    while (model.projectArray.length !== 0) {
+      model.projectArray.pop();
+    }
     const querySnapshot = await getDocs(
-      query(collection(db, 'projects'), orderBy('timeCreated'))
+      query(collection(db, 'users', userId, 'projects'), orderBy('timeCreated'))
     );
     querySnapshot.forEach((doc) => {
       const project = doc.data();
       _addProjectToArray(project);
     });
+    console.log(model.projectArray);
   } catch (e) {
     console.error(e);
   }
 };
 const _repopulateTasks = async () => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'tasks'));
+    while (model.taskArray.length !== 0) {
+      model.taskArray.pop();
+    }
+    const querySnapshot = await getDocs(
+      collection(db, 'users', userId, 'tasks')
+    );
     querySnapshot.forEach((doc) => {
       const task = doc.data();
       task.project = model.projectArray.find((p) => p.id === task.project.id);
@@ -275,21 +293,25 @@ let signInButtonElement;
 let signOutButtonElement;
 
 const addTaskToDatabase = async (task) => {
-  try {
-    const docRef = doc(db, 'tasks', task.id);
-    await setDoc(docRef, task);
-    console.log('task document written with id: ' + docRef.id);
-  } catch (e) {
-    console.error('Error adding task doucment: ', e);
+  if (isUserSignedIn()) {
+    try {
+      const docRef = doc(db, 'users', userId, 'tasks', task.id);
+      await setDoc(docRef, task);
+      console.log('task document written with id: ' + docRef.id);
+    } catch (e) {
+      console.error('Error adding task doucment: ', e);
+    }
   }
 };
 const _addProjectToDatabase = async (project) => {
-  try {
-    const docRef = doc(db, 'projects', project.id);
-    await setDoc(docRef, project);
-    console.log('project document written with id: ' + docRef.id);
-  } catch (e) {
-    console.error('Error adding project document ', e);
+  if (isUserSignedIn()) {
+    try {
+      const docRef = doc(db, 'users', userId, 'projects', project.id);
+      await setDoc(docRef, project);
+      console.log('project document written with id: ' + docRef.id);
+    } catch (e) {
+      console.error('Error adding project document ', e);
+    }
   }
 };
 // getting all below code from https://firebase.google.com/codelabs/firebase-web#6
@@ -326,6 +348,14 @@ function authStateObserver(user) {
   if (user) {
     // User is signed in!
     // Get the signed-in user's profile pic and name.
+    userId = auth.currentUser.uid;
+    if (
+      // conditionals must be in this order or tasks/projects duplicate
+      model.projectArray[0].id === 'tempId' ||
+      model.projectArray.length === 0
+    ) {
+      repopulateDataFromDatabase();
+    }
     const profilePicUrl = getProfilePicUrl();
     const userName = getUserName();
 
@@ -343,6 +373,7 @@ function authStateObserver(user) {
     signInButtonElement.classList.add('userElements-hidden');
   } else {
     // User is signed out!
+    userId = null;
     // Hide user's profile and sign-out button.
     userNameElement.classList.add('userElements-hidden');
     userPicElement.classList.add('userElements-hidden');
@@ -351,6 +382,7 @@ function authStateObserver(user) {
     // Show sign-in button.
     signInButtonElement.classList.remove('userElements-hidden');
   }
+  console.log(userId);
 }
 // Returns true if user is signed-in. Otherwise false and displays a message.
 function checkSignedInWithMessage() {
@@ -385,6 +417,7 @@ const _firebaseConfig = {
 const app = initializeApp(_firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+let userId;
 initFirebaseAuth();
 
 export {

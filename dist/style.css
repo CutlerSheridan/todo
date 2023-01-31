@@ -22,11 +22,6 @@
     font-size: 90%;
   }
 }
-@media only screen and (min-width: 2000px) {
-  :root {
-    font-size: 110%;
-  }
-}
 .material-symbols-outlined {
   overflow: hidden;
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40;
@@ -216,6 +211,11 @@ header:not(.tf-header) {
 @media only screen and (min-width: 600px) {
   .task-list-container {
     min-height: 72vh;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .task-list-container {
+    min-height: 63vh;
   }
 }
 .incomplete-task-list-border {

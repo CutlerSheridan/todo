@@ -639,6 +639,8 @@ const _toggleProgressToggles = () => {
   }
 };
 const _updateProjectList = () => {
+  console.log('project list:');
+  console.log(model.projectArray);
   let projectListDiv = document.querySelector('.project-list-container');
   if (projectListDiv) {
     clearContent(projectListDiv);

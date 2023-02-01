@@ -249,7 +249,6 @@ const toggleTaskCompletion = async (task) => {
   );
 };
 const repopulateDataFromDatabase = async () => {
-  console.log(isUserSignedIn());
   if (isUserSignedIn()) {
     try {
       await _repopulateProjects();
@@ -270,14 +269,11 @@ const _repopulateProjects = async () => {
     );
     if (querySnapshot.empty) {
       await addNewProject('general');
-      console.log('empty snapshot.  new array:');
-      console.log(model.projectArray);
     }
     querySnapshot.forEach((doc) => {
       const project = doc.data();
       _addProjectToArray(project);
     });
-    console.log(model.projectArray);
   } catch (e) {
     console.error(e);
   }
@@ -305,13 +301,14 @@ let userPicElement;
 let userNameElement;
 let signInButtonElement;
 let signOutButtonElement;
+let buttonElementsExceptAccount;
+let inactiveTabElements;
 
 const addTaskToDatabase = async (task) => {
   if (isUserSignedIn()) {
     try {
       const docRef = doc(db, 'users', userId, 'tasks', task.id);
       await setDoc(docRef, task);
-      console.log('task document written with id: ' + docRef.id);
     } catch (e) {
       console.error('Error adding task doucment: ', e);
     }
@@ -322,7 +319,6 @@ const _addProjectToDatabase = async (project) => {
     try {
       const docRef = doc(db, 'users', userId, 'projects', project.id);
       await setDoc(docRef, project);
-      console.log('project document written with id: ' + docRef.id);
     } catch (e) {
       console.error('Error adding project document ', e);
     }
@@ -355,6 +351,9 @@ const initSignInLogic = () => {
   signOutButtonElement = document.querySelector('.signOut-button');
   signOutButtonElement.addEventListener('click', signOutUser);
   signInButtonElement.addEventListener('click', signIn);
+  inactiveTabElements = Array.from(
+    document.querySelectorAll('.footer-tab')
+  ).filter((x) => !x.classList.contains('footer-tab-active'));
   initFirebaseAuth();
 };
 const getProfilePicUrl = () => {
@@ -368,6 +367,13 @@ const isUserSignedIn = () => {
 };
 // Triggers when the auth state change for instance when the user signs-in or signs-out.
 function authStateObserver(user) {
+  buttonElementsExceptAccount = Array.from(
+    document.querySelectorAll('button')
+  ).filter(
+    (x) =>
+      !x.classList.contains('user-button') &&
+      !x.classList.contains('task-form-btn')
+  );
   if (user) {
     // User is signed in!
     // Get the signed-in user's profile pic and name.
@@ -394,6 +400,10 @@ function authStateObserver(user) {
 
     // Hide sign-in button.
     signInButtonElement.classList.add('userElements-hidden');
+    buttonElementsExceptAccount.forEach((btn) =>
+      btn.removeAttribute('disabled')
+    );
+    inactiveTabElements.forEach((tab) => tab.classList.remove('disabled'));
   } else {
     // User is signed out!
     userId = null;
@@ -404,8 +414,11 @@ function authStateObserver(user) {
 
     // Show sign-in button.
     signInButtonElement.classList.remove('userElements-hidden');
+    buttonElementsExceptAccount.forEach((btn) =>
+      btn.setAttribute('disabled', true)
+    );
+    inactiveTabElements.forEach((tab) => tab.classList.add('disabled'));
   }
-  console.log(userId);
 }
 // Returns true if user is signed-in. Otherwise false and displays a message.
 function checkSignedInWithMessage() {

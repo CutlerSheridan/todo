@@ -7,7 +7,6 @@ If you click the trash can toggle on the General page, in addition to toggling t
 The "Demo" button adds a bunch of sample tasks and projects so you can see a demonstration of what the app looks like in use.  To delete all tasks and projects, click "Clear all," and you'll have a clean slate once again.
 
 #### TO-DO NEXT
-- write logic to prevent signed-out user from adding tasks, etc
 
 #### TO-DO LATER
 ##### Features
@@ -28,6 +27,9 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.1.5*
+- disable buttons and tabs when signed out (except more task info and sign-in/out)
+- clean up console.logss
 - *1.1.4*
 - make sign-in option only appear on General page
 - make projects and tasks disappear upon sign-out

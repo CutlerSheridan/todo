@@ -546,4 +546,7 @@ footer {
 .invisible {
   display: none;
 }
+.disabled {
+  pointer-events: none;
+}
 /* --- OTHER END --- */

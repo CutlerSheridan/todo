@@ -546,10 +546,6 @@ const _insertNewItemInput = async (e, project) => {
     } else {
       incompleteTaskList = document.querySelector('.incomplete-task-list');
     }
-    console.log('project');
-    console.log(project);
-    console.log('project array');
-    console.log(model.projectArray);
     const newTask = await controller.addNewTask('(Enter name here)', {
       project,
     });
@@ -648,8 +644,6 @@ const _toggleProgressToggles = () => {
   }
 };
 const _updateProjectList = () => {
-  console.log('project list:');
-  console.log(model.projectArray);
   let projectListDiv = document.querySelector('.project-list-container');
   if (projectListDiv) {
     clearContent(projectListDiv);

@@ -273,7 +273,6 @@ const _addSampleData = async () => {
   //     }
   //   }
   //   await _updateTasksInProject(tempComplete, tempIncomplete, choresProject);
-  console.log('done');
 };
 
 export { createClearAllButton, createDemoButton };

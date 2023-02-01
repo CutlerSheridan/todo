@@ -27,6 +27,10 @@ The "Demo" button adds a bunch of sample tasks and projects so you can see a dem
 - figure out how to assign a changeable, persistent sort method to Incomplete since I foolishly didn't create a project for logbook
 
 #### DONE
+- *1.1.5.2*
+- delete remaining console.log
+- *1.1.5.1*
+- build dist folder
 - *1.1.5*
 - disable buttons and tabs when signed out (except more task info and sign-in/out)
 - clean up console.logss

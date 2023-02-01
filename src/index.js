@@ -8,7 +8,6 @@ const setup = (() => {
       controller.addNewProject('general', { id: 'tempId' });
       controller.addNewTask('Sign in to start your own Todo list');
     }
-    console.log(model.projectArray[0].id);
     view.createProjectPage();
     const generalTab = document.querySelector('#tab-general');
     generalTab.addEventListener('click', view.createProjectPage);
